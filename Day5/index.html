@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <header>
+        <label for="inbox">Type:</label>
+        <nav>
+          <textarea
+            id="inbox"
+            name="textarea"
+            rows="6"
+            cols="10"
+            minlength="10"
+            maxlength="20"
+            required
+          ></textarea>
+        </nav>
+      </header>
+      <br />
+      <main>
+        <div>
+          <input id="hello" type="checkbox" name="Human" />
+          <label for="hello">Human</label>
+        </div>
+
+        <br />
+        <div>
+          <input id="hi" type="checkbox" name="Kind Human" />
+          <label for="hi">Kind Human</label>
+          <br />
+          <input id="yo" type="checkbox" name="Very kind too" />
+          <label for="yo">Very kind too</label>
+        </div>
+
+        <br />
+        <div>
+          <input id="you" type="radio" name="sure" value="y" />
+          <label for="you">yes?</label>
+        </div>
+        <section>
+          <div>
+            <input type="radio" id="yolo" name="sure" value="n" />
+            <label for="yolo">No?</label>
+          </div>
+        </section>
+
+        <div>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error
+            fugit possimus dolore vel, ea eveniet impedit commodi ut cumque
+            voluptatum laudantium aliquid dolorem placeat laborum harum dolor.
+            Doloremque, dolor? Sit. <span>HI</span> hello theree
+          </p>
+          <b>
+            <p>B <sup>R</sup> A <sub>C</sub></p>
+            <p>U <sub>N</sub> I</p>
+          </b>
+        </div>
+
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Bnanani</th>
+                <th>Badda</th>
+                <th>Afganistan</th>
+                <th>Belarus</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>2012</td>
+                <td>500</td>
+                <td>1000</td>
+                <td>200</td>
+                <td>600</td>
+              </tr>
+              <tr>
+                <td>2015</td>
+                <td>600</td>
+                <td rowspan="2">8000</td>
+                <td>600</td>
+                <td>200</td>
+              </tr>
+              <tr>
+                <td>2019</td>
+                <td>600</td>
+                <td>100</td>
+                <td>50</td>
+              </tr>
+            </tbody>
+
+            <tfoot>
+              <tr>
+                <td colspan="4">Total</td>
+                <td>50000</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </main>
+      <br />
+      <footer>
+        <button type="submit">submit</button>
+      </footer>
+    </form>
+  </body>
+</html>

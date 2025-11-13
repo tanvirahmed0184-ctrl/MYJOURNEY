@@ -1,0 +1,267 @@
+:root {
+  --text-sm: 12px;
+  --text-base: 16px;
+  --text-paragraph: 20px;
+  --text-h4: 32px;
+
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -1.5px;
+
+  --nav-height: 300px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: var(--font-weight-normal);
+  line-height: 1.5;
+  color: #495057;
+  background-color: rgba(169, 169, 169, 0.151);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -1.5px;
+  color: #212529;
+}
+
+h1 {
+  font-size: 6.2rem;
+}
+
+h2 {
+  font-size: 4.8rem;
+}
+
+h3 {
+  font-size: 4rem;
+}
+
+h4 {
+  font-size: 3.2rem;
+}
+
+h5 {
+  font-size: 2.4rem;
+}
+
+p {
+  font-size: 2rem;
+}
+
+a {
+  text-decoration: none;
+  font-size: 1.6rem;
+  display: inline-block;
+}
+
+ul {
+  list-style: none;
+}
+
+.smalltext {
+  font-size: 1.2rem;
+}
+
+.btn {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 1.6rem;
+  text-decoration: none;
+  padding: 1.5rem 3rem;
+  border-radius: 10px;
+}
+
+.btn2:link,
+.btn2:visited {
+  color: white;
+  background-color: #339af0;
+  border: 2px solid #339af0;
+}
+
+.btn2:hover,
+.btn2:active {
+  color: white;
+  background-color: #1c7ed6;
+  border: 2px solid #1c7ed6;
+}
+
+.btn2-outline:link,
+.btn2-outline:visited {
+  color: #339af0;
+  background-color: rgb(255, 255, 255);
+  border: 2px solid #339af0;
+}
+
+.btn2-outline:hover,
+.btn2-outline:active {
+  color: #1c7ed6;
+  background-color: #ff922b;
+  border: 2px solid #1c7ed6;
+}
+
+.btn3:link,
+.btn3:visited {
+  background-color: #9775fa;
+  color: white;
+  border: 2px solid #9775fa;
+}
+
+.btn3:hover,
+.btn3:active {
+  background-color: #7048e8;
+  color: white;
+  border: 2px solid #7048e8;
+}
+
+.highlight {
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6%;
+}
+
+highlight1 {
+  background-color: #339af0;
+}
+
+.highlight2 {
+  background-color: #9775fa;
+}
+
+.highlight3 {
+  background-color: #ff922b;
+}
+
+.hero-section {
+  text-align: center;
+  margin-bottom: 30rem;
+}
+
+.feature-section {
+  margin-bottom: 30rem;
+}
+
+.features {
+  text-align: center;
+  margin-bottom: 8rem;
+}
+
+.cta-secion {
+  text-align: center;
+  margin-bottom: 30rem;
+}
+
+.cta-div {
+  background-color: #339af0;
+  text-align: center;
+  max-width: 1000px;
+  padding: 10rem 20rem;
+  border-radius: 30px;
+  margin: 0 auto;
+}
+
+.footer {
+  /* text-align: center; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.quill-logo1 {
+  width: 10rem;
+}
+
+.quill-logo2 {
+  width: 8rem;
+}
+
+.feature-img {
+  max-width: 400px;
+  width: 100%;
+}
+
+.social-icon {
+  width: 2rem;
+}
+
+.navbar {
+  /* margin-bottom: 20rem; */
+  display: flex;
+  border-radius: 40%;
+  flex-direction: row; /*this is no needed.Also direct child becomes flexbox. not the stuffs in them. so i got two flexbox. quill and (login+register)*/
+  justify-content: space-between;
+  align-items: center;
+  height: 300px;
+  background-color: #e2dafa;
+}
+
+.headin {
+  margin-bottom: 10px;
+}
+
+.para {
+  margin-bottom: 70px;
+}
+
+span {
+  display: inline-block;
+}
+
+.feature3 {
+  margin-bottom: 30px;
+}
+
+.head2 {
+  margin-bottom: 50px;
+}
+
+.main-div {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 90%;
+}
+
+.header {
+  height: 100vh;
+  min-height: 800px;
+}
+
+.nav-ul {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-ul-1 {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-ul-2 {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.section-ul {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+}

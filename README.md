@@ -11,8 +11,9 @@ You asked me to review your line follower code. **Here's what I found:**
 
 ### ✅ I Fixed Everything!
 
-**Upload this file to your Arduino:**
-- **`line_follower_FIXED.ino`** ← All bugs fixed, ready to use!
+**Choose one of these files to upload:**
+- **`line_follower_FIXED.ino`** ← All bugs fixed, unidirectional (best for learning)
+- **`line_follower_BIDIRECTIONAL.ino`** ← All bugs fixed + pivot turns (best for competition)
 
 ---
 
@@ -34,22 +35,25 @@ How to calibrate sensors and adjust parameters.
 ### 🚀 **Essential** (Must Read/Use)
 1. **README.md** (this file) - Start here
 2. **FINAL_SUMMARY.md** - Complete overview
-3. **line_follower_FIXED.ino** - Fixed code (upload this!)
-4. **BUG_FIXES_SUMMARY.md** - What changed
-5. **QUICK_REFERENCE_CARD.md** - Print this!
+3. **line_follower_FIXED.ino** - Fixed code, unidirectional (for learning)
+4. **line_follower_BIDIRECTIONAL.ino** - Fixed code, bidirectional (for competition)
+5. **BUG_FIXES_SUMMARY.md** - What changed
+6. **QUICK_REFERENCE_CARD.md** - Print this!
+7. **THREE_VERSIONS_COMPARISON.md** - Compare all versions
+8. **BIDIRECTIONAL_CONTROL_GUIDE.md** - Pivot turn guide
 
 ### 🎓 **Guides** (Reference)
-6. **TUNING_GUIDE.md** - Parameter adjustment guide
-7. **TESTING_CHECKLIST.md** - Systematic testing
-8. **SENSOR_ARRAY_REFERENCE.md** - Sensor layout & examples
-9. **ROBOT_BEHAVIOR_SCENARIOS.md** - How robot behaves in each situation
-10. **CODE_FLOW_DIAGRAM.md** - Visual flow diagrams
+9. **TUNING_GUIDE.md** - Parameter adjustment guide
+10. **TESTING_CHECKLIST.md** - Systematic testing
+11. **SENSOR_ARRAY_REFERENCE.md** - Sensor layout & examples
+12. **ROBOT_BEHAVIOR_SCENARIOS.md** - How robot behaves in each situation
+13. **CODE_FLOW_DIAGRAM.md** - Visual flow diagrams
 
 ### 📚 **Detailed** (Deep Dive)
-11. **DETAILED_CODE_ANALYSIS.md** - Line-by-line analysis
-12. **LINE_FOLLOWER_CODE_REVIEW_INDEX.md** - File navigator
-13. **ORIGINAL_CODE.ino** - Your original (saved for reference)
-14. **line_follower_review.md** - Initial notes
+14. **DETAILED_CODE_ANALYSIS.md** - Line-by-line analysis
+15. **LINE_FOLLOWER_CODE_REVIEW_INDEX.md** - File navigator
+16. **ORIGINAL_CODE.ino** - Your original (saved for reference)
+17. **line_follower_review.md** - Initial notes
 
 ---
 

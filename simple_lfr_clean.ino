@@ -240,7 +240,7 @@ void semi_pid(){
 void do_turn_left(){
   if(debug_mode) Serial.println(">>> Turning LEFT");
   motor(-100, 100);
-  delay(250);
+  delay(120);
   
   reading();
   while(!(s[2] || s[3])){
@@ -255,7 +255,7 @@ void do_turn_left(){
 void do_turn_right(){
   if(debug_mode) Serial.println(">>> Turning RIGHT");
   motor(100, -100);
-  delay(250);
+  delay(120);
   
   reading();
   while(!(s[2] || s[3])){

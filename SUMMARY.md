@@ -11,7 +11,20 @@
 
 ## ❌ Critical Bugs Found
 
-### 1. **Motor Ramp Down Bug (CRITICAL)**
+### 1. **Motor Target Constraint Prevents Reverse (CRITICAL)**
+**Location:** Motor target calculations
+**Problem:** 
+```cpp
+int lmotor_target = constrain((int)(lbase + PID), 0, pwm_cap);  // Prevents reverse!
+```
+**Impact:** When PID correction is large, one wheel can't reverse for aggressive pivoting. Robot can only slow down, not pivot aggressively.
+
+**Fix:** Allow signed targets:
+```cpp
+int lmotor_target = constrain((int)(lbase + PID), -pwm_cap, pwm_cap);  // Allows reverse
+```
+
+### 2. **Motor Ramp Down Bug (CRITICAL)**
 **Line:** Motor ramp calculations
 ```cpp
 // WRONG:
@@ -24,27 +37,28 @@ rmotor_actual -= min(rate, rmotor_actual - rmotor_target);
 ```
 **Impact:** Motor can't ramp down smoothly, causing jerky stops and turns.
 
-### 2. **Turn Variable Not Used**
+### 3. **Turn Variable Not Used**
 You detect turns with `s[0]` and `s[5]` but never use the `turn` variable for sharp turn handling.
 
-### 3. **Missing Sharp Turn Logic**
+### 4. **Missing Sharp Turn Logic**
 You described: "if sharp left/right turn comes, goes forward until half body then sharp turn"
 **This is NOT implemented in your code!**
 
-### 4. **Logic Order Issues**
+### 5. **Logic Order Issues**
 - T-section detection happens AFTER motor commands are applied
 - Should check intersections BEFORE moving
 - Robot may overshoot intersections
 
 ## 🔧 What I Fixed in Improved Version
 
-1. ✅ **Fixed motor ramp down bug**
-2. ✅ **Added sharp turn detection and forward movement**
-3. ✅ **Reordered logic** - Check intersections BEFORE applying motor commands
-4. ✅ **Actually use the `turn` variable** for sharp turn detection
-5. ✅ **Added forward movement** before T-section turns (centers robot)
-6. ✅ **Added lost line handling** - Stops if line is completely lost
-7. ✅ **Better debug output** - Shows turn state and sum
+1. ✅ **Fixed motor target constraint** - Now allows reverse for aggressive pivoting
+2. ✅ **Fixed motor ramp down bug**
+3. ✅ **Added sharp turn detection and forward movement**
+4. ✅ **Reordered logic** - Check intersections BEFORE applying motor commands
+5. ✅ **Actually use the `turn` variable** for sharp turn detection
+6. ✅ **Added forward movement** before T-section turns (centers robot)
+7. ✅ **Added lost line handling** - Stops if line is completely lost
+8. ✅ **Better debug output** - Shows turn state and sum
 
 ## 📋 Code Flow Comparison
 

@@ -14,7 +14,21 @@ lmotor_actual -= min(rate, lmotor_actual - lmotor_target);  // CORRECT
 ```
 **Impact:** Motor ramp down doesn't work correctly, causing jerky movements.
 
-### 2. **Sensor Logic Inverted**
+### 2. **Motor Target Constraint Prevents Reverse (FIXED)**
+**Location:** Motor target calculations
+**Problem:** 
+```cpp
+int lmotor_target = constrain((int)(lbase + PID), 0, pwm_cap);  // Prevents reverse!
+```
+**Impact:** When PID correction is large (e.g., line far to one side), one wheel can't reverse for aggressive pivoting. Robot can only slow down one wheel, not reverse it.
+
+**Fix:** Allow signed targets:
+```cpp
+int lmotor_target = constrain((int)(lbase + PID), -pwm_cap, pwm_cap);  // Allows reverse
+```
+This enables aggressive pivoting where one wheel goes forward and the other reverses, improving sharp turn handling.
+
+### 3. **Sensor Logic Inverted**
 **Location:** `reading()` function
 **Problem:** 
 ```cpp

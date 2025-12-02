@@ -125,9 +125,9 @@ void semi_pid(){
   // clamp PID
   PID = constrain(PID, -120, 120);
 
-  // target motor speeds
-  int lmotor_target = constrain((int)(lbase + PID), 0, pwm_cap);
-  int rmotor_target = constrain((int)(rbase - PID), 0, pwm_cap);
+  // target motor speeds (allow reverse for aggressive pivoting)
+  int lmotor_target = constrain((int)(lbase + PID), -pwm_cap, pwm_cap);
+  int rmotor_target = constrain((int)(rbase - PID), -pwm_cap, pwm_cap);
 
   // --- MOTOR RAMP ---
   if(lmotor_actual < lmotor_target) lmotor_actual += min(rate, lmotor_target - lmotor_actual);

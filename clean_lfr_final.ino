@@ -34,6 +34,10 @@ int kd = 80;
 char last_T_turn = 'l';  // Alternate T-section turns
 bool just_junction = false;
 
+// EDGE DETECTION MEMORY
+int right_edge_count = 0;  // Count consecutive right edge detections
+int left_edge_count = 0;   // Count consecutive left edge detections
+
 // DEBUG
 bool debug_mode = true;
 
@@ -51,7 +55,7 @@ void setup() {
 
 void loop() {
   line_follow();
-  delay(5);
+  delay(3);  // FASTER loop = better detection (was 5ms)
 }
 
 // ----- MOTOR CONTROL -----
@@ -153,25 +157,53 @@ void line_follow(){
   }
   
   // ============================================
-  // PRIORITY 2: SHARP RIGHT (edge + middle)
+  // PRIORITY 2: SHARP RIGHT (edge sensor active)
   // ============================================
-  if(s[0] && (s[2] || s[3]) && !s[5]){
-    Serial.println(" -> SHARP RIGHT!");
-    motor(lbase, rbase);
-    delay(40);  // Short forward movement
-    sharp_turn_right();
-    return;
+  // RELAXED: Just check if rightmost sensor sees black
+  if(s[0] && !s[5]){
+    right_edge_count++;
+    
+    // Trigger after 2 consecutive detections (more reliable!)
+    if(right_edge_count >= 2){
+      Serial.print(" -> SHARP RIGHT! (count=");
+      Serial.print(right_edge_count);
+      Serial.println(")");
+      
+      right_edge_count = 0;  // Reset
+      left_edge_count = 0;
+      
+      motor(lbase, rbase);
+      delay(40);
+      sharp_turn_right();
+      return;
+    }
+  } else {
+    right_edge_count = 0;  // Reset if not detected
   }
   
   // ============================================
-  // PRIORITY 3: SHARP LEFT (edge + middle)
+  // PRIORITY 3: SHARP LEFT (edge sensor active)
   // ============================================
-  if(s[5] && (s[2] || s[3]) && !s[0]){
-    Serial.println(" -> SHARP LEFT!");
-    motor(lbase, rbase);
-    delay(40);  // Short forward movement
-    sharp_turn_left();
-    return;
+  // RELAXED: Just check if leftmost sensor sees black
+  if(s[5] && !s[0]){
+    left_edge_count++;
+    
+    // Trigger after 2 consecutive detections (more reliable!)
+    if(left_edge_count >= 2){
+      Serial.print(" -> SHARP LEFT! (count=");
+      Serial.print(left_edge_count);
+      Serial.println(")");
+      
+      left_edge_count = 0;  // Reset
+      right_edge_count = 0;
+      
+      motor(lbase, rbase);
+      delay(40);
+      sharp_turn_left();
+      return;
+    }
+  } else {
+    left_edge_count = 0;  // Reset if not detected
   }
   
   // ============================================

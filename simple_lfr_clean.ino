@@ -240,7 +240,7 @@ void semi_pid(){
 void do_turn_left(){
   if(debug_mode) Serial.println(">>> Turning LEFT");
   motor(-70, 70);  // Even slower turn speed
-  delay(30);       // Much shorter initial delay
+  delay(25);       // Much shorter initial delay
   
   reading();
   int turn_counter = 0;
@@ -272,7 +272,7 @@ void do_turn_left(){
 void do_turn_right(){
   if(debug_mode) Serial.println(">>> Turning RIGHT");
   motor(70, -70);  // Even slower turn speed
-  delay(30);       // Much shorter initial delay
+  delay(25);       // Much shorter initial delay
   
   reading();
   int turn_counter = 0;

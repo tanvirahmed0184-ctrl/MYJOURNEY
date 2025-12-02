@@ -111,13 +111,13 @@ void line_follow(){
     Serial.println(" -> ALL BLACK!");
     
     motor(0, 0);
-    delay(80);
+    delay(50);
     
-    // Peek forward to distinguish T / Cross / End
+    // Peek forward to pass thin line (2.5cm)
     motor(lbase, rbase);
-    delay(15);
+    delay(10);            // VERY SHORT - just to pass thin line
     motor(0, 0);
-    delay(60);
+    delay(40);
     
     reading();
     Serial.print("After peek: ");
@@ -134,7 +134,7 @@ void line_follow(){
       // Middle sensors see line = CROSS SECTION
       Serial.println(">>> CROSS - going straight");
       motor(lbase, rbase);
-      delay(50);
+      delay(30);            // Just enough to clear thin line
     }
     else {
       // No line ahead = T-SECTION
@@ -158,7 +158,7 @@ void line_follow(){
   if(s[0] && (s[2] || s[3]) && !s[5]){
     Serial.println(" -> SHARP RIGHT!");
     motor(lbase, rbase);
-    delay(60);  // Go forward a bit
+    delay(40);  // Short forward movement
     sharp_turn_right();
     return;
   }
@@ -169,7 +169,7 @@ void line_follow(){
   if(s[5] && (s[2] || s[3]) && !s[0]){
     Serial.println(" -> SHARP LEFT!");
     motor(lbase, rbase);
-    delay(60);  // Go forward a bit
+    delay(40);  // Short forward movement
     sharp_turn_left();
     return;
   }
@@ -224,49 +224,49 @@ void line_follow(){
 void turn_left(){
   Serial.println(">>> T-TURN LEFT");
   
-  // Initial turn
+  // Start turning immediately
   motor(-100, 100);
-  delay(120);
+  delay(80);
   
   // Search for line with middle sensors
-  for(int i=0; i<35; i++){
+  for(int i=0; i<30; i++){
     reading();
     if(s[2] || s[3]){
       Serial.println("Found line!");
       motor(0, 0);
-      delay(100);
+      delay(80);
       return;
     }
     motor(-90, 90);
-    delay(20);
+    delay(15);
   }
   
   motor(0, 0);
-  delay(100);
+  delay(80);
 }
 
 void turn_right(){
   Serial.println(">>> T-TURN RIGHT");
   
-  // Initial turn
+  // Start turning immediately
   motor(100, -100);
-  delay(120);
+  delay(80);
   
   // Search for line with middle sensors
-  for(int i=0; i<35; i++){
+  for(int i=0; i<30; i++){
     reading();
     if(s[2] || s[3]){
       Serial.println("Found line!");
       motor(0, 0);
-      delay(100);
+      delay(80);
       return;
     }
     motor(90, -90);
-    delay(20);
+    delay(15);
   }
   
   motor(0, 0);
-  delay(100);
+  delay(80);
 }
 
 void sharp_turn_left(){
@@ -275,19 +275,19 @@ void sharp_turn_left(){
   motor(-110, 110);
   
   // Turn until we see good line (sum >= 2)
-  for(int i=0; i<40; i++){
+  for(int i=0; i<35; i++){
     reading();
     if(sum >= 2 && (s[2] || s[3])){
       Serial.println("Found line!");
       motor(0, 0);
-      delay(80);
+      delay(60);
       return;
     }
-    delay(25);
+    delay(20);
   }
   
   motor(0, 0);
-  delay(80);
+  delay(60);
 }
 
 void sharp_turn_right(){
@@ -296,17 +296,17 @@ void sharp_turn_right(){
   motor(110, -110);
   
   // Turn until we see good line (sum >= 2)
-  for(int i=0; i<40; i++){
+  for(int i=0; i<35; i++){
     reading();
     if(sum >= 2 && (s[2] || s[3])){
       Serial.println("Found line!");
       motor(0, 0);
-      delay(80);
+      delay(60);
       return;
     }
-    delay(25);
+    delay(20);
   }
   
   motor(0, 0);
-  delay(80);
+  delay(60);
 }

@@ -145,7 +145,7 @@ void semi_pid(){
       // MIDDLE SENSORS SEE LINE = CROSS SECTION
       if(debug_mode) Serial.println(">>> CROSS SECTION - going straight!");
       motor(lbase, rbase);
-      delay(150);  // Cross the junction
+      delay(90);  // Cross the junction
       motor(0, 0);
       delay(50);
     }

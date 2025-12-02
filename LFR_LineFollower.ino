@@ -32,10 +32,6 @@ char last_turn = 'r';    // FIX: Initialize to 'r' instead of 's'
 char last_T_turn = 'l';  // alternate T-section turns
 bool just_junction = false;
 
-// LOST LINE RECOVERY
-int lost_line_counter = 0;
-int lost_line_timeout = 50;  // Max loops to search before giving up
-
 // MOTOR RAMP
 int lmotor_actual = 0, rmotor_actual = 0;
 int rate = 12;
@@ -243,53 +239,15 @@ void semi_pid(){
     motor(lmotor_actual, rmotor_actual);
     
     if(just_junction && sum < 6) just_junction = false;
-    
-    // Reset lost line counter when line is found
-    lost_line_counter = 0;
   } 
   else {
-    // LOST LINE - use remembered direction with timeout
-    lost_line_counter++;
+    // NO LINE DETECTED - Continue with last motor speeds
+    // PID will naturally recover when sensors see line again
+    motor(lmotor_actual, rmotor_actual);
     
     if(debug_mode){
-      Serial.print("LOST LINE - searching ");
-      if (last_turn == 'l') {
-        Serial.print("LEFT");
-      } else if (last_turn == 'r') {
-        Serial.print("RIGHT");
-      }
-      Serial.print(" (count=");
-      Serial.print(lost_line_counter);
-      Serial.println(")");
+      Serial.println("NO LINE - continuing with last speeds");
     }
-    
-    // Timeout: if searched too long, try forward first, then pivot
-    if(lost_line_counter > lost_line_timeout){
-      if(debug_mode) Serial.println("LOST LINE TIMEOUT - trying forward");
-      motor(lbase, rbase);  // Try going forward
-      delay(100);
-      reading();
-      if(sum > 0){
-        lost_line_counter = 0;  // Found line, reset
-        return;  // Exit and let PID handle it
-      }
-      // Still lost, reset counter and try opposite direction
-      lost_line_counter = 0;
-      if(last_turn == 'l') last_turn = 'r';
-      else last_turn = 'l';
-    }
-    
-    // Gentle pivot search (slower than before)
-    if (last_turn == 'l') {
-      motor(-80, 80);   // pivot left (slower: was -120, 120)
-    } else if (last_turn == 'r') {
-      motor(80, -80);   // pivot right (slower: was 120, -120)
-    } else {
-      motor(lbase, rbase); // go forward if no memory
-    }
-    
-    // Small delay to prevent too fast execution
-    delay(20);
   }
 
   // DEBUG (only if enabled)

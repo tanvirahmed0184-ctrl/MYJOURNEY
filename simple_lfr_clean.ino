@@ -239,8 +239,8 @@ void semi_pid(){
 // ----- T-SECTION TURNS -----
 void do_turn_left(){
   if(debug_mode) Serial.println(">>> Turning LEFT");
-  motor(-70, 70);  // Even slower turn speed
-  delay(25);       // Much shorter initial delay
+  motor(-110, 110);  // Higher speed for sharper turn
+  delay(20);         // Shorter time
   
   reading();
   int turn_counter = 0;
@@ -271,8 +271,8 @@ void do_turn_left(){
 
 void do_turn_right(){
   if(debug_mode) Serial.println(">>> Turning RIGHT");
-  motor(70, -70);  // Even slower turn speed
-  delay(25);       // Much shorter initial delay
+  motor(110, -110);  // Higher speed for sharper turn
+  delay(20);         // Shorter time
   
   reading();
   int turn_counter = 0;

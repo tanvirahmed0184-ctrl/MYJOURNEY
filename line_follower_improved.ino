@@ -1,0 +1,325 @@
+// ADVANCED BIDIRECTIONAL LINE FOLLOWER - IMPROVED VERSION
+// Fixes: PID range, cross junction timing, motor ramp reset
+// Date: Dec 2, 2025
+
+// ----- PIN SETUP -----
+#define lmf 2
+#define lmb 6
+#define lms 3
+#define rmf 4
+#define rmb 5
+#define rms 9
+
+// ----- VARIABLES -----
+int s[6], sum;
+int base[6]     = {1, 2, 4, 8, 16, 32};
+int position[6] = {3, 2, 1, -1, -2, -3};
+int threshold = 512;
+int sensor_pos;
+
+int lbase = 120;   // BASE SPEED LEFT
+int rbase = 120;   // BASE SPEED RIGHT
+int pwm_cap = 180; // MAX PWM
+
+// PID
+float avg = 0.0;
+float PID = 0.0;
+float error[2] = {0.0, 0.0};
+
+// TURN STATE & MEMORY
+char turn = 's';         // current reading (reset each loop)
+char last_turn = 'r';    // Initialize to 'r' instead of 's'
+char last_T_turn = 'l';  // alternate T-section turns
+bool just_junction = false;
+
+// MOTOR RAMP
+int lmotor_actual = 0, rmotor_actual = 0;
+int rate = 12;
+
+// PID GAINS
+int kp = 50;   // Proportional gain
+int kd = 120;  // Derivative gain
+
+// TURN PARAMETERS
+int sharp_turn_forward_time = 150;
+int sharp_turn_speed = 100;
+
+// DEBUG MODE (set to false for competition to improve speed)
+bool debug_mode = true;
+
+// ----- SETUP -----
+void setup() {
+  pinMode(lmf, OUTPUT);
+  pinMode(lmb, OUTPUT);
+  pinMode(rmf, OUTPUT);
+  pinMode(rmb, OUTPUT);
+
+  Serial.begin(9600);
+  
+  if(debug_mode){
+    Serial.println("=== LINE FOLLOWER INITIALIZED ===");
+    Serial.println("Version: Improved (Fixed PID & Timing)");
+    Serial.print("Threshold: "); Serial.println(threshold);
+    Serial.print("Base Speed: L="); Serial.print(lbase);
+    Serial.print(" R="); Serial.println(rbase);
+    Serial.println("================================");
+  }
+}
+
+// ----- MAIN LOOP -----
+void loop() {
+  semi_pid();
+}
+
+// ----- MOTOR FUNCTION -----
+void motor(int a, int b){
+  // BIDIRECTIONAL: -pwm_cap to +pwm_cap
+  a = constrain(a, -pwm_cap, pwm_cap);
+  b = constrain(b, -pwm_cap, pwm_cap);
+
+  // LEFT MOTOR
+  if(a >= 0){
+    digitalWrite(lmf, 1);
+    digitalWrite(lmb, 0);
+  } else {
+    a = -a;
+    digitalWrite(lmf, 0);
+    digitalWrite(lmb, 1);
+  }
+
+  // RIGHT MOTOR
+  if(b >= 0){
+    digitalWrite(rmf, 1);
+    digitalWrite(rmb, 0);
+  } else {
+    b = -b;
+    digitalWrite(rmf, 0);
+    digitalWrite(rmb, 1);
+  }
+
+  analogWrite(lms, a);
+  analogWrite(rms, b);
+}
+
+// ----- SENSOR READ -----
+void reading(){
+  sensor_pos = 0;
+  sum = 0;
+  for(byte i=0; i<6; i++){
+    s[i] = analogRead(i);
+    s[i] = (s[i] > threshold) ? 1 : 0;
+    sensor_pos += s[i] * position[i];
+    sum += s[i];
+  }
+}
+
+// ----- RESET MOTOR RAMP -----
+void reset_motor_ramp(){
+  lmotor_actual = lbase;
+  rmotor_actual = rbase;
+}
+
+// ----- SEMI-PID FUNCTION (IMPROVED + FIXED) -----
+void semi_pid(){
+  reading();
+  
+  // RESET current turn each loop
+  turn = 's';
+
+  // UPDATE BASED ON EDGE SENSORS (update memory only when bias seen)
+  if (s[0] && !s[5]) {
+    turn = 'r';
+    last_turn = 'r';
+  } else if (s[5] && !s[0]) {
+    turn = 'l';
+    last_turn = 'l';
+  }
+  // otherwise leave last_turn unchanged (memory preserved)
+
+  // --- JUNCTION DETECTION (IMPROVED!) ---
+  if(sum == 6 && !just_junction){
+    // FIX: Check middle sensors BEFORE moving
+    bool middle_line_before = (s[2] || s[3]);
+    
+    motor(0, 0);
+    delay(150);
+    reading();
+    
+    if(sum == 6){
+      // STILL ALL BLACK = BLACK WALL / END
+      if(debug_mode) Serial.println("BLACK WALL - END! STOPPING.");
+      motor(0, 0);
+      while(1); // Stop forever
+    }
+    else if(sum >= 3){
+      // FIX: Use pre-movement sensor check
+      if(middle_line_before && (s[2] || s[3])){
+        // CROSS JUNCTION - GO STRAIGHT
+        if(debug_mode) Serial.println("CROSS JUNCTION - GOING STRAIGHT");
+        reset_motor_ramp(); // FIX: Reset ramp
+        motor(lbase, rbase);
+        delay(250);  // Move through junction
+      }
+      else {
+        // T-SECTION - ALTERNATE TURN
+        reset_motor_ramp(); // FIX: Reset ramp
+        if(last_T_turn == 'l'){ 
+          do_turn_left(); 
+          last_T_turn = 'r'; 
+        } else { 
+          do_turn_right(); 
+          last_T_turn = 'l'; 
+        }
+      }
+      just_junction = true;
+      return;
+    }
+  }
+
+  // --- IMPROVED SHARP TURN DETECTION ---
+  if((s[0] && sum <= 2 && !s[5]) || (s[5] && sum <= 2 && !s[0])){
+    bool turn_right = s[0];
+    
+    motor(lbase, rbase);
+    delay(sharp_turn_forward_time);
+    
+    reset_motor_ramp(); // FIX: Reset ramp before turn
+    
+    if(turn_right){
+      if(debug_mode) Serial.println("SHARP RIGHT (sum<=2)");
+      do_sharp_turn_right();
+    } else {
+      if(debug_mode) Serial.println("SHARP LEFT (sum<=2)");
+      do_sharp_turn_left();
+    }
+    return;
+  }
+
+  // --- NORMAL PID LINE FOLLOWING (BIDIRECTIONAL) ---
+  if(sum > 0){
+    avg = (float)sensor_pos / (float)sum;
+    error[0] = avg;
+    float derivative = error[0] - error[1];
+    PID = kp * error[0] + kd * derivative;
+    error[1] = error[0];
+
+    // FIX: Reduced PID range to prevent backward motion
+    // Old: -150 to +150 (too aggressive)
+    // New: -80 to +80 (more reasonable)
+    PID = constrain(PID, -80, 80);
+
+    // BIDIRECTIONAL: ALLOW NEGATIVE VALUES (but now limited)
+    int lmotor_target = constrain((int)(lbase + PID), -pwm_cap, pwm_cap);
+    int rmotor_target = constrain((int)(rbase - PID), -pwm_cap, pwm_cap);
+
+    // MOTOR RAMP
+    if(lmotor_actual < lmotor_target) {
+      lmotor_actual += min(rate, lmotor_target - lmotor_actual);
+    } else if(lmotor_actual > lmotor_target) {
+      lmotor_actual -= min(rate, lmotor_actual - lmotor_target);
+    }
+
+    if(rmotor_actual < rmotor_target) {
+      rmotor_actual += min(rate, rmotor_target - rmotor_actual);
+    } else if(rmotor_actual > rmotor_target) {
+      rmotor_actual -= min(rate, rmotor_actual - rmotor_target);
+    }
+
+    motor(lmotor_actual, rmotor_actual);
+    
+    if(just_junction && sum < 6) just_junction = false;
+  } 
+  else {
+    // LOST LINE - use remembered direction
+    if(debug_mode){
+      Serial.print("LOST LINE - searching ");
+      if (last_turn == 'l') {
+        Serial.println("LEFT");
+      } else if (last_turn == 'r') {
+        Serial.println("RIGHT");
+      }
+    }
+    
+    if (last_turn == 'l') {
+      motor(-120, 120);   // pivot left
+    } else if (last_turn == 'r') {
+      motor(120, -120);   // pivot right
+    } else {
+      motor(lmotor_actual, rmotor_actual); // continue last speeds
+    }
+  }
+
+  // DEBUG (only if enabled)
+  if(debug_mode){
+    Serial.print("S: ");
+    for(int i=0; i<6; i++){ Serial.print(s[i]); Serial.print(" "); }
+    Serial.print("| sum="); Serial.print(sum);
+    Serial.print(" | turn="); Serial.print(turn);
+    Serial.print(" | avg="); Serial.print(avg);
+    Serial.print(" | PID="); Serial.print(PID);
+    Serial.print(" | L="); Serial.print(lmotor_actual);
+    Serial.print(" R="); Serial.println(rmotor_actual);
+  }
+}
+
+// ----- T-SECTION TURNS -----
+void do_turn_left(){
+  if(debug_mode) Serial.println("T-TURN LEFT");
+  motor(-100, 100);
+  delay(350);
+  
+  reading();
+  while(!(s[2] || s[3])){
+    motor(-100, 100);
+    delay(30);
+    reading();
+  }
+  motor(0, 0);
+  delay(50);
+  reset_motor_ramp(); // FIX: Reset ramp after turn
+}
+
+void do_turn_right(){
+  if(debug_mode) Serial.println("T-TURN RIGHT");
+  motor(100, -100);
+  delay(350);
+  
+  reading();
+  while(!(s[2] || s[3])){
+    motor(100, -100);
+    delay(30);
+    reading();
+  }
+  motor(0, 0);
+  delay(50);
+  reset_motor_ramp(); // FIX: Reset ramp after turn
+}
+
+// ----- SHARP TURNS -----
+void do_sharp_turn_left(){
+  motor(-sharp_turn_speed, sharp_turn_speed);
+  
+  reading();
+  while(sum == 0 || sum == 1){
+    motor(-sharp_turn_speed, sharp_turn_speed);
+    delay(30);
+    reading();
+  }
+  motor(0, 0);
+  delay(50);
+  reset_motor_ramp(); // FIX: Reset ramp after turn
+}
+
+void do_sharp_turn_right(){
+  motor(sharp_turn_speed, -sharp_turn_speed);
+  
+  reading();
+  while(sum == 0 || sum == 1){
+    motor(sharp_turn_speed, -sharp_turn_speed);
+    delay(30);
+    reading();
+  }
+  motor(0, 0);
+  delay(50);
+  reset_motor_ramp(); // FIX: Reset ramp after turn
+}

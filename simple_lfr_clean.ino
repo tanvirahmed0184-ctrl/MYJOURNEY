@@ -16,8 +16,8 @@ int position[6] = {3, 2, 1, -1, -2, -3};  // s[0]=rightmost, s[5]=leftmost
 int threshold = 200;
 int sensor_pos;
 
-int lbase = 120;   // BASE SPEED
-int rbase = 120;
+int lbase = 100;   // BASE SPEED (reduced for better detection)
+int rbase = 100;
 int pwm_cap = 180;
 
 // PID
@@ -60,7 +60,7 @@ void setup() {
 // ----- MAIN LOOP -----
 void loop() {
   semi_pid();
-  delay(5);
+  delay(10);  // Slightly slower loop for better sensor readings
 }
 
 // ----- MOTOR FUNCTION -----
@@ -239,32 +239,66 @@ void semi_pid(){
 // ----- T-SECTION TURNS -----
 void do_turn_left(){
   if(debug_mode) Serial.println(">>> Turning LEFT");
-  motor(-100, 100);
-  delay(100);
+  motor(-80, 80);  // Slower turn speed
+  delay(50);       // Shorter initial delay
   
   reading();
-  while(!(s[2] || s[3])){
-    motor(-100, 100);
-    delay(30);
+  int turn_counter = 0;
+  while(!(s[2] || s[3]) && turn_counter < 50){  // Add timeout
+    motor(-80, 80);
+    delay(20);
     reading();
+    turn_counter++;
   }
   motor(0, 0);
-  delay(50);
+  delay(100);  // Longer pause to settle
+  
+  // RECOVERY: Go slow for a bit after turn
+  if(debug_mode) Serial.println(">>> Recovery mode");
+  for(int i=0; i<10; i++){
+    reading();
+    if(sum > 0){
+      avg = (float)sensor_pos / (float)sum;
+      error = avg;
+      PID = kp * error;
+      int lm = constrain((int)(60 + PID), -100, 100);  // Slow speed
+      int rm = constrain((int)(60 - PID), -100, 100);
+      motor(lm, rm);
+      delay(30);
+    }
+  }
 }
 
 void do_turn_right(){
   if(debug_mode) Serial.println(">>> Turning RIGHT");
-  motor(100, -100);
-  delay(100);
+  motor(80, -80);  // Slower turn speed
+  delay(50);       // Shorter initial delay
   
   reading();
-  while(!(s[2] || s[3])){
-    motor(100, -100);
-    delay(30);
+  int turn_counter = 0;
+  while(!(s[2] || s[3]) && turn_counter < 50){  // Add timeout
+    motor(80, -80);
+    delay(20);
     reading();
+    turn_counter++;
   }
   motor(0, 0);
-  delay(50);
+  delay(100);  // Longer pause to settle
+  
+  // RECOVERY: Go slow for a bit after turn
+  if(debug_mode) Serial.println(">>> Recovery mode");
+  for(int i=0; i<10; i++){
+    reading();
+    if(sum > 0){
+      avg = (float)sensor_pos / (float)sum;
+      error = avg;
+      PID = kp * error;
+      int lm = constrain((int)(60 + PID), -100, 100);  // Slow speed
+      int rm = constrain((int)(60 - PID), -100, 100);
+      motor(lm, rm);
+      delay(30);
+    }
+  }
 }
 
 // ----- SHARP TURNS -----

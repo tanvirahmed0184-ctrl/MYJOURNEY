@@ -155,10 +155,11 @@ void semi_pid(){
   }
   // otherwise leave last_turn unchanged (memory preserved)
 
-  // --- JUNCTION DETECTION (FIXED!) ---
+  // --- JUNCTION DETECTION ---
   if(sum == 6 && !just_junction){
-    motor(0, 0);
-    delay(100);  // FIXED: Was 15ms - too short! Need time to stabilize
+    // Move forward a bit to get past the junction
+    motor(lbase, rbase);
+    delay(150);  // Move forward to get past junction
     reading();
     
     if(sum == 6){
@@ -167,28 +168,25 @@ void semi_pid(){
       motor(0, 0);
       while(1); // Stop forever
     }
-    else if(sum >= 3){
-      // Could be T-section OR cross junction
-      // FIX: Check if middle sensors see line
-      if(s[2] || s[3]){
-        // CROSS JUNCTION - GO STRAIGHT
-        if(debug_mode) Serial.println("CROSS JUNCTION - GOING STRAIGHT");
-        motor(lbase, rbase);
-        delay(200);  // FIXED: Was 12ms - way too short! Need to cross junction
-      }
-      else {
-        // T-SECTION - ALTERNATE TURN
-        if(last_T_turn == 'l'){ 
-          do_turn_left(); 
-          last_T_turn = 'r'; 
-        } else { 
-          do_turn_right(); 
-          last_T_turn = 'l'; 
-        }
-      }
-      just_junction = true;
-      return;
+    else if(s[2] || s[3]){
+      // MIDDLE SENSORS SEE LINE = CROSS JUNCTION - GO STRAIGHT
+      if(debug_mode) Serial.println("CROSS JUNCTION - GOING STRAIGHT");
+      motor(lbase, rbase);
+      delay(200);  // Continue straight through cross junction
     }
+    else if(sum == 0){
+      // ALL WHITE = T-SECTION - ALTERNATE TURN
+      if(debug_mode) Serial.println("T-SECTION DETECTED");
+      if(last_T_turn == 'l'){ 
+        do_turn_left(); 
+        last_T_turn = 'r'; 
+      } else { 
+        do_turn_right(); 
+        last_T_turn = 'l'; 
+      }
+    }
+    just_junction = true;
+    return;
   }
 
   // --- IMPROVED SHARP TURN DETECTION ---

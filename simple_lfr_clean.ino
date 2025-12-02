@@ -110,28 +110,48 @@ void semi_pid(){
   
   // === JUNCTION DETECTION (sum == 6) ===
   if(sum == 6 && !just_junction){
-    if(debug_mode) Serial.println(">>> SUM=6 detected, going forward...");
+    if(debug_mode){
+      Serial.println(">>> SUM=6 detected!");
+      Serial.print("Sensors: ");
+      for(int i=0; i<6; i++){ Serial.print(s[i]); }
+      Serial.println();
+    }
     
-    motor(lbase, rbase);  // Go forward a bit
-    delay(150);           // Move forward to clear junction
+    motor(0, 0);          // STOP first
+    delay(100);           // Brief pause
+    
+    motor(lbase, rbase);  // Go forward slowly
+    delay(80);            // SHORTER: just 80ms to move slightly forward
+    motor(0, 0);          // Stop again
+    delay(50);            // Let it settle
     
     reading();            // Check again
     
+    if(debug_mode){
+      Serial.print("After forward, sum=");
+      Serial.print(sum);
+      Serial.print(" Sensors: ");
+      for(int i=0; i<6; i++){ Serial.print(s[i]); }
+      Serial.println();
+    }
+    
     if(sum == 6){
       // STILL ALL BLACK = END/BLACK WALL
-      if(debug_mode) Serial.println(">>> BLACK WALL - STOPPING!");
+      if(debug_mode) Serial.println(">>> BLACK WALL - STOPPING FOREVER!");
       motor(0, 0);
       while(1);  // Stop forever
     }
     else if(s[2] || s[3]){
       // MIDDLE SENSORS SEE LINE = CROSS SECTION
-      if(debug_mode) Serial.println(">>> CROSS - going straight");
+      if(debug_mode) Serial.println(">>> CROSS SECTION - going straight!");
       motor(lbase, rbase);
-      delay(200);  // Keep going straight
+      delay(150);  // Cross the junction
+      motor(0, 0);
+      delay(50);
     }
     else if(sum == 0){
       // ALL WHITE = T-SECTION
-      if(debug_mode) Serial.println(">>> T-SECTION detected");
+      if(debug_mode) Serial.println(">>> T-SECTION - turning!");
       if(last_T_turn == 'l'){
         do_turn_right();
         last_T_turn = 'r';
@@ -139,6 +159,12 @@ void semi_pid(){
         do_turn_left();
         last_T_turn = 'l';
       }
+    }
+    else {
+      // Some other pattern - maybe angled approach
+      if(debug_mode) Serial.println(">>> Unexpected pattern after sum=6, treating as cross");
+      motor(lbase, rbase);
+      delay(100);
     }
     
     just_junction = true;

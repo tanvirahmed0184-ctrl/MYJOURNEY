@@ -118,12 +118,12 @@ void semi_pid(){
     }
     
     motor(0, 0);          // STOP first
-    delay(100);           // Brief pause
+    delay(80);            // Brief pause
     
-    motor(lbase, rbase);  // Go forward to clear junction
-    delay(50);            // VERY SHORT: just 50ms
+    motor(lbase, rbase);  // Go forward to clear thin crossing line (2.5cm)
+    delay(35);            // SHORT: just enough to pass 2.5cm line
     motor(0, 0);          // Stop
-    delay(80);            // Settle
+    delay(60);            // Settle
     
     reading();            // Check what's ahead
     
@@ -150,7 +150,7 @@ void semi_pid(){
       delay(50);
     }
     else if(sum == 0){
-      // ALL WHITE = T-SECTION
+      // ALL WHITE = T-SECTION (no line ahead after crossing)
       if(debug_mode) Serial.println(">>> T-SECTION - turning!");
       if(last_T_turn == 'l'){
         do_turn_right();

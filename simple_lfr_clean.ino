@@ -121,7 +121,7 @@ void semi_pid(){
     delay(50);            // Brief pause
     
     motor(lbase, rbase);  // Go forward to clear thin crossing line (2.5cm)
-    delay(20);            // VERY SHORT: just enough to pass 2.5cm line
+    delay(12);            // VERY SHORT: just enough to pass 2.5cm line
     motor(0, 0);          // Stop
     delay(50);            // Settle
     

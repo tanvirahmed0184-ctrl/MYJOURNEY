@@ -60,6 +60,30 @@ void setup() {
 
   Serial.begin(9600);
   
+  // TEMPORARY: Print sensor values for 3 seconds
+  Serial.println("=== SENSOR CALIBRATION ===");
+  Serial.println("Place robot on WHITE surface first, then on BLACK line");
+  Serial.println("Watch the values - WHITE should be LOW, BLACK should be HIGH");
+  Serial.print("Threshold is currently: ");
+  Serial.println(threshold);
+  Serial.println("Starting calibration in 2 seconds...");
+  delay(2000);
+  
+  for(int i=0; i<30; i++){
+    Serial.print("Sensors: ");
+    for(int j=0; j<6; j++){
+      Serial.print(analogRead(j));
+      Serial.print(" ");
+    }
+    Serial.println();
+    delay(100);
+  }
+  Serial.println("=== END CALIBRATION ===");
+  Serial.println("If WHITE values are > 512, threshold is too LOW");
+  Serial.println("If BLACK values are < 512, threshold is too HIGH");
+  Serial.println("Adjust threshold to be between WHITE and BLACK values");
+  delay(2000);
+  
   if(debug_mode){
     Serial.println("=== LINE FOLLOWER INITIALIZED ===");
     Serial.println("Version: Fixed (Cross Junction Support)");

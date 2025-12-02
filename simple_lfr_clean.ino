@@ -117,15 +117,10 @@ void semi_pid(){
       Serial.println();
     }
     
-    motor(0, 0);          // STOP first
-    delay(100);           // Brief pause
+    motor(0, 0);          // STOP
+    delay(150);           // Wait to stabilize
     
-    motor(lbase, rbase);  // Go forward slowly
-    delay(80);            // SHORTER: just 80ms to move slightly forward
-    motor(0, 0);          // Stop again
-    delay(50);            // Let it settle
-    
-    reading();            // Check again
+    reading();            // Check again immediately
     
     if(debug_mode){
       Serial.print("After forward, sum=");

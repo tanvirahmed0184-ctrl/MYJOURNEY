@@ -311,6 +311,9 @@
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         position: relative;
       }
+      .product-card h3 {
+        font-family: "Sansation", "Inter", sans-serif;
+      }
       .product-card:hover {
         transform: translateY(-4px);
         box-shadow: var(--shadow);
@@ -443,9 +446,10 @@
       }
       .info-details {
         border: 1px solid var(--card-border);
-        border-radius: 12px;
-        padding: 8px 10px;
-        background: #fff;
+        border-radius: 14px;
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 8px 18px rgba(31, 31, 31, 0.06);
       }
       .info-details summary {
         cursor: pointer;
@@ -454,13 +458,18 @@
         text-transform: uppercase;
         letter-spacing: 0.2em;
         color: var(--brown);
+        margin-bottom: 8px;
       }
       .info-details ul {
         margin-top: 8px;
         font-size: 11px;
         color: var(--muted);
         display: grid;
-        gap: 4px;
+        gap: 8px;
+      }
+      .info-details ul li {
+        display: flex;
+        justify-content: space-between;
       }
       .size-link {
         font-size: 11px;
@@ -468,6 +477,14 @@
         letter-spacing: 0.2em;
         color: var(--brown);
         text-decoration: underline;
+      }
+      .availability {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        text-align: center;
+        font-family: "Sansation", "Inter", sans-serif;
       }
       .modal {
         position: fixed;
@@ -511,6 +528,12 @@
         letter-spacing: 0.2em;
         padding: 6px 12px;
         border-radius: 999px;
+        transition: all 0.2s ease;
+      }
+      .modal-close:hover {
+        background: var(--button-hover);
+        color: var(--button-hover-text);
+        border-color: var(--button-hover);
       }
       .modal-grid {
         display: grid;
@@ -572,6 +595,47 @@
         display: flex;
         gap: 12px;
         align-items: center;
+      }
+      .modal-quantity {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(31, 31, 31, 0.08);
+      }
+      .qty-control {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        border: 1px solid rgba(31, 31, 31, 0.1);
+        border-radius: 999px;
+        padding: 6px 12px;
+        background: #fff;
+      }
+      .qty-btn {
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        border: 1px solid rgba(31, 31, 31, 0.15);
+        background: #faf7f2;
+        color: var(--brown);
+        font-weight: 700;
+        line-height: 1;
+      }
+      .qty-value {
+        min-width: 18px;
+        text-align: center;
+        font-weight: 700;
+        color: var(--brown);
+      }
+      .modal-unit {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
       }
       @keyframes modal-scroll {
         0% {
@@ -928,10 +992,10 @@
         <section class="hero-shell">
           <div class="grid md:grid-cols-[1.05fr,0.95fr] gap-12 items-center">
             <div class="space-y-6">
-              <p class="text-xs uppercase tracking-[0.4em] text-[#3A3A3A]">
-                Your new favorites
-              </p>
-              <h1 class="hero-title">Have arrived</h1>
+              <h1 class="hero-title">
+                Your new favorites<br />
+                Have arrived
+              </h1>
               <p class="hero-copy">
                 Designed for those who wear art, not trends. Built for cold
                 streets. Made to live in. Made for you.
@@ -1012,6 +1076,8 @@
                   Brush fleece - red
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2550</p>
+                <p class="availability">Available</p>
+                <p class="availability">Available</p>
                 <div class="flex items-center justify-end">
                   <button
                     onclick="addToCart('Hoodie Special Edition', 2550)"
@@ -1081,6 +1147,7 @@
                   Brush fleece - black
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2600</p>
+                <p class="availability">Available</p>
                 <div class="flex items-center justify-end">
                   <button
                     onclick="addToCart('Hoodie Special Edition - Black', 2600)"
@@ -1150,6 +1217,7 @@
                   Brush fleece - navy
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2650</p>
+                <p class="availability">Available</p>
                 <div class="flex items-center justify-end">
                   <button
                     onclick="addToCart('Back Print Edition', 2650)"
@@ -1297,6 +1365,7 @@
                   Lightweight cotton
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 1555</p>
+                <p class="availability">Available</p>
                 <div class="flex items-center justify-end">
                   <button
                     onclick="addToCart('Cuban Shirt - 004', 1555)"
@@ -1366,6 +1435,7 @@
                   Short sleeve
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 1655</p>
+                <p class="availability">Available</p>
                 <div class="flex items-center justify-end">
                   <button
                     onclick="addToCart('Cuban Shirt - 005', 1655)"
@@ -1435,6 +1505,7 @@
                   Brush fleece - red
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2550</p>
+                <p class="availability">Available</p>
                 <div class="flex items-center justify-end">
                   <button
                     onclick="addToCart('Hoodie Classic', 2550)"
@@ -1504,6 +1575,7 @@
                   Limited available
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 1715</p>
+                <p class="availability">Available</p>
                 <div class="flex items-center justify-end">
                   <button
                     onclick="addToCart('Cuban Shirt - Blu', 1715)"
@@ -1573,6 +1645,7 @@
                   Brush fleece - red
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2535</p>
+                <p class="availability">Available</p>
                 <div class="flex items-center justify-end">
                   <button
                     onclick="addToCart('Hoodie Special Edition - Fleece', 2535)"
@@ -1651,6 +1724,7 @@
                   Brush fleece - red
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2555</p>
+                <p class="availability">Available</p>
                 <div class="flex items-center justify-end">
                   <button
                     onclick="addToCart('Hoodie Special Edition - Top', 2555)"
@@ -1720,6 +1794,7 @@
                   Limited available
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 1555</p>
+                <p class="availability">Available</p>
                 <div class="flex items-center justify-end">
                   <button
                     onclick="addToCart('Cuban Shirt - 004 Top', 1555)"
@@ -2036,6 +2111,15 @@
               <span id="modal-price" class="price-text"></span>
               <span id="modal-offer" class="info-offer"></span>
             </div>
+            <p id="modal-unit" class="modal-unit"></p>
+            <div class="modal-quantity">
+              <span class="info-subtitle">Quantity</span>
+              <div class="qty-control">
+                <button id="qty-minus" class="qty-btn" type="button">-</button>
+                <span id="qty-value" class="qty-value">1</span>
+                <button id="qty-plus" class="qty-btn" type="button">+</button>
+              </div>
+            </div>
             <details class="info-details" open>
               <summary>Product info</summary>
               <ul>
@@ -2112,11 +2196,22 @@
       const cartModalItems = document.getElementById("cart-modal-items");
       const cartModalSubtotal = document.getElementById("cart-modal-subtotal");
 
-      function addToCart(name, price) {
-        cart.push({ name, price });
-        subtotal += price;
+      function getCartCount() {
+        return cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      }
 
-        document.getElementById("cart-badge").innerText = cart.length;
+      function addToCart(name, unitPrice, quantity = 1) {
+        const safeQuantity = Math.max(1, parseInt(quantity, 10) || 1);
+        const linePrice = unitPrice * safeQuantity;
+        cart.push({
+          name,
+          price: linePrice,
+          unitPrice,
+          quantity: safeQuantity,
+        });
+        subtotal += linePrice;
+
+        document.getElementById("cart-badge").innerText = getCartCount();
         renderCartSummary();
         renderCartModal();
         updateCalculations();
@@ -2132,11 +2227,13 @@
         const container = document.getElementById("cart-display");
         container.innerHTML = cart
           .map(
-            (item) =>
-              `<div class="flex justify-between border-b border-dashed border-[#d6c8b4] pb-2 text-sm">
-                    <span>${item.name}</span>
+            (item) => {
+              const qtyLabel = item.quantity > 1 ? ` x${item.quantity}` : "";
+              return `<div class="flex justify-between border-b border-dashed border-[#d6c8b4] pb-2 text-sm">
+                    <span>${item.name}${qtyLabel}</span>
                     <span class="font-semibold price-text">${item.price} Tk</span>
-                </div>`,
+                </div>`;
+            },
           )
           .join("");
       }
@@ -2154,16 +2251,16 @@
           return;
         }
         cartModalItems.innerHTML = cart
-          .map(
-            (item, index) =>
-              `<div class="cart-item">
+          .map((item, index) => {
+            const qtyLabel = item.quantity > 1 ? ` x${item.quantity}` : "";
+            return `<div class="cart-item">
                   <div>
-                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-name">${item.name}${qtyLabel}</div>
                     <div class="cart-item-price price-text">${item.price} Tk</div>
                   </div>
                   <button class="cart-remove" data-index="${index}">Remove</button>
-                </div>`,
-          )
+                </div>`;
+          })
           .join("");
         if (cartModalSubtotal) {
           cartModalSubtotal.textContent = `${subtotal} Tk`;
@@ -2185,7 +2282,7 @@
         }
         const removed = cart.splice(index, 1)[0];
         subtotal = Math.max(0, subtotal - removed.price);
-        document.getElementById("cart-badge").innerText = cart.length;
+        document.getElementById("cart-badge").innerText = getCartCount();
         renderCartSummary();
         renderCartModal();
         updateCalculations();
@@ -2234,7 +2331,7 @@
 
         document.getElementById("final-total-amount").value = total + " Tk";
         document.getElementById("final-cart-items").value = cart
-          .map((i) => i.name)
+          .map((i) => (i.quantity > 1 ? `${i.name} x${i.quantity}` : i.name))
           .join(", ");
       }
 
@@ -2281,11 +2378,18 @@
       const modalSubtitle = document.getElementById("modal-subtitle");
       const modalPrice = document.getElementById("modal-price");
       const modalOffer = document.getElementById("modal-offer");
+      const modalUnit = document.getElementById("modal-unit");
       const modalCotton = document.getElementById("modal-cotton");
       const modalQuality = document.getElementById("modal-quality");
       const modalFabric = document.getElementById("modal-fabric");
       const modalSizechart = document.getElementById("modal-sizechart");
       const modalAdd = document.getElementById("modal-add");
+      const qtyMinus = document.getElementById("qty-minus");
+      const qtyPlus = document.getElementById("qty-plus");
+      const qtyValue = document.getElementById("qty-value");
+      let modalQuantity = 1;
+      let modalUnitPrice = 0;
+      let modalProductName = "";
 
       function buildSlides(images) {
         modalTrack.innerHTML = "";
@@ -2305,6 +2409,15 @@
           }
           modalTrack.appendChild(slide);
         });
+      }
+
+      function updateModalTotals() {
+        const total = modalUnitPrice * modalQuantity;
+        modalPrice.textContent = `BDT ${total}`;
+        modalUnit.textContent = `Unit: BDT ${modalUnitPrice}`;
+        if (qtyValue) {
+          qtyValue.textContent = modalQuantity;
+        }
       }
 
       function openProductModal(card) {
@@ -2328,9 +2441,12 @@
           .map((item) => item.trim())
           .filter(Boolean);
 
-        modalTitle.textContent = name || "Product";
+        modalProductName = name || "Product";
+        modalUnitPrice = numericPrice;
+        modalQuantity = 1;
+
+        modalTitle.textContent = modalProductName;
         modalSubtitle.textContent = subtitle || "";
-        modalPrice.textContent = price || "";
         modalOffer.textContent = offer;
         modalOffer.style.display = offer ? "inline-flex" : "none";
         modalCotton.textContent = `Cotton: ${
@@ -2345,8 +2461,10 @@
         modalSizechart.href = card.dataset.sizechart || "size-chart.jpg";
 
         buildSlides(images);
+        updateModalTotals();
 
-        modalAdd.onclick = () => addToCart(name || "Product", numericPrice);
+        modalAdd.onclick = () =>
+          addToCart(modalProductName, modalUnitPrice, modalQuantity);
         modal.classList.remove("hidden-section");
         modal.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
@@ -2356,6 +2474,24 @@
         modal.classList.add("hidden-section");
         modal.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
+      }
+
+      if (qtyPlus) {
+        qtyPlus.addEventListener("click", (event) => {
+          event.stopPropagation();
+          modalQuantity += 1;
+          updateModalTotals();
+        });
+      }
+
+      if (qtyMinus) {
+        qtyMinus.addEventListener("click", (event) => {
+          event.stopPropagation();
+          if (modalQuantity > 1) {
+            modalQuantity -= 1;
+            updateModalTotals();
+          }
+        });
       }
 
       document.querySelectorAll(".info-card").forEach((card) => {

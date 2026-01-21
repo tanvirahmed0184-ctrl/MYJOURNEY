@@ -319,14 +319,12 @@
         display: block;
       }
       .hero-poster,
-      .product-image,
-      .modal-slide {
+      .product-image {
         position: relative;
         overflow: hidden;
       }
       .hero-poster::after,
-      .product-image::after,
-      .modal-slide::after {
+      .product-image::after {
         content: "";
         position: absolute;
         inset: 0;
@@ -342,14 +340,12 @@
         pointer-events: none;
       }
       .hero-poster.is-loaded::after,
-      .product-image.is-loaded::after,
-      .modal-slide.is-loaded::after {
+      .product-image.is-loaded::after {
         opacity: 0;
         animation: none;
       }
       .hero-poster > *,
-      .product-image > *,
-      .modal-slide > * {
+      .product-image > * {
         position: relative;
         z-index: 1;
       }
@@ -387,9 +383,12 @@
         background: linear-gradient(150deg, #d9cbb3, #f5ecdf);
         display: flex;
         align-items: flex-end;
-        padding: 6px;
+        padding: 0;
         position: relative;
         overflow: hidden;
+      }
+      .product-image > span:first-of-type {
+        margin: 10px;
       }
       .product-card > .mt-4 {
         margin-top: 8px;
@@ -661,6 +660,15 @@
         align-items: center;
         padding: 14px;
         animation: modal-scroll 26s linear infinite;
+        cursor: grab;
+        user-select: none;
+        touch-action: pan-x;
+      }
+      .modal-track.is-dragging {
+        cursor: grabbing;
+      }
+      .modal-track.is-liquid {
+        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
       }
       .modal-slide {
         width: clamp(240px, 45vw, 380px);
@@ -2614,6 +2622,18 @@
       let modalQuantity = 1;
       let modalUnitPrice = 0;
       let modalProductName = "";
+      let isModalDragging = false;
+      let modalDragStartX = 0;
+      let modalDragStartTranslate = 0;
+
+      function getTranslateX(element) {
+        const style = window.getComputedStyle(element);
+        if (!style || style.transform === "none") {
+          return 0;
+        }
+        const matrix = new DOMMatrixReadOnly(style.transform);
+        return matrix.m41 || 0;
+      }
 
       function buildSlides(images) {
         modalTrack.innerHTML = "";
@@ -2666,6 +2686,45 @@
         if (qtyValue) {
           qtyValue.textContent = modalQuantity;
         }
+      }
+
+      function onModalDragStart(event) {
+        if (!modalTrack) {
+          return;
+        }
+        isModalDragging = true;
+        modalTrack.setPointerCapture(event.pointerId);
+        modalTrack.classList.add("is-dragging");
+        modalTrack.classList.remove("is-liquid");
+        modalTrack.style.animationPlayState = "paused";
+        modalDragStartX = event.clientX;
+        modalDragStartTranslate = getTranslateX(modalTrack);
+      }
+
+      function onModalDragMove(event) {
+        if (!isModalDragging || !modalTrack) {
+          return;
+        }
+        const delta = event.clientX - modalDragStartX;
+        modalTrack.style.transform = `translateX(${
+          modalDragStartTranslate + delta
+        }px)`;
+      }
+
+      function onModalDragEnd(event) {
+        if (!isModalDragging || !modalTrack) {
+          return;
+        }
+        isModalDragging = false;
+        modalTrack.releasePointerCapture(event.pointerId);
+        modalTrack.classList.remove("is-dragging");
+        modalTrack.classList.add("is-liquid");
+        modalTrack.style.transform = `translateX(${modalDragStartTranslate}px)`;
+        setTimeout(() => {
+          modalTrack.classList.remove("is-liquid");
+          modalTrack.style.transform = "";
+          modalTrack.style.animationPlayState = "running";
+        }, 450);
       }
 
       function openProductModal(card) {
@@ -2734,6 +2793,13 @@
             updateModalTotals();
           }
         });
+      }
+
+      if (modalTrack) {
+        modalTrack.addEventListener("pointerdown", onModalDragStart);
+        modalTrack.addEventListener("pointermove", onModalDragMove);
+        modalTrack.addEventListener("pointerup", onModalDragEnd);
+        modalTrack.addEventListener("pointercancel", onModalDragEnd);
       }
 
       document.querySelectorAll(".info-card").forEach((card) => {

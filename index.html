@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accolade.clo | Checkout Funnel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap");
+      :root {
+        --sand: #f3efe6;
+        --sand-strong: #efe4d7;
+        --cream: #fbf8f1;
+        --brown: #6b5e45;
+        --brown-dark: #5a4d39;
+        --accent: #c9b08a;
+        --accent-dark: #b59564;
+        --muted: #7a6b56;
+        --card-border: #e4d8c6;
+        --shadow: 0 18px 45px rgba(30, 24, 14, 0.14);
+        --shadow-soft: 0 10px 28px rgba(30, 24, 14, 0.08);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--sand);
+        color: #1f1b16;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      a {
+        color: inherit;
+      }
+      .hidden-section {
+        display: none;
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+      }
+      .nav-link {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        color: var(--brown);
+      }
+      .icon-button {
+        width: 38px;
+        height: 38px;
+        border-radius: 999px;
+        border: 1px solid var(--card-border);
+        background: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--brown);
+        transition: all 0.2s ease;
+      }
+      .icon-button:hover {
+        border-color: var(--brown);
+      }
+      .brand-mark {
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        border: 2px solid var(--brown);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--brown);
+      }
+      .cart-badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background: #c4342f;
+        color: #fff;
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero-shell {
+        background: var(--sand-strong);
+        border-radius: 32px;
+        padding: 28px;
+        box-shadow: var(--shadow-soft);
+      }
+      .hero-title {
+        font-size: clamp(2.6rem, 4.5vw, 4.8rem);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: -0.04em;
+        line-height: 1.05;
+      }
+      .hero-copy {
+        color: var(--muted);
+        font-size: 15px;
+        max-width: 440px;
+      }
+      .btn-primary {
+        background: var(--brown);
+        color: #fff;
+        padding: 12px 30px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.25em;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s ease;
+      }
+      .btn-primary:hover {
+        background: var(--brown-dark);
+      }
+      .btn-outline {
+        border: 1px solid var(--brown);
+        color: var(--brown);
+        padding: 12px 28px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .section-title {
+        font-size: 22px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--brown);
+      }
+      .section-tag {
+        background: var(--accent);
+        color: #2a2217;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+      }
+      .section-tag-outline {
+        border: 1px solid var(--accent-dark);
+        color: var(--brown);
+        background: transparent;
+      }
+      .collage {
+        position: relative;
+        height: 320px;
+      }
+      .collage-card {
+        position: absolute;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #d6c5b0, #f7efe3);
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow-soft);
+        display: flex;
+        align-items: flex-end;
+        padding: 14px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--brown);
+      }
+      .collage-card span {
+        background: rgba(255, 255, 255, 0.7);
+        padding: 6px 12px;
+        border-radius: 999px;
+      }
+      .collage-card.one {
+        width: 55%;
+        height: 72%;
+        top: 0;
+        left: 0;
+        transform: rotate(-4deg);
+      }
+      .collage-card.two {
+        width: 50%;
+        height: 65%;
+        top: 18%;
+        right: 0;
+        transform: rotate(6deg);
+      }
+      .collage-card.three {
+        width: 52%;
+        height: 70%;
+        bottom: 0;
+        left: 18%;
+        transform: rotate(-1deg);
+      }
+      .collection-card {
+        background: var(--cream);
+        border-radius: 26px;
+        border: 1px solid var(--card-border);
+        padding: 16px;
+        box-shadow: var(--shadow-soft);
+        display: grid;
+        gap: 16px;
+      }
+      .collection-image {
+        height: 320px;
+        border-radius: 20px;
+        background: linear-gradient(160deg, #c9b08a, #f8efe2);
+        position: relative;
+        overflow: hidden;
+      }
+      .collection-image span {
+        position: absolute;
+        bottom: 16px;
+        left: 16px;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--brown);
+      }
+      .product-card {
+        background: #fffaf3;
+        border-radius: 20px;
+        border: 1px solid var(--card-border);
+        padding: 14px;
+        box-shadow: var(--shadow-soft);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
+      }
+      .product-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
+      }
+      .product-image {
+        height: 210px;
+        border-radius: 18px;
+        background: linear-gradient(150deg, #d9cbb3, #f5ecdf);
+        display: flex;
+        align-items: flex-end;
+        padding: 12px;
+        position: relative;
+        overflow: hidden;
+      }
+      .product-image span {
+        background: rgba(255, 255, 255, 0.85);
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 10px;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: var(--brown);
+      }
+      .badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: #c4342f;
+        color: #fff;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        padding: 4px 8px;
+        border-radius: 999px;
+      }
+      .badge.secondary {
+        background: #b28b48;
+      }
+      .add-btn {
+        background: var(--brown);
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        padding: 8px 14px;
+        border-radius: 999px;
+        transition: all 0.2s ease;
+      }
+      .add-btn:hover {
+        background: var(--brown-dark);
+      }
+      .summary-card,
+      .panel-card {
+        background: #fffaf3;
+        border-radius: 20px;
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow-soft);
+      }
+      .form-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+      }
+      .form-input {
+        width: 100%;
+        background: transparent;
+        border-bottom: 2px solid var(--card-border);
+        padding: 10px 0;
+        font-weight: 600;
+        outline: none;
+      }
+      .form-input:focus {
+        border-color: var(--brown);
+      }
+      .footer-card {
+        background: var(--brown);
+        color: #fff;
+        border-radius: 26px;
+      }
+    </style>
+  </head>
+  <body id="top" class="text-[#1f1b16]">
+    <nav class="max-w-6xl mx-auto px-4 md:px-6 py-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="brand-mark">
+          <i class="fas fa-asterisk"></i>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.4em] text-[#7a6b56]">
+            Accolade
+          </p>
+          <p class="text-lg font-black uppercase tracking-[0.2em]">Accolade.clo</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <a class="nav-link hidden sm:inline-flex" href="#featured-products"
+          >Explore</a
+        >
+        <button class="icon-button" aria-label="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <button class="icon-button" aria-label="Account">
+          <i class="fas fa-user"></i>
+        </button>
+        <div class="relative">
+          <button class="icon-button" aria-label="Cart">
+            <i class="fas fa-shopping-bag"></i>
+          </button>
+          <span id="cart-badge" class="cart-badge">0</span>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 md:px-6 pb-16">
+      <div id="step-products" class="space-y-14 pt-8 md:pt-12">
+        <section class="hero-shell">
+          <div class="grid md:grid-cols-[1.05fr,0.95fr] gap-10 items-center">
+            <div class="space-y-6">
+              <p class="text-xs uppercase tracking-[0.4em] text-[#7a6b56]">
+                Your new favorites
+              </p>
+              <h1 class="hero-title">Have arrived</h1>
+              <p class="hero-copy">
+                Designed for those who wear art, not trends. Built for cold
+                streets. Made to live in. Made for you.
+              </p>
+              <div class="flex flex-wrap gap-4">
+                <a class="btn-primary" href="#featured-products">
+                  Explore now <i class="fas fa-arrow-right text-xs"></i>
+                </a>
+                <a class="btn-outline" href="#master-form">Start checkout</a>
+              </div>
+            </div>
+            <div class="collage">
+              <div class="collage-card one">
+                <span>Hero image 01</span>
+              </div>
+              <div class="collage-card two">
+                <span>Hero image 02</span>
+              </div>
+              <div class="collage-card three">
+                <span>Hero image 03</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid md:grid-cols-2 gap-6">
+          <article class="collection-card">
+            <div class="collection-image">
+              <span>New collection</span>
+            </div>
+            <div class="flex items-end justify-between gap-4">
+              <div>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  New collection
+                </p>
+                <h3 class="text-xl font-black uppercase tracking-wide">
+                  Brush fleece
+                </h3>
+                <p class="text-sm text-[#7a6b56] mt-1">BDT 2800</p>
+              </div>
+              <button
+                onclick="addToCart('Brush Fleece', 2800)"
+                class="add-btn"
+              >
+                Add
+              </button>
+            </div>
+          </article>
+          <article class="collection-card">
+            <div class="collection-image">
+              <span>New collection</span>
+            </div>
+            <div class="flex items-end justify-between gap-4">
+              <div>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  New collection
+                </p>
+                <h3 class="text-xl font-black uppercase tracking-wide">
+                  Shadow cactus
+                </h3>
+                <p class="text-sm text-[#7a6b56] mt-1">BDT 2650</p>
+              </div>
+              <button
+                onclick="addToCart('Shadow Cactus', 2650)"
+                class="add-btn"
+              >
+                Add
+              </button>
+            </div>
+          </article>
+        </section>
+
+        <section id="featured-products" class="space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <h2 class="section-title">Featured products</h2>
+            <span class="section-tag">New winter collection</span>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="product-card">
+              <div class="product-image">
+                <span>Hoodie special</span>
+                <span class="badge">Limited</span>
+              </div>
+              <div class="mt-4 space-y-2">
+                <h3 class="font-bold text-sm uppercase tracking-wider">
+                  Hoodie special edition
+                </h3>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  Brush fleece - red
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold">BDT 2550</span>
+                  <button
+                    onclick="addToCart('Hoodie Special Edition', 2550)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-image">
+                <span>Brush fleece</span>
+                <span class="badge">Limited</span>
+              </div>
+              <div class="mt-4 space-y-2">
+                <h3 class="font-bold text-sm uppercase tracking-wider">
+                  Hoodie special edition
+                </h3>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  Brush fleece - black
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold">BDT 2600</span>
+                  <button
+                    onclick="addToCart('Hoodie Special Edition - Black', 2600)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-image">
+                <span>Back print</span>
+                <span class="badge secondary">New</span>
+              </div>
+              <div class="mt-4 space-y-2">
+                <h3 class="font-bold text-sm uppercase tracking-wider">
+                  Back print edition
+                </h3>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  Brush fleece - navy
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold">BDT 2650</span>
+                  <button
+                    onclick="addToCart('Back Print Edition', 2650)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="all-categories" class="space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <h2 class="section-title">All categories</h2>
+            <span class="section-tag section-tag-outline">All categories</span>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="product-card">
+              <div class="product-image">
+                <span>Street hoodie</span>
+                <span class="badge">Limited</span>
+              </div>
+              <div class="mt-4 space-y-2">
+                <h3 class="font-bold text-sm uppercase tracking-wider">
+                  Hoodie special edition
+                </h3>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  Brush fleece - red
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold">BDT 2550</span>
+                  <button
+                    onclick="addToCart('Hoodie Special Edition - Red', 2550)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-image">
+                <span>Cuban shirt</span>
+                <span class="badge secondary">15% off</span>
+              </div>
+              <div class="mt-4 space-y-2">
+                <h3 class="font-bold text-sm uppercase tracking-wider">
+                  Cuban shirt - 004
+                </h3>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  Lightweight cotton
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold">BDT 1555</span>
+                  <button
+                    onclick="addToCart('Cuban Shirt - 004', 1555)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-image">
+                <span>Summer set</span>
+                <span class="badge secondary">15% off</span>
+              </div>
+              <div class="mt-4 space-y-2">
+                <h3 class="font-bold text-sm uppercase tracking-wider">
+                  Cuban shirt - 005
+                </h3>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  Short sleeve
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold">BDT 1655</span>
+                  <button
+                    onclick="addToCart('Cuban Shirt - 005', 1655)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-image">
+                <span>Hoodie classic</span>
+                <span class="badge">Limited</span>
+              </div>
+              <div class="mt-4 space-y-2">
+                <h3 class="font-bold text-sm uppercase tracking-wider">
+                  Hoodie special edition
+                </h3>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  Brush fleece - red
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold">BDT 2550</span>
+                  <button
+                    onclick="addToCart('Hoodie Classic', 2550)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-image">
+                <span>Cuban shirt</span>
+                <span class="badge secondary">15% off</span>
+              </div>
+              <div class="mt-4 space-y-2">
+                <h3 class="font-bold text-sm uppercase tracking-wider">
+                  Cuban shirt - blu
+                </h3>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  Limited available
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold">BDT 1715</span>
+                  <button
+                    onclick="addToCart('Cuban Shirt - Blu', 1715)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-image">
+                <span>Brush fleece</span>
+                <span class="badge">Limited</span>
+              </div>
+              <div class="mt-4 space-y-2">
+                <h3 class="font-bold text-sm uppercase tracking-wider">
+                  Hoodie special edition
+                </h3>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  Brush fleece - red
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold">BDT 2535</span>
+                  <button
+                    onclick="addToCart('Hoodie Special Edition - Fleece', 2535)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="top-rated" class="space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <h2 class="section-title">Top rated</h2>
+            <span class="section-tag">Top rated</span>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="product-card">
+              <div class="product-image">
+                <span>Brush fleece</span>
+                <span class="badge">Limited</span>
+              </div>
+              <div class="mt-4 space-y-2">
+                <h3 class="font-bold text-sm uppercase tracking-wider">
+                  Hoodie special edition
+                </h3>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  Brush fleece - red
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold">BDT 2555</span>
+                  <button
+                    onclick="addToCart('Hoodie Special Edition - Top', 2555)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-image">
+                <span>Cuban shirt</span>
+                <span class="badge secondary">15% off</span>
+              </div>
+              <div class="mt-4 space-y-2">
+                <h3 class="font-bold text-sm uppercase tracking-wider">
+                  Cuban shirt - 004
+                </h3>
+                <p class="text-xs uppercase tracking-[0.3em] text-[#7a6b56]">
+                  Limited available
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold">BDT 1555</span>
+                  <button
+                    onclick="addToCart('Cuban Shirt - 004 Top', 1555)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="flex justify-center pt-6">
+          <a class="btn-primary" href="#master-form">
+            Grab now <i class="fas fa-arrow-up"></i>
+          </a>
+        </div>
+      </div>
+
+      <form
+        id="master-form"
+        action="https://formsubmit.co/tanvir.ahmed0184@gmail.com"
+        method="POST"
+        class="hidden-section mt-14 max-w-5xl mx-auto"
+      >
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_subject" value="New Accolade Order!" />
+        <input type="hidden" name="_template" value="table" />
+
+        <input type="hidden" id="final-cart-items" name="Cart Items" />
+        <input type="hidden" id="final-total-amount" name="Total Amount" />
+
+        <div class="flex flex-col md:flex-row gap-8">
+          <div class="w-full md:w-1/3 order-1 md:order-2">
+            <div class="summary-card p-6 sticky top-6">
+              <h3 class="text-lg font-black uppercase tracking-widest mb-4">
+                Order summary
+              </h3>
+              <div
+                id="cart-display"
+                class="text-sm space-y-3 mb-4 text-[#6f5f4c]"
+              ></div>
+
+              <div class="space-y-2 border-t border-dashed border-[#d6c8b4] pt-4 text-sm font-medium">
+                <div class="flex justify-between">
+                  <span>Subtotal</span>
+                  <span id="display-subtotal">0 Tk</span>
+                </div>
+                <div class="flex justify-between text-[#6b5e45]">
+                  <span>Delivery fee</span>
+                  <span id="display-delivery">0 Tk</span>
+                </div>
+                <div
+                  class="flex justify-between text-lg font-black pt-2 border-t border-dashed border-[#d6c8b4] mt-2"
+                >
+                  <span>Total</span>
+                  <span id="display-total">0 Tk</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-full md:w-2/3 order-2 md:order-1 space-y-6">
+            <div id="step-shipping" class="panel-card p-8 fade-in">
+              <h2 class="text-xl font-black uppercase mb-6 tracking-widest">
+                1. Shipping details
+              </h2>
+
+              <div class="grid grid-cols-1 gap-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="form-label">Name</label>
+                    <input
+                      type="text"
+                      name="Customer Name"
+                      id="inp-name"
+                      required
+                      class="form-input"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div>
+                    <label class="form-label">Phone</label>
+                    <input
+                      type="tel"
+                      name="Phone Number"
+                      id="inp-phone"
+                      required
+                      class="form-input"
+                      placeholder="017XXXXXXXX"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="form-label">Address</label>
+                  <textarea
+                    name="Address"
+                    id="inp-address"
+                    required
+                    rows="2"
+                    class="form-input resize-none"
+                    placeholder="House, road, area..."
+                  ></textarea>
+                </div>
+
+                <div>
+                  <label class="form-label">City (delivery fee)</label>
+                  <select
+                    name="City"
+                    id="city-selector"
+                    class="w-full bg-transparent border-b-2 border-[#d6c8b4] py-3 px-2 focus:outline-none focus:border-[#6b5e45] font-semibold mt-1"
+                    onchange="updateCalculations()"
+                  >
+                    <option value="Dhaka">Dhaka City (80 Tk)</option>
+                    <option value="Outside">Outside Dhaka (130 Tk)</option>
+                  </select>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onclick="goToPayment()"
+                class="btn-primary w-full justify-center mt-8"
+              >
+                Proceed to payment <i class="fas fa-arrow-right text-xs"></i>
+              </button>
+            </div>
+
+            <div
+              id="step-payment"
+              class="hidden-section panel-card p-8 fade-in"
+            >
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-black uppercase tracking-widest">
+                  2. Payment
+                </h2>
+                <button
+                  type="button"
+                  onclick="backToShipping()"
+                  class="text-xs underline text-[#7a6b56]"
+                >
+                  Edit shipping
+                </button>
+              </div>
+
+              <div
+                class="bg-[#e2136e] text-white p-6 rounded-xl mb-6 text-center relative overflow-hidden"
+              >
+                <div
+                  class="absolute -top-10 -left-10 w-32 h-32 bg-white opacity-10 rounded-full"
+                ></div>
+                <p class="text-sm font-medium opacity-90 mb-1">
+                  Bkash personal number
+                </p>
+                <h3 class="text-3xl font-bold tracking-widest mb-2 select-all">
+                  017XXXXXXXX
+                </h3>
+                <p class="text-xs opacity-80">
+                  Send money (personal) - Reference: your name
+                </p>
+              </div>
+
+              <div class="space-y-5">
+                <div>
+                  <label class="form-label">Bkash transaction ID</label>
+                  <input
+                    type="text"
+                    name="Transaction ID"
+                    required
+                    class="w-full border-2 border-[#eadfce] rounded-lg py-3 px-4 focus:outline-none focus:border-[#e2136e] font-bold text-lg bg-white"
+                    placeholder="Example: 9H5SK..."
+                  />
+                </div>
+                <div>
+                  <label class="form-label">Last 3 digits</label>
+                  <input
+                    type="number"
+                    name="Last 3 Digits"
+                    required
+                    class="w-full border-2 border-[#eadfce] rounded-lg py-3 px-4 focus:outline-none focus:border-[#e2136e] font-bold text-lg bg-white"
+                    placeholder="123"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                id="final-btn"
+                class="w-full bg-[#e2136e] text-white py-4 rounded-xl font-bold uppercase tracking-widest mt-8 hover:bg-[#c20b5a] transition shadow-lg"
+              >
+                Confirm order
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div id="step-success" class="hidden-section text-center py-20 fade-in">
+        <div
+          class="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-xl"
+        >
+          <i class="fas fa-check"></i>
+        </div>
+        <h2 class="text-3xl font-black uppercase mb-4">Order received</h2>
+        <p class="text-[#7a6b56] max-w-md mx-auto mb-8">
+          We have received your details and payment info. We will call you
+          shortly to confirm.
+        </p>
+        <button
+          onclick="location.reload()"
+          class="btn-primary justify-center"
+        >
+          Shop more
+        </button>
+      </div>
+    </main>
+
+    <footer class="max-w-6xl mx-auto px-4 md:px-6 pb-12">
+      <div class="footer-card px-6 py-10 md:px-10 md:py-12">
+        <div class="grid md:grid-cols-2 gap-8 text-sm">
+          <div class="space-y-4">
+            <h3 class="text-lg font-bold uppercase tracking-widest">
+              Who we are
+            </h3>
+            <div class="space-y-2 text-xs uppercase tracking-[0.2em]">
+              <p>Email: runofdesigns@gmail.com</p>
+              <p>Address: Banani, Dhaka-1207</p>
+              <p>Phone: 0961-502253</p>
+            </div>
+            <div class="space-y-2">
+              <p class="text-xs uppercase tracking-[0.2em]">
+                Check us out on
+              </p>
+              <div class="flex items-center gap-4 text-lg">
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-youtube"></i>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-4 md:text-right">
+            <p class="text-xs uppercase tracking-[0.2em]">Help?</p>
+            <p class="text-xs opacity-80 leading-relaxed">
+              DM us for sizing, delivery timelines, or bulk orders. We reply
+              within 24 hours.
+            </p>
+          </div>
+        </div>
+        <div
+          class="border-t border-white/20 mt-8 pt-6 text-center text-[11px] uppercase tracking-[0.3em]"
+        >
+          Copyright 2026 Accolade.clo. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      let cart = [];
+      let subtotal = 0;
+
+      function addToCart(name, price) {
+        cart.push({ name, price });
+        subtotal += price;
+
+        document.getElementById("cart-badge").innerText = cart.length;
+        renderCartSummary();
+        updateCalculations();
+
+        const formContainer = document.getElementById("master-form");
+        if (formContainer.classList.contains("hidden-section")) {
+          formContainer.classList.remove("hidden-section");
+          formContainer.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+
+      function renderCartSummary() {
+        const container = document.getElementById("cart-display");
+        container.innerHTML = cart
+          .map(
+            (item) =>
+              `<div class="flex justify-between border-b border-dashed border-[#d6c8b4] pb-2 text-sm">
+                    <span>${item.name}</span>
+                    <span class="font-semibold">${item.price} Tk</span>
+                </div>`,
+          )
+          .join("");
+      }
+
+      function updateCalculations() {
+        const city = document.getElementById("city-selector").value;
+        const deliveryFee = city === "Dhaka" ? 80 : 130;
+        const total = subtotal + deliveryFee;
+
+        document.getElementById("display-subtotal").innerText =
+          subtotal + " Tk";
+        document.getElementById("display-delivery").innerText =
+          deliveryFee + " Tk";
+        document.getElementById("display-total").innerText = total + " Tk";
+
+        document.getElementById("final-total-amount").value = total + " Tk";
+        document.getElementById("final-cart-items").value = cart
+          .map((i) => i.name)
+          .join(", ");
+      }
+
+      function goToPayment() {
+        const name = document.getElementById("inp-name").value;
+        const phone = document.getElementById("inp-phone").value;
+        const address = document.getElementById("inp-address").value;
+
+        if (!name || !phone || !address || cart.length === 0) {
+          alert("Please fill all shipping details and add items to cart.");
+          return;
+        }
+
+        document.getElementById("step-shipping").classList.add("hidden-section");
+        document
+          .getElementById("step-payment")
+          .classList.remove("hidden-section");
+        document.getElementById("step-products").classList.add("hidden-section");
+
+        window.scrollTo(0, 0);
+      }
+
+      function backToShipping() {
+        document.getElementById("step-payment").classList.add("hidden-section");
+        document
+          .getElementById("step-shipping")
+          .classList.remove("hidden-section");
+      }
+
+      const form = document.getElementById("master-form");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const btn = document.getElementById("final-btn");
+        btn.innerText = "Verifying...";
+        btn.disabled = true;
+
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+          method: "POST",
+          body: formData,
+        })
+          .then(() => {
+            document.getElementById("master-form").classList.add("hidden-section");
+            document.getElementById("step-success").classList.remove("hidden-section");
+            window.scrollTo(0, 0);
+          })
+          .catch(() => {
+            alert("Network error. Please try again.");
+            btn.innerText = "Confirm order";
+            btn.disabled = false;
+          });
+      });
+    </script>
+  </body>
+</html>

@@ -388,18 +388,13 @@
         position: relative;
         overflow: hidden;
       }
-      .product-image > span:first-of-type {
-        position: absolute;
-        left: 10px;
-        bottom: 10px;
-      }
       .product-card > .mt-4 {
         margin-top: 8px;
       }
       .product-card .space-y-2 > :not([hidden]) ~ :not([hidden]) {
         margin-top: 0.35rem;
       }
-      .product-image span {
+      .product-image .label-chip {
         background: rgba(255, 255, 255, 0.85);
         padding: 6px 12px;
         border-radius: 999px;
@@ -408,7 +403,9 @@
         font-weight: 700;
         letter-spacing: 0.2em;
         color: var(--muted);
-        position: relative;
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
         z-index: 2;
       }
       .product-image img {
@@ -1234,7 +1231,7 @@
             >
               <div class="product-image">
                 <img src="" alt="Hoodie special" loading="lazy" />
-                <span>Hoodie special</span>
+                <span class="label-chip">Hoodie special</span>
                 <span class="badge">Limited</span>
               </div>
               <div class="mt-4 space-y-2">
@@ -1305,7 +1302,7 @@
             >
               <div class="product-image">
                 <img src="" alt="Brush fleece" loading="lazy" />
-                <span>Brush fleece</span>
+                <span class="label-chip">Brush fleece</span>
                 <span class="badge">Limited</span>
               </div>
               <div class="mt-4 space-y-2">
@@ -1376,7 +1373,7 @@
             >
               <div class="product-image">
                 <img src="" alt="Back print" loading="lazy" />
-                <span>Back print</span>
+                <span class="label-chip">Back print</span>
                 <span class="badge secondary">New</span>
               </div>
               <div class="mt-4 space-y-2">
@@ -1456,7 +1453,7 @@
             >
               <div class="product-image">
                 <img src="" alt="Street hoodie" loading="lazy" />
-                <span>Street hoodie</span>
+                <span class="label-chip">Street hoodie</span>
                 <span class="badge">Limited</span>
               </div>
               <div class="mt-4 space-y-2">
@@ -1527,7 +1524,7 @@
             >
               <div class="product-image">
                 <img src="" alt="Cuban shirt 004" loading="lazy" />
-                <span>Cuban shirt</span>
+                <span class="label-chip">Cuban shirt</span>
                 <span class="badge secondary">15% off</span>
               </div>
               <div class="mt-4 space-y-2">
@@ -1598,7 +1595,7 @@
             >
               <div class="product-image">
                 <img src="" alt="Cuban shirt 005" loading="lazy" />
-                <span>Summer set</span>
+                <span class="label-chip">Summer set</span>
                 <span class="badge secondary">15% off</span>
               </div>
               <div class="mt-4 space-y-2">
@@ -1669,7 +1666,7 @@
             >
               <div class="product-image">
                 <img src="" alt="Hoodie classic" loading="lazy" />
-                <span>Hoodie classic</span>
+                <span class="label-chip">Hoodie classic</span>
                 <span class="badge">Limited</span>
               </div>
               <div class="mt-4 space-y-2">
@@ -1740,7 +1737,7 @@
             >
               <div class="product-image">
                 <img src="" alt="Cuban shirt blu" loading="lazy" />
-                <span>Cuban shirt</span>
+                <span class="label-chip">Cuban shirt</span>
                 <span class="badge secondary">15% off</span>
               </div>
               <div class="mt-4 space-y-2">
@@ -1811,7 +1808,7 @@
             >
               <div class="product-image">
                 <img src="" alt="Hoodie special fleece" loading="lazy" />
-                <span>Brush fleece</span>
+                <span class="label-chip">Brush fleece</span>
                 <span class="badge">Limited</span>
               </div>
               <div class="mt-4 space-y-2">
@@ -1891,7 +1888,7 @@
             >
               <div class="product-image">
                 <img src="" alt="Top rated hoodie" loading="lazy" />
-                <span>Brush fleece</span>
+                <span class="label-chip">Brush fleece</span>
                 <span class="badge">Limited</span>
               </div>
               <div class="mt-4 space-y-2">
@@ -1962,7 +1959,7 @@
             >
               <div class="product-image">
                 <img src="" alt="Top rated cuban shirt" loading="lazy" />
-                <span>Cuban shirt</span>
+                <span class="label-chip">Cuban shirt</span>
                 <span class="badge secondary">15% off</span>
               </div>
               <div class="mt-4 space-y-2">

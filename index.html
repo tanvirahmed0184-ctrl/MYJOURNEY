@@ -298,6 +298,49 @@
         object-fit: cover;
         display: block;
       }
+      .hero-poster,
+      .product-image,
+      .modal-slide {
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-poster::after,
+      .product-image::after,
+      .modal-slide::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          110deg,
+          rgba(255, 255, 255, 0.15) 0%,
+          rgba(255, 255, 255, 0.6) 45%,
+          rgba(255, 255, 255, 0.15) 100%
+        );
+        background-size: 200% 100%;
+        animation: glassy-shimmer 1.6s ease-in-out infinite;
+        opacity: 0.55;
+        pointer-events: none;
+      }
+      .hero-poster.is-loaded::after,
+      .product-image.is-loaded::after,
+      .modal-slide.is-loaded::after {
+        opacity: 0;
+        animation: none;
+      }
+      .hero-poster > *,
+      .product-image > *,
+      .modal-slide > * {
+        position: relative;
+        z-index: 1;
+      }
+      @keyframes glassy-shimmer {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
       .info-card {
         position: relative;
         cursor: pointer;
@@ -1076,9 +1119,8 @@
                   Brush fleece - red
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2550</p>
-                <p class="availability">Available</p>
-                <p class="availability">Available</p>
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end gap-3">
+                  <span class="availability">Available</span>
                   <button
                     onclick="addToCart('Hoodie Special Edition', 2550)"
                     class="add-btn"
@@ -1147,8 +1189,8 @@
                   Brush fleece - black
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2600</p>
-                <p class="availability">Available</p>
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end gap-3">
+                  <span class="availability">Available</span>
                   <button
                     onclick="addToCart('Hoodie Special Edition - Black', 2600)"
                     class="add-btn"
@@ -1217,8 +1259,8 @@
                   Brush fleece - navy
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2650</p>
-                <p class="availability">Available</p>
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end gap-3">
+                  <span class="availability">Available</span>
                   <button
                     onclick="addToCart('Back Print Edition', 2650)"
                     class="add-btn"
@@ -1296,7 +1338,8 @@
                   Brush fleece - red
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2550</p>
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end gap-3">
+                  <span class="availability">Available</span>
                   <button
                     onclick="addToCart('Hoodie Special Edition - Red', 2550)"
                     class="add-btn"
@@ -1365,8 +1408,8 @@
                   Lightweight cotton
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 1555</p>
-                <p class="availability">Available</p>
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end gap-3">
+                  <span class="availability">Available</span>
                   <button
                     onclick="addToCart('Cuban Shirt - 004', 1555)"
                     class="add-btn"
@@ -1435,8 +1478,8 @@
                   Short sleeve
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 1655</p>
-                <p class="availability">Available</p>
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end gap-3">
+                  <span class="availability">Available</span>
                   <button
                     onclick="addToCart('Cuban Shirt - 005', 1655)"
                     class="add-btn"
@@ -1505,8 +1548,8 @@
                   Brush fleece - red
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2550</p>
-                <p class="availability">Available</p>
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end gap-3">
+                  <span class="availability">Available</span>
                   <button
                     onclick="addToCart('Hoodie Classic', 2550)"
                     class="add-btn"
@@ -1575,8 +1618,8 @@
                   Limited available
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 1715</p>
-                <p class="availability">Available</p>
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end gap-3">
+                  <span class="availability">Available</span>
                   <button
                     onclick="addToCart('Cuban Shirt - Blu', 1715)"
                     class="add-btn"
@@ -1645,8 +1688,8 @@
                   Brush fleece - red
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2535</p>
-                <p class="availability">Available</p>
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end gap-3">
+                  <span class="availability">Available</span>
                   <button
                     onclick="addToCart('Hoodie Special Edition - Fleece', 2535)"
                     class="add-btn"
@@ -1724,8 +1767,8 @@
                   Brush fleece - red
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 2555</p>
-                <p class="availability">Available</p>
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end gap-3">
+                  <span class="availability">Available</span>
                   <button
                     onclick="addToCart('Hoodie Special Edition - Top', 2555)"
                     class="add-btn"
@@ -1794,8 +1837,8 @@
                   Limited available
                 </p>
                 <p class="text-sm font-semibold price-text">BDT 1555</p>
-                <p class="availability">Available</p>
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end gap-3">
+                  <span class="availability">Available</span>
                   <button
                     onclick="addToCart('Cuban Shirt - 004 Top', 1555)"
                     class="add-btn"
@@ -2020,6 +2063,9 @@
               </div>
 
               <div class="space-y-5">
+                <p class="text-xs uppercase tracking-[0.2em] text-[#3A3A3A]">
+                  Please pay Delivery Charge to confirm your order.
+                </p>
                 <div>
                   <label class="form-label">Bkash transaction ID</label>
                   <input
@@ -2166,9 +2212,33 @@
                 Check us out on
               </p>
               <div class="flex items-center gap-4 text-lg">
-                <i class="fab fa-instagram"></i>
-                <i class="fab fa-facebook"></i>
-                <i class="fab fa-youtube"></i>
+                <a
+                  href="https://www.instagram.com/"
+                  aria-label="Instagram"
+                  class="hover:opacity-80"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a
+                  href="https://www.facebook.com/"
+                  aria-label="Facebook"
+                  class="hover:opacity-80"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i class="fab fa-facebook"></i>
+                </a>
+                <a
+                  href="https://www.youtube.com/"
+                  aria-label="YouTube"
+                  class="hover:opacity-80"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i class="fab fa-youtube"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -2318,6 +2388,8 @@
         });
       }
 
+      attachImageLoaders();
+
       function updateCalculations() {
         const city = document.getElementById("city-selector").value;
         const deliveryFee = city === "Dhaka" ? 80 : 130;
@@ -2409,6 +2481,30 @@
           }
           modalTrack.appendChild(slide);
         });
+        attachImageLoaders(modalTrack);
+      }
+
+      function attachImageLoaders(scope = document) {
+        scope
+          .querySelectorAll(".hero-poster, .product-image, .modal-slide")
+          .forEach((frame) => {
+            const img = frame.querySelector("img");
+            if (!img) {
+              frame.classList.add("is-loaded");
+              return;
+            }
+            if (img.complete) {
+              frame.classList.add("is-loaded");
+            } else {
+              img.addEventListener(
+                "load",
+                () => frame.classList.add("is-loaded"),
+                {
+                  once: true,
+                },
+              );
+            }
+          });
       }
 
       function updateModalTotals() {

@@ -27,6 +27,8 @@
         --button-hover-text: #faf7f2;
         --badge: #c4342f;
         --card-border: #e6ddd1;
+        --header-footer: #7a6a4f;
+        --header-height: 86px;
         --shadow: 0 18px 45px rgba(30, 24, 14, 0.14);
         --shadow-soft: 0 10px 28px rgba(30, 24, 14, 0.08);
       }
@@ -37,6 +39,7 @@
         font-family: "Inter", sans-serif;
         background-color: var(--sand);
         color: var(--brown);
+        padding-top: var(--header-height);
       }
       html {
         scroll-behavior: smooth;
@@ -365,46 +368,194 @@
         border-color: var(--brown);
       }
       .footer-card {
-        background: var(--brown);
+        background: var(--header-footer);
         color: #fff;
         border-radius: 26px;
       }
       .price-text {
         color: var(--price);
       }
+      .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 60;
+        background: rgba(122, 106, 79, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(250, 247, 242, 0.25);
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: var(--header-height);
+      }
+      .site-header .nav-link,
+      .site-header .brand-mark,
+      .site-header .brand-text,
+      .site-header .icon-button {
+        color: #faf7f2;
+      }
+      .site-header .nav-subtitle {
+        color: rgba(250, 247, 242, 0.75);
+      }
+      .site-header .brand-mark {
+        border-color: #faf7f2;
+      }
+      .site-header .icon-button {
+        background: rgba(250, 247, 242, 0.12);
+        border-color: rgba(250, 247, 242, 0.4);
+      }
+      .site-header .icon-button:hover {
+        background: rgba(250, 247, 242, 0.22);
+        border-color: #faf7f2;
+        color: #faf7f2;
+      }
+      .hero-actions {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+      }
+      .hero-arrow {
+        position: absolute;
+        right: -42px;
+        top: -18px;
+        width: 88px;
+        height: 60px;
+        transform: rotate(6deg);
+      }
+      .hero-arrow path {
+        stroke: var(--brown);
+        stroke-width: 2.2;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .branding-strip {
+        margin-top: 18px;
+        overflow: hidden;
+        border-radius: 24px;
+      }
+      .branding-track {
+        display: flex;
+        gap: 18px;
+        width: max-content;
+        animation: branding-scroll 16s linear infinite;
+      }
+      .branding-item {
+        flex: 0 0 clamp(240px, 45vw, 480px);
+        height: 190px;
+        border-radius: 22px;
+        background: linear-gradient(130deg, #d8cbb8, #f5ede3);
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
+        color: var(--muted);
+        position: relative;
+        overflow: hidden;
+      }
+      .branding-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      @keyframes branding-scroll {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+      @media (min-width: 768px) {
+        .branding-item {
+          height: 230px;
+        }
+      }
+      @media (max-width: 640px) {
+        .hero-arrow {
+          display: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .branding-track {
+          animation: none;
+        }
+      }
+      .select-wrap {
+        position: relative;
+      }
+      .select-wrap::after {
+        content: "";
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid var(--muted);
+        border-bottom: 2px solid var(--muted);
+        transform: translateY(-50%) rotate(45deg);
+        pointer-events: none;
+      }
+      .select-field {
+        width: 100%;
+        appearance: none;
+        background: transparent;
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 12px 40px 12px 12px;
+        font-weight: 600;
+        color: var(--brown);
+        outline: none;
+      }
+      .select-field:focus {
+        border-color: var(--brown);
+      }
     </style>
   </head>
   <body id="top" class="text-[#1F1F1F]">
-    <nav class="max-w-6xl mx-auto px-4 md:px-6 py-6 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="brand-mark">
-          <i class="fas fa-asterisk"></i>
+    <header class="site-header">
+      <nav class="nav-inner max-w-6xl mx-auto px-4 md:px-6 py-4">
+        <div class="flex items-center gap-3">
+          <div class="brand-mark">
+            <i class="fas fa-asterisk"></i>
+          </div>
+          <div>
+            <p class="text-xs uppercase tracking-[0.4em] nav-subtitle">
+              Accolade
+            </p>
+            <p class="text-lg font-black uppercase tracking-[0.2em] brand-text">
+              Accolade.clo
+            </p>
+          </div>
         </div>
-        <div>
-          <p class="text-xs uppercase tracking-[0.4em] text-[#3A3A3A]">
-            Accolade
-          </p>
-          <p class="text-lg font-black uppercase tracking-[0.2em]">Accolade.clo</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-3">
-        <a class="nav-link hidden sm:inline-flex" href="#featured-products"
-          >Explore</a
-        >
-        <button class="icon-button" aria-label="Search">
-          <i class="fas fa-search"></i>
-        </button>
-        <button class="icon-button" aria-label="Account">
-          <i class="fas fa-user"></i>
-        </button>
-        <div class="relative">
-          <button class="icon-button" aria-label="Cart">
-            <i class="fas fa-shopping-bag"></i>
+        <div class="flex items-center gap-3">
+          <a class="nav-link hidden sm:inline-flex" href="#featured-products"
+            >Explore</a
+          >
+          <button class="icon-button" aria-label="Search">
+            <i class="fas fa-search"></i>
           </button>
-          <span id="cart-badge" class="cart-badge">0</span>
+          <button class="icon-button" aria-label="Account">
+            <i class="fas fa-user"></i>
+          </button>
+          <div class="relative">
+            <button class="icon-button" aria-label="Cart">
+              <i class="fas fa-shopping-bag"></i>
+            </button>
+            <span id="cart-badge" class="cart-badge">0</span>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
 
     <main class="max-w-6xl mx-auto px-4 md:px-6 pb-16">
       <div id="step-products" class="space-y-14 pt-8 md:pt-12">
@@ -419,11 +570,27 @@
                 Designed for those who wear art, not trends. Built for cold
                 streets. Made to live in. Made for you.
               </p>
-              <div class="flex flex-wrap gap-4">
+              <div class="hero-actions">
                 <a class="btn-primary" href="#featured-products">
                   Explore now <i class="fas fa-arrow-right text-xs"></i>
                 </a>
                 <a class="btn-outline" href="#master-form">Start checkout</a>
+                <svg
+                  class="hero-arrow"
+                  viewBox="0 0 120 60"
+                  aria-hidden="true"
+                >
+                  <path d="M2 42 C 30 8, 78 6, 112 26"></path>
+                  <path d="M102 16 L112 26 L100 32"></path>
+                </svg>
+              </div>
+              <div class="branding-strip" aria-label="Branding carousel">
+                <div class="branding-track">
+                  <div class="branding-item"><!-- Branding image 01 --></div>
+                  <div class="branding-item"><!-- Branding image 02 --></div>
+                  <div class="branding-item"><!-- Branding image 01 --></div>
+                  <div class="branding-item"><!-- Branding image 02 --></div>
+                </div>
               </div>
             </div>
             <div class="collage">
@@ -824,20 +991,44 @@
               </h2>
 
               <div class="grid grid-cols-1 gap-5">
+                <div>
+                  <label class="form-label">Email address</label>
+                  <input
+                    type="email"
+                    name="Email Address"
+                    id="inp-email"
+                    required
+                    class="form-input"
+                    placeholder="you@email.com"
+                  />
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label class="form-label">Name</label>
+                    <label class="form-label">First name</label>
                     <input
                       type="text"
-                      name="Customer Name"
-                      id="inp-name"
+                      name="First Name"
+                      id="inp-first-name"
                       required
                       class="form-input"
-                      placeholder="Your name"
+                      placeholder="First name"
                     />
                   </div>
                   <div>
-                    <label class="form-label">Phone</label>
+                    <label class="form-label">Last name</label>
+                    <input
+                      type="text"
+                      name="Last Name"
+                      id="inp-last-name"
+                      required
+                      class="form-input"
+                      placeholder="Last name"
+                    />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="form-label">Phone number</label>
                     <input
                       type="tel"
                       name="Phone Number"
@@ -847,8 +1038,22 @@
                       placeholder="017XXXXXXXX"
                     />
                   </div>
+                  <div>
+                    <label class="form-label">City (delivery fee)</label>
+                    <div class="select-wrap">
+                      <select
+                        name="City"
+                        id="city-selector"
+                        class="select-field"
+                        onchange="updateCalculations()"
+                        required
+                      >
+                        <option value="Dhaka">Dhaka City (80 Tk)</option>
+                        <option value="Outside">Outside Dhaka (130 Tk)</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
-
                 <div>
                   <label class="form-label">Address</label>
                   <textarea
@@ -859,19 +1064,6 @@
                     class="form-input resize-none"
                     placeholder="House, road, area..."
                   ></textarea>
-                </div>
-
-                <div>
-                  <label class="form-label">City (delivery fee)</label>
-                  <select
-                    name="City"
-                    id="city-selector"
-                    class="w-full bg-transparent border-b-2 border-[#d6c8b4] py-3 px-2 focus:outline-none focus:border-[#1F1F1F] font-semibold mt-1"
-                    onchange="updateCalculations()"
-                  >
-                    <option value="Dhaka">Dhaka City (80 Tk)</option>
-                    <option value="Outside">Outside Dhaka (130 Tk)</option>
-                  </select>
                 </div>
               </div>
 
@@ -1062,11 +1254,22 @@
       }
 
       function goToPayment() {
-        const name = document.getElementById("inp-name").value;
+        const email = document.getElementById("inp-email").value;
+        const firstName = document.getElementById("inp-first-name").value;
+        const lastName = document.getElementById("inp-last-name").value;
         const phone = document.getElementById("inp-phone").value;
+        const city = document.getElementById("city-selector").value;
         const address = document.getElementById("inp-address").value;
 
-        if (!name || !phone || !address || cart.length === 0) {
+        if (
+          !email ||
+          !firstName ||
+          !lastName ||
+          !phone ||
+          !city ||
+          !address ||
+          cart.length === 0
+        ) {
           alert("Please fill all shipping details and add items to cart.");
           return;
         }

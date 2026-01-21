@@ -654,11 +654,39 @@
         position: relative;
         box-shadow: var(--shadow-soft);
       }
+      .modal-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        border: 1px solid rgba(31, 31, 31, 0.12);
+        background: rgba(255, 255, 255, 0.85);
+        color: var(--brown);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+        transition: all 0.2s ease;
+      }
+      .modal-nav:hover {
+        background: var(--button-hover);
+        color: var(--button-hover-text);
+        border-color: var(--button-hover);
+      }
+      .modal-nav.prev {
+        left: 12px;
+      }
+      .modal-nav.next {
+        right: 12px;
+      }
       .modal-track {
-        display: block;
+        display: flex;
         width: 100%;
         height: 100%;
         padding: 0;
+        transition: transform 0.5s ease;
       }
       .modal-slide {
         width: 100%;
@@ -666,6 +694,7 @@
         border-radius: 18px;
         background: linear-gradient(140deg, #d6c5b0, #f7efe3);
         border: 1px solid var(--card-border);
+        flex: 0 0 100%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -749,6 +778,9 @@
         }
         .modal-media {
           height: 240px;
+        }
+        .modal-nav {
+          display: none;
         }
       }
       @media (max-width: 768px) {
@@ -2281,6 +2313,12 @@
         </button>
         <div class="modal-grid">
           <div class="modal-media">
+            <button class="modal-nav prev" type="button" data-modal-prev>
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="modal-nav next" type="button" data-modal-next>
+              <i class="fas fa-chevron-right"></i>
+            </button>
             <div class="modal-track" id="modal-track"></div>
           </div>
           <div class="modal-info">
@@ -2598,30 +2636,76 @@
       const modalFabric = document.getElementById("modal-fabric");
       const modalSizechart = document.getElementById("modal-sizechart");
       const modalAdd = document.getElementById("modal-add");
+      const modalPrev = document.querySelector("[data-modal-prev]");
+      const modalNext = document.querySelector("[data-modal-next]");
       const qtyMinus = document.getElementById("qty-minus");
       const qtyPlus = document.getElementById("qty-plus");
       const qtyValue = document.getElementById("qty-value");
       let modalQuantity = 1;
       let modalUnitPrice = 0;
       let modalProductName = "";
+      let modalIndex = 0;
+      let modalSlidesCount = 0;
+      let modalAutoTimer = null;
+      let modalResumeTimer = null;
 
       function buildSlides(images) {
         modalTrack.innerHTML = "";
         const placeholders = ["Image 01", "Image 02", "Image 03", "Image 04"];
         const items = images.length ? images : placeholders;
-        const item = items[0];
-        const slide = document.createElement("div");
-        slide.className = "modal-slide";
-        if (images.length) {
-          const img = document.createElement("img");
-          img.src = item;
-          img.alt = "Product image";
-          slide.appendChild(img);
-        } else {
-          slide.textContent = item;
-        }
-        modalTrack.appendChild(slide);
+        modalSlidesCount = items.length;
+        modalIndex = 0;
+        items.forEach((item, index) => {
+          const slide = document.createElement("div");
+          slide.className = "modal-slide";
+          if (images.length) {
+            const img = document.createElement("img");
+            img.src = item;
+            img.alt = `Product image ${index + 1}`;
+            slide.appendChild(img);
+          } else {
+            slide.textContent = item;
+          }
+          modalTrack.appendChild(slide);
+        });
+        updateModalSlider();
         attachImageLoaders(modalTrack);
+      }
+
+      function updateModalSlider() {
+        if (!modalTrack || modalSlidesCount === 0) {
+          return;
+        }
+        modalTrack.style.transform = `translateX(-${modalIndex * 100}%)`;
+      }
+
+      function setModalIndex(index) {
+        if (modalSlidesCount === 0) {
+          return;
+        }
+        modalIndex = (index + modalSlidesCount) % modalSlidesCount;
+        updateModalSlider();
+      }
+
+      function isMobileViewport() {
+        return window.matchMedia("(max-width: 768px)").matches;
+      }
+
+      function startModalAutoScroll() {
+        stopModalAutoScroll();
+        if (!isMobileViewport() || modalSlidesCount <= 1) {
+          return;
+        }
+        modalAutoTimer = setInterval(() => {
+          setModalIndex(modalIndex + 1);
+        }, 3200);
+      }
+
+      function stopModalAutoScroll() {
+        if (modalAutoTimer) {
+          clearInterval(modalAutoTimer);
+          modalAutoTimer = null;
+        }
       }
 
       function attachImageLoaders(scope = document) {
@@ -2699,12 +2783,14 @@
         modal.classList.remove("hidden-section");
         modal.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
+        startModalAutoScroll();
       }
 
       function closeProductModal() {
         modal.classList.add("hidden-section");
         modal.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
+        stopModalAutoScroll();
       }
 
       if (qtyPlus) {
@@ -2729,6 +2815,46 @@
       document.querySelectorAll(".info-card").forEach((card) => {
         card.addEventListener("click", () => openProductModal(card));
       });
+
+      if (modalPrev) {
+        modalPrev.addEventListener("click", (event) => {
+          event.stopPropagation();
+          setModalIndex(modalIndex - 1);
+        });
+      }
+
+      if (modalNext) {
+        modalNext.addEventListener("click", (event) => {
+          event.stopPropagation();
+          setModalIndex(modalIndex + 1);
+        });
+      }
+
+      if (modalTrack) {
+        modalTrack.addEventListener("pointerdown", () => {
+          if (!isMobileViewport()) {
+            return;
+          }
+          stopModalAutoScroll();
+          if (modalResumeTimer) {
+            clearTimeout(modalResumeTimer);
+          }
+        });
+        modalTrack.addEventListener("pointerup", () => {
+          if (!isMobileViewport()) {
+            return;
+          }
+          modalResumeTimer = setTimeout(() => {
+            startModalAutoScroll();
+          }, 500);
+        });
+        modalTrack.addEventListener("pointercancel", () => {
+          if (!isMobileViewport()) {
+            return;
+          }
+          startModalAutoScroll();
+        });
+      }
 
       document.querySelectorAll(".add-btn").forEach((button) => {
         button.addEventListener("click", (event) => {

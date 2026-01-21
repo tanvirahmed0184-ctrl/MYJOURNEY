@@ -11,10 +11,11 @@
     />
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap");
+      @import url("https://fonts.cdnfonts.com/css/sansation");
       :root {
-        --sand: #faf7f2;
-        --sand-strong: #f2ede6;
-        --cream: #fff9f2;
+        --sand: #f4efe8;
+        --sand-strong: #faf7f2;
+        --cream: #faf7f2;
         --brown: #1f1f1f;
         --brown-dark: #9c3b2e;
         --accent: #e8ddcf;
@@ -136,6 +137,7 @@
         letter-spacing: -0.04em;
         line-height: 1.05;
         color: var(--brown);
+        font-family: "Sansation", "Inter", sans-serif;
       }
       .hero-copy {
         color: var(--muted);
@@ -188,6 +190,7 @@
         text-transform: uppercase;
         letter-spacing: 0.14em;
         color: var(--brown);
+        font-family: "Sansation", "Inter", sans-serif;
       }
       .section-tag {
         background: var(--accent);
@@ -300,10 +303,10 @@
         cursor: pointer;
       }
       .product-card {
-        background: linear-gradient(160deg, #fff9f2, #f2e8dd);
+        background: var(--cream);
         border-radius: 20px;
         border: 1px solid var(--card-border);
-        padding: 10px;
+        padding: 8px;
         box-shadow: var(--shadow-soft);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         position: relative;
@@ -318,12 +321,12 @@
         background: linear-gradient(150deg, #d9cbb3, #f5ecdf);
         display: flex;
         align-items: flex-end;
-        padding: 8px;
+        padding: 6px;
         position: relative;
         overflow: hidden;
       }
       .product-card > .mt-4 {
-        margin-top: 10px;
+        margin-top: 8px;
       }
       .product-card .space-y-2 > :not([hidden]) ~ :not([hidden]) {
         margin-top: 0.35rem;
@@ -371,23 +374,6 @@
         color: var(--button-hover-text);
         border-color: var(--button-hover);
       }
-      .info-trigger {
-        background: transparent;
-        color: var(--button-text);
-        border: 1px dashed var(--brown);
-        font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        padding: 8px 12px;
-        border-radius: 999px;
-        transition: all 0.2s ease;
-      }
-      .info-trigger:hover {
-        background: var(--button-hover);
-        color: var(--button-hover-text);
-        border-color: var(--button-hover);
-      }
       .product-overlay {
         display: none;
       }
@@ -431,6 +417,7 @@
         text-transform: uppercase;
         letter-spacing: 0.12em;
         color: var(--brown);
+        font-family: "Sansation", "Inter", sans-serif;
       }
       .info-subtitle {
         font-size: 11px;
@@ -495,9 +482,19 @@
       .modal-dialog {
         width: min(960px, 90vw);
         height: min(60vh, 560px);
-        background: var(--sand);
-        border-radius: 28px;
-        border: 1px solid var(--card-border);
+        background: #faf7f2;
+        background-image: radial-gradient(
+            circle at top left,
+            rgba(255, 255, 255, 0.8),
+            rgba(250, 247, 242, 0.9)
+          ),
+          radial-gradient(
+            circle at bottom right,
+            rgba(241, 232, 220, 0.6),
+            rgba(250, 247, 242, 0.9)
+          );
+        border-radius: 30px;
+        border: 1px solid rgba(31, 31, 31, 0.08);
         box-shadow: var(--shadow);
         padding: 18px;
         display: grid;
@@ -506,9 +503,9 @@
       }
       .modal-close {
         align-self: flex-end;
-        background: transparent;
-        border: 1px solid var(--card-border);
-        color: var(--muted);
+        background: #fff;
+        border: 1px solid rgba(31, 31, 31, 0.08);
+        color: var(--brown);
         font-size: 10px;
         text-transform: uppercase;
         letter-spacing: 0.2em;
@@ -523,10 +520,11 @@
       }
       .modal-media {
         background: #fff;
-        border-radius: 22px;
-        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        border: 1px solid rgba(31, 31, 31, 0.08);
         overflow: hidden;
         position: relative;
+        box-shadow: var(--shadow-soft);
       }
       .modal-track {
         display: flex;
@@ -564,7 +562,10 @@
         flex-direction: column;
         gap: 12px;
         overflow-y: auto;
-        padding-right: 4px;
+        padding: 16px;
+        border-radius: 22px;
+        background: rgba(250, 247, 242, 0.85);
+        border: 1px solid rgba(31, 31, 31, 0.08);
       }
       .modal-actions {
         margin-top: auto;
@@ -594,6 +595,95 @@
       }
       .modal.hidden-section {
         display: none;
+      }
+      .cart-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(20, 20, 20, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        z-index: 75;
+      }
+      .cart-modal.hidden-section {
+        display: none;
+      }
+      .cart-panel {
+        width: min(460px, 92vw);
+        background: var(--cream);
+        border-radius: 26px;
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow);
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .cart-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .cart-title {
+        font-size: 14px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--brown);
+        font-family: "Sansation", "Inter", sans-serif;
+      }
+      .cart-items {
+        display: grid;
+        gap: 10px;
+        max-height: 40vh;
+        overflow-y: auto;
+        padding-right: 4px;
+      }
+      .cart-item {
+        background: var(--cream);
+        border-radius: 16px;
+        border: 1px solid var(--card-border);
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .cart-item-name {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--brown);
+      }
+      .cart-item-price {
+        font-size: 12px;
+      }
+      .cart-remove {
+        border: 1px solid var(--badge);
+        color: var(--badge);
+        background: transparent;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        padding: 6px 10px;
+        border-radius: 999px;
+      }
+      .cart-empty {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .cart-footer {
+        display: grid;
+        gap: 12px;
+      }
+      .cart-subtotal {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--brown);
       }
       @keyframes info-scroll {
         0% {
@@ -637,6 +727,9 @@
         max-width: 1200px;
         margin: 0 auto;
         padding: 60px 56px;
+      }
+      .footer-inner h3 {
+        font-family: "Sansation", "Inter", sans-serif;
       }
       @media (max-width: 768px) {
         .footer-inner {
@@ -821,7 +914,7 @@
             <i class="fas fa-user"></i>
           </button>
           <div class="relative">
-            <button class="icon-button" aria-label="Cart">
+            <button id="cart-button" class="icon-button" aria-label="Cart">
               <i class="fas fa-shopping-bag"></i>
             </button>
             <span id="cart-badge" class="cart-badge">0</span>
@@ -918,19 +1011,14 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - red
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold price-text">BDT 2550</span>
-                  <div class="flex items-center gap-2">
-                    <button
-                      onclick="addToCart('Hoodie Special Edition', 2550)"
-                      class="add-btn"
-                    >
-                      Add
-                    </button>
-                    <button type="button" class="info-trigger">
-                      Click to see
-                    </button>
-                  </div>
+                <p class="text-sm font-semibold price-text">BDT 2550</p>
+                <div class="flex items-center justify-end">
+                  <button
+                    onclick="addToCart('Hoodie Special Edition', 2550)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div class="product-overlay">
@@ -992,19 +1080,14 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - black
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold price-text">BDT 2600</span>
-                  <div class="flex items-center gap-2">
-                    <button
-                      onclick="addToCart('Hoodie Special Edition - Black', 2600)"
-                      class="add-btn"
-                    >
-                      Add
-                    </button>
-                    <button type="button" class="info-trigger">
-                      Click to see
-                    </button>
-                  </div>
+                <p class="text-sm font-semibold price-text">BDT 2600</p>
+                <div class="flex items-center justify-end">
+                  <button
+                    onclick="addToCart('Hoodie Special Edition - Black', 2600)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div class="product-overlay">
@@ -1066,19 +1149,14 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - navy
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold price-text">BDT 2650</span>
-                  <div class="flex items-center gap-2">
-                    <button
-                      onclick="addToCart('Back Print Edition', 2650)"
-                      class="add-btn"
-                    >
-                      Add
-                    </button>
-                    <button type="button" class="info-trigger">
-                      Click to see
-                    </button>
-                  </div>
+                <p class="text-sm font-semibold price-text">BDT 2650</p>
+                <div class="flex items-center justify-end">
+                  <button
+                    onclick="addToCart('Back Print Edition', 2650)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div class="product-overlay">
@@ -1149,19 +1227,14 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - red
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold price-text">BDT 2550</span>
-                  <div class="flex items-center gap-2">
-                    <button
-                      onclick="addToCart('Hoodie Special Edition - Red', 2550)"
-                      class="add-btn"
-                    >
-                      Add
-                    </button>
-                    <button type="button" class="info-trigger">
-                      Click to see
-                    </button>
-                  </div>
+                <p class="text-sm font-semibold price-text">BDT 2550</p>
+                <div class="flex items-center justify-end">
+                  <button
+                    onclick="addToCart('Hoodie Special Edition - Red', 2550)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div class="product-overlay">
@@ -1223,19 +1296,14 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Lightweight cotton
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold price-text">BDT 1555</span>
-                  <div class="flex items-center gap-2">
-                    <button
-                      onclick="addToCart('Cuban Shirt - 004', 1555)"
-                      class="add-btn"
-                    >
-                      Add
-                    </button>
-                    <button type="button" class="info-trigger">
-                      Click to see
-                    </button>
-                  </div>
+                <p class="text-sm font-semibold price-text">BDT 1555</p>
+                <div class="flex items-center justify-end">
+                  <button
+                    onclick="addToCart('Cuban Shirt - 004', 1555)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div class="product-overlay">
@@ -1297,19 +1365,14 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Short sleeve
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold price-text">BDT 1655</span>
-                  <div class="flex items-center gap-2">
-                    <button
-                      onclick="addToCart('Cuban Shirt - 005', 1655)"
-                      class="add-btn"
-                    >
-                      Add
-                    </button>
-                    <button type="button" class="info-trigger">
-                      Click to see
-                    </button>
-                  </div>
+                <p class="text-sm font-semibold price-text">BDT 1655</p>
+                <div class="flex items-center justify-end">
+                  <button
+                    onclick="addToCart('Cuban Shirt - 005', 1655)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div class="product-overlay">
@@ -1371,19 +1434,14 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - red
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold price-text">BDT 2550</span>
-                  <div class="flex items-center gap-2">
-                    <button
-                      onclick="addToCart('Hoodie Classic', 2550)"
-                      class="add-btn"
-                    >
-                      Add
-                    </button>
-                    <button type="button" class="info-trigger">
-                      Click to see
-                    </button>
-                  </div>
+                <p class="text-sm font-semibold price-text">BDT 2550</p>
+                <div class="flex items-center justify-end">
+                  <button
+                    onclick="addToCart('Hoodie Classic', 2550)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div class="product-overlay">
@@ -1445,19 +1503,14 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Limited available
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold price-text">BDT 1715</span>
-                  <div class="flex items-center gap-2">
-                    <button
-                      onclick="addToCart('Cuban Shirt - Blu', 1715)"
-                      class="add-btn"
-                    >
-                      Add
-                    </button>
-                    <button type="button" class="info-trigger">
-                      Click to see
-                    </button>
-                  </div>
+                <p class="text-sm font-semibold price-text">BDT 1715</p>
+                <div class="flex items-center justify-end">
+                  <button
+                    onclick="addToCart('Cuban Shirt - Blu', 1715)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div class="product-overlay">
@@ -1519,19 +1572,14 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - red
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold price-text">BDT 2535</span>
-                  <div class="flex items-center gap-2">
-                    <button
-                      onclick="addToCart('Hoodie Special Edition - Fleece', 2535)"
-                      class="add-btn"
-                    >
-                      Add
-                    </button>
-                    <button type="button" class="info-trigger">
-                      Click to see
-                    </button>
-                  </div>
+                <p class="text-sm font-semibold price-text">BDT 2535</p>
+                <div class="flex items-center justify-end">
+                  <button
+                    onclick="addToCart('Hoodie Special Edition - Fleece', 2535)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div class="product-overlay">
@@ -1602,19 +1650,14 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - red
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold price-text">BDT 2555</span>
-                  <div class="flex items-center gap-2">
-                    <button
-                      onclick="addToCart('Hoodie Special Edition - Top', 2555)"
-                      class="add-btn"
-                    >
-                      Add
-                    </button>
-                    <button type="button" class="info-trigger">
-                      Click to see
-                    </button>
-                  </div>
+                <p class="text-sm font-semibold price-text">BDT 2555</p>
+                <div class="flex items-center justify-end">
+                  <button
+                    onclick="addToCart('Hoodie Special Edition - Top', 2555)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div class="product-overlay">
@@ -1676,19 +1719,14 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Limited available
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold price-text">BDT 1555</span>
-                  <div class="flex items-center gap-2">
-                    <button
-                      onclick="addToCart('Cuban Shirt - 004 Top', 1555)"
-                      class="add-btn"
-                    >
-                      Add
-                    </button>
-                    <button type="button" class="info-trigger">
-                      Click to see
-                    </button>
-                  </div>
+                <p class="text-sm font-semibold price-text">BDT 1555</p>
+                <div class="flex items-center justify-end">
+                  <button
+                    onclick="addToCart('Cuban Shirt - 004 Top', 1555)"
+                    class="add-btn"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div class="product-overlay">
@@ -1961,6 +1999,27 @@
       </div>
     </main>
 
+    <div id="cart-modal" class="cart-modal hidden-section" aria-hidden="true">
+      <div class="cart-panel" role="dialog" aria-modal="true">
+        <div class="cart-header">
+          <span class="cart-title">Your cart</span>
+          <button class="btn-outline" type="button" data-cart-close>
+            Go back
+          </button>
+        </div>
+        <div id="cart-modal-items" class="cart-items"></div>
+        <div class="cart-footer">
+          <div class="cart-subtotal">
+            <span>Subtotal</span>
+            <span id="cart-modal-subtotal" class="price-text">0 Tk</span>
+          </div>
+          <button class="btn-primary" type="button" data-cart-close>
+            Continue shopping
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div id="product-modal" class="modal hidden-section" aria-hidden="true">
       <div class="modal-dialog" role="dialog" aria-modal="true">
         <button class="modal-close" type="button" data-modal-close>
@@ -2048,6 +2107,10 @@
     <script>
       let cart = [];
       let subtotal = 0;
+      const cartModal = document.getElementById("cart-modal");
+      const cartButton = document.getElementById("cart-button");
+      const cartModalItems = document.getElementById("cart-modal-items");
+      const cartModalSubtotal = document.getElementById("cart-modal-subtotal");
 
       function addToCart(name, price) {
         cart.push({ name, price });
@@ -2055,6 +2118,7 @@
 
         document.getElementById("cart-badge").innerText = cart.length;
         renderCartSummary();
+        renderCartModal();
         updateCalculations();
 
         const formContainer = document.getElementById("master-form");
@@ -2075,6 +2139,86 @@
                 </div>`,
           )
           .join("");
+      }
+
+      function renderCartModal() {
+        if (!cartModalItems) {
+          return;
+        }
+        if (cart.length === 0) {
+          cartModalItems.innerHTML =
+            '<p class="cart-empty">Your cart is empty.</p>';
+          if (cartModalSubtotal) {
+            cartModalSubtotal.textContent = "0 Tk";
+          }
+          return;
+        }
+        cartModalItems.innerHTML = cart
+          .map(
+            (item, index) =>
+              `<div class="cart-item">
+                  <div>
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-price price-text">${item.price} Tk</div>
+                  </div>
+                  <button class="cart-remove" data-index="${index}">Remove</button>
+                </div>`,
+          )
+          .join("");
+        if (cartModalSubtotal) {
+          cartModalSubtotal.textContent = `${subtotal} Tk`;
+        }
+        cartModalItems.querySelectorAll(".cart-remove").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const index = parseInt(button.dataset.index, 10);
+            if (!Number.isNaN(index)) {
+              removeCartItem(index);
+            }
+          });
+        });
+      }
+
+      function removeCartItem(index) {
+        if (index < 0 || index >= cart.length) {
+          return;
+        }
+        const removed = cart.splice(index, 1)[0];
+        subtotal = Math.max(0, subtotal - removed.price);
+        document.getElementById("cart-badge").innerText = cart.length;
+        renderCartSummary();
+        renderCartModal();
+        updateCalculations();
+      }
+
+      function openCartModal() {
+        renderCartModal();
+        cartModal.classList.remove("hidden-section");
+        cartModal.setAttribute("aria-hidden", "false");
+      }
+
+      function closeCartModal() {
+        cartModal.classList.add("hidden-section");
+        cartModal.setAttribute("aria-hidden", "true");
+      }
+
+      if (cartButton) {
+        cartButton.addEventListener("click", (event) => {
+          event.stopPropagation();
+          openCartModal();
+        });
+      }
+
+      document.querySelectorAll("[data-cart-close]").forEach((button) => {
+        button.addEventListener("click", closeCartModal);
+      });
+
+      if (cartModal) {
+        cartModal.addEventListener("click", (event) => {
+          if (event.target === cartModal) {
+            closeCartModal();
+          }
+        });
       }
 
       function updateCalculations() {
@@ -2216,16 +2360,6 @@
 
       document.querySelectorAll(".info-card").forEach((card) => {
         card.addEventListener("click", () => openProductModal(card));
-      });
-
-      document.querySelectorAll(".info-trigger").forEach((button) => {
-        button.addEventListener("click", (event) => {
-          event.stopPropagation();
-          const card = button.closest(".info-card");
-          if (card) {
-            openProductModal(card);
-          }
-        });
       });
 
       document.querySelectorAll(".add-btn").forEach((button) => {

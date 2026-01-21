@@ -3,47 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accolade.clo</title>
+    <title>Accolade.clo | Checkout Funnel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f5f0e6; /* Light beige background from image */
+            background-color: #f5f0e6; /* Light beige from design */
+            color: #1a1a1a;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        /* Hero & Collage Styles */
         .hero-bg {
-            background-color: #f5f0e6;
             position: relative;
             overflow: hidden;
         }
-
+        
         .collage-img {
             position: absolute;
-            opacity: 0.8;
-            transform: rotate(-10deg);
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 4px solid white;
         }
 
-        .btn-primary {
-            background-color: #f5f5f5;
-            color: #000;
-            border: 1px solid #000;
-            padding: 10px 24px;
-            font-weight: 600;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
+        /* Product Card Styles */
+        .product-card {
+            background: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .btn-primary:hover {
-            background-color: #000;
-            color: #fff;
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
 
         .section-title {
-            background-color: #cba156; /* Gold/Mustard color */
+            background-color: #cba156;
             color: #000;
             display: inline-block;
             padding: 8px 20px;
@@ -51,17 +62,7 @@
             text-transform: uppercase;
             border-radius: 20px 20px 20px 0;
             margin-bottom: 20px;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
+            font-size: 0.9rem;
         }
 
         .badge {
@@ -69,355 +70,492 @@
             top: 10px;
             right: 10px;
             padding: 4px 8px;
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 10px;
+            font-weight: 800;
             color: white;
             border-radius: 4px;
+            text-transform: uppercase;
         }
-
         .badge-red { background-color: #ff0000; }
-        .badge-black { background-color: #000; }
 
-        footer {
-            background-color: #6d5e4b; /* Brownish footer */
-            color: #dcdcdc;
+        /* Funnel Animations */
+        .hidden-section {
+            display: none;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Transaction Modal */
-        #transaction-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Form Styles */
+        .form-input {
             width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 50;
-            justify-content: center;
-            align-items: center;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 0.5rem 0;
+            background: transparent;
+            transition: border-color 0.3s;
         }
-
-        #thank-you-msg {
-            display: none;
+        .form-input:focus {
+            outline: none;
+            border-color: #000;
         }
     </style>
 </head>
-<body>
+<body class="text-gray-900">
 
-    <!-- Header -->
-    <header class="flex justify-between items-center p-6 bg-[#f5f0e6]">
+    <!-- Navigation -->
+    <nav class="flex justify-between items-center py-6 px-6 md:px-20 max-w-[1400px] mx-auto">
         <div class="flex items-center gap-2">
             <div class="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center">
-                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-asterisk text-sm"></i>
             </div>
-            <span class="font-bold text-lg tracking-wider">Accolade.clo</span>
+            <span class="text-lg font-bold tracking-wider uppercase">Accolade.clo</span>
         </div>
         <div class="flex items-center gap-6">
-            <a href="#" class="text-sm font-medium">Explore</a>
-            <i class="fas fa-search cursor-pointer"></i>
-            <div class="relative">
-                <i class="fas fa-shopping-bag cursor-pointer"></i>
-                <span class="absolute -top-2 -right-2 bg-black text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">1</span>
+            <a href="#" class="text-sm font-medium hidden md:block">Explore</a>
+            <i class="fas fa-search cursor-pointer text-lg"></i>
+            <div class="relative cursor-pointer" onclick="scrollToCart()">
+                <i class="fas fa-shopping-bag text-lg"></i>
+                <span id="cart-badge" class="absolute -top-2 -right-2 bg-black text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">0</span>
             </div>
         </div>
-    </header>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="hero-bg min-h-[600px] flex flex-col justify-center items-start px-6 md:px-20 relative">
-        <div class="z-10 max-w-xl mt-20">
-            <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6">
+    <section class="hero-bg min-h-[600px] flex flex-col justify-center items-start px-6 md:px-20 relative max-w-[1400px] mx-auto">
+        <div class="z-10 max-w-xl mt-10 md:mt-0">
+            <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6 uppercase tracking-tight">
                 Your New<br>Favorites<br>Have Arrived
             </h1>
-            <p class="text-gray-600 mb-8 max-w-md">
+            <p class="text-gray-600 mb-8 max-w-md font-medium">
                 Designed For Those Who Wear Art, Not Trends. Built For Cold. Made To Move. Made To Live In. Made For You.
             </p>
-            <button onclick="scrollToProducts()" class="bg-white border border-black px-8 py-3 font-bold hover:bg-black hover:text-white transition">
-                EXPLORE NOW!
+            <button onclick="scrollToProducts()" class="bg-white border-2 border-black px-8 py-3 font-bold hover:bg-black hover:text-white transition uppercase tracking-wider">
+                Explore Now!
             </button>
         </div>
 
-        <!-- Collage Images (Simulated with placeholders/positioning) -->
-        <div class="hidden md:block absolute top-10 right-10 w-[500px] h-[600px] opacity-80 pointer-events-none">
-            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400" class="absolute top-0 right-0 w-48 h-64 object-cover transform rotate-6 border-4 border-white shadow-lg" alt="Fashion 1">
-            <img src="https://images.unsplash.com/photo-1529139574466-a302c2d36212?w=400" class="absolute top-40 right-40 w-56 h-72 object-cover transform -rotate-12 border-4 border-white shadow-lg" alt="Fashion 2">
-            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400" class="absolute bottom-10 right-10 w-48 h-64 object-cover transform rotate-3 border-4 border-white shadow-lg" alt="Fashion 3">
+        <!-- Collage Images -->
+        <div class="hidden md:block absolute top-0 right-0 w-[600px] h-[700px] pointer-events-none opacity-90">
+            <!-- Simulated Collage Layout -->
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400" class="collage-img top-10 right-10 w-48 h-64 object-cover transform rotate-6" alt="Fashion 1">
+            <img src="https://images.unsplash.com/photo-1529139574466-a302c2d36212?w=400" class="collage-img top-48 right-48 w-56 h-72 object-cover transform -rotate-12 z-10" alt="Fashion 2">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400" class="collage-img bottom-20 right-20 w-48 h-64 object-cover transform rotate-3" alt="Fashion 3">
         </div>
         
-        <!-- Bottom Hero Banner -->
+        <!-- Bottom Banners -->
         <div class="w-full mt-20 grid grid-cols-1 md:grid-cols-2 gap-4">
-             <div class="relative h-64 md:h-80 bg-gray-200 overflow-hidden group cursor-pointer">
+             <div class="relative h-64 bg-gray-200 overflow-hidden group cursor-pointer" onclick="scrollToProducts()">
                 <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600" class="w-full h-full object-cover" alt="New Collection">
-                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-30 transition">
-                    <h2 class="text-4xl font-black text-white italic tracking-tighter">NEW COLLECTION</h2>
+                <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition">
+                    <h2 class="text-4xl font-black text-white italic tracking-tighter uppercase">New Collection</h2>
                 </div>
              </div>
-             <div class="relative h-64 md:h-80 bg-gray-200 overflow-hidden group cursor-pointer">
+             <div class="relative h-64 bg-gray-200 overflow-hidden group cursor-pointer" onclick="scrollToProducts()">
                 <img src="https://images.unsplash.com/photo-1551488852-7a30d80f7e90?w=600" class="w-full h-full object-cover" alt="Brush Fleece">
-                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-30 transition">
-                    <h2 class="text-4xl font-black text-white italic tracking-tighter">BRUSH FLEECE</h2>
+                <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition">
+                    <h2 class="text-4xl font-black text-white italic tracking-tighter uppercase">Brush Fleece</h2>
                 </div>
              </div>
         </div>
     </section>
 
-    <!-- Featured Products -->
-    <main id="products" class="px-6 md:px-20 py-16">
-        <h2 class="text-3xl font-bold text-center mb-12">Featured Products</h2>
+    <main id="products" class="max-w-[1400px] mx-auto px-6 md:px-20 py-20">
+        <h2 class="text-3xl font-bold text-center mb-16 uppercase tracking-wide">Featured Products</h2>
 
         <!-- Winter Collection -->
-        <div class="mb-16">
-            <div class="section-title">NEW WINTER COLLECTION!</div>
+        <div class="mb-20">
+            <div class="section-title">New Winter Collection!</div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 <!-- Product 1 -->
-                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION (RED)', 5555)">
+                <div class="product-card group rounded-lg overflow-hidden cursor-pointer" onclick="addToCart('Hoodie Special Edition (Red)', 5555)">
                     <div class="relative bg-gray-100 aspect-[3/4]">
-                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400" class="w-full h-full object-cover" alt="Hoodie">
-                        <span class="badge badge-red">LIMITED</span>
+                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500" class="w-full h-full object-cover" alt="Hoodie">
+                        <span class="badge badge-red">Limited</span>
+                        <div class="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition transform translate-y-2 group-hover:translate-y-0">
+                            <i class="fas fa-plus"></i>
+                        </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="font-bold text-sm mb-1">HOODIE SPECIAL EDITION (BRUSH FLEECE- RED)</h3>
+                        <h3 class="font-bold text-sm mb-1 uppercase">Hoodie Special Edition (Red)</h3>
                         <p class="text-gray-500 text-xs mb-2">BDT 5555</p>
-                        <p class="text-xs font-medium">Available</p>
+                        <p class="text-xs font-medium text-green-600">Available</p>
                     </div>
                 </div>
                 <!-- Product 2 -->
-                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION (BLACK)', 5555)">
+                <div class="product-card group rounded-lg overflow-hidden cursor-pointer" onclick="addToCart('Hoodie Special Edition (Black)', 5555)">
                     <div class="relative bg-gray-100 aspect-[3/4]">
-                        <img src="https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?w=400" class="w-full h-full object-cover" alt="Hoodie">
-                        <span class="badge badge-red">LIMITED</span>
+                        <img src="https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?w=500" class="w-full h-full object-cover" alt="Hoodie">
+                        <span class="badge badge-red">Limited</span>
+                        <div class="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition transform translate-y-2 group-hover:translate-y-0">
+                            <i class="fas fa-plus"></i>
+                        </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="font-bold text-sm mb-1">HOODIE SPECIAL EDITION (BRUSH FLEECE- BLACK)</h3>
+                        <h3 class="font-bold text-sm mb-1 uppercase">Hoodie Special Edition (Black)</h3>
                         <p class="text-gray-500 text-xs mb-2">BDT 5555</p>
-                        <p class="text-xs font-medium">Available</p>
+                        <p class="text-xs font-medium text-green-600">Available</p>
                     </div>
                 </div>
                 <!-- Product 3 -->
-                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION (BLUE)', 5555)">
+                <div class="product-card group rounded-lg overflow-hidden cursor-pointer" onclick="addToCart('Hoodie Special Edition (Blue)', 5555)">
                     <div class="relative bg-gray-100 aspect-[3/4]">
-                        <img src="https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=400" class="w-full h-full object-cover" alt="Hoodie">
-                        <span class="badge badge-red">LIMITED</span>
+                        <img src="https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=500" class="w-full h-full object-cover" alt="Hoodie">
+                        <span class="badge badge-red">Limited</span>
+                        <div class="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition transform translate-y-2 group-hover:translate-y-0">
+                            <i class="fas fa-plus"></i>
+                        </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="font-bold text-sm mb-1">HOODIE SPECIAL EDITION (BRUSH FLEECE- BLUE)</h3>
+                        <h3 class="font-bold text-sm mb-1 uppercase">Hoodie Special Edition (Blue)</h3>
                         <p class="text-gray-500 text-xs mb-2">BDT 5555</p>
-                        <p class="text-xs font-medium">Available</p>
+                        <p class="text-xs font-medium text-green-600">Available</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- All Categories -->
-        <div class="mb-16">
-            <div class="section-title">ALL CATEGORIES</div>
+        <div class="mb-20">
+            <div class="section-title">All Categories</div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                 <!-- Product 4 -->
-                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION', 5555)">
-                    <div class="relative bg-gray-100 aspect-[3/4]">
-                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400" class="w-full h-full object-cover" alt="Hoodie">
-                        <span class="badge badge-red">LIMITED</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-xs mb-1">HOODIE SPECIAL EDITION</h3>
-                        <p class="text-gray-500 text-xs">BDT 5555</p>
-                    </div>
-                </div>
-                <!-- Product 5 -->
-                <div class="product-card group cursor-pointer" onclick="openModal('CUBAN SHIRT - 004', 3555)">
+                <div class="product-card group rounded-lg overflow-hidden cursor-pointer" onclick="addToCart('Cuban Shirt 004', 3555)">
                     <div class="relative bg-gray-100 aspect-[3/4]">
                         <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400" class="w-full h-full object-cover" alt="Shirt">
                         <span class="badge badge-red">-15% OFF</span>
                     </div>
                     <div class="p-4">
-                        <h3 class="font-bold text-xs mb-1">CUBAN SHIRT - 004</h3>
+                        <h3 class="font-bold text-xs mb-1 uppercase">Cuban Shirt 004</h3>
                         <p class="text-gray-500 text-xs">BDT 3555</p>
                     </div>
                 </div>
-                <!-- Product 6 -->
-                <div class="product-card group cursor-pointer" onclick="openModal('CUBAN SHIRT - 006', 3555)">
+                <!-- Product 5 -->
+                <div class="product-card group rounded-lg overflow-hidden cursor-pointer" onclick="addToCart('Cuban Shirt 006', 3555)">
                     <div class="relative bg-gray-100 aspect-[3/4]">
                         <img src="https://images.unsplash.com/photo-1589465885857-44edb59ef526?w=400" class="w-full h-full object-cover" alt="Shirt">
                         <span class="badge badge-red">-15% OFF</span>
                     </div>
                     <div class="p-4">
-                        <h3 class="font-bold text-xs mb-1">CUBAN SHIRT - 006</h3>
+                        <h3 class="font-bold text-xs mb-1 uppercase">Cuban Shirt 006</h3>
                         <p class="text-gray-500 text-xs">BDT 3555</p>
                     </div>
                 </div>
-                <!-- Product 7 -->
-                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION', 5555)">
+                 <!-- Product 6 -->
+                 <div class="product-card group rounded-lg overflow-hidden cursor-pointer" onclick="addToCart('Oversized Tee Black', 1500)">
                     <div class="relative bg-gray-100 aspect-[3/4]">
-                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400" class="w-full h-full object-cover" alt="Hoodie">
-                        <span class="badge badge-red">LIMITED</span>
+                        <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=400" class="w-full h-full object-cover" alt="Tee">
                     </div>
                     <div class="p-4">
-                        <h3 class="font-bold text-xs mb-1">HOODIE SPECIAL EDITION</h3>
-                        <p class="text-gray-500 text-xs">BDT 5555</p>
+                        <h3 class="font-bold text-xs mb-1 uppercase">Oversized Tee Black</h3>
+                        <p class="text-gray-500 text-xs">BDT 1500</p>
+                    </div>
+                </div>
+                 <!-- Product 7 -->
+                 <div class="product-card group rounded-lg overflow-hidden cursor-pointer" onclick="addToCart('Oversized Tee White', 1500)">
+                    <div class="relative bg-gray-100 aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1503342394128-c104d54dba01?w=400" class="w-full h-full object-cover" alt="Tee">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-xs mb-1 uppercase">Oversized Tee White</h3>
+                        <p class="text-gray-500 text-xs">BDT 1500</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Top Rated -->
-        <div class="mb-16">
-            <div class="section-title">TOP RATED</div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                <!-- Product 8 -->
-                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION', 5555)">
-                    <div class="relative bg-gray-100 aspect-[3/4]">
-                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400" class="w-full h-full object-cover" alt="Hoodie">
-                        <span class="badge badge-red">LIMITED</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-xs mb-1">HOODIE SPECIAL EDITION</h3>
-                        <p class="text-gray-500 text-xs">BDT 5555</p>
+        <!-- Checkout Funnel Section -->
+        <form id="master-form" action="https://formsubmit.co/tanvir.ahmed0184@gmail.com" method="POST" class="hidden-section mt-12 max-w-5xl mx-auto scroll-mt-24">
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_subject" value="New Accolade Order!" />
+            <input type="hidden" name="_template" value="table" />
+    
+            <input type="hidden" id="final-cart-items" name="Cart Items" />
+            <input type="hidden" id="final-total-amount" name="Total Amount" />
+    
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Order Summary (Left on Desktop) -->
+                <div class="w-full md:w-1/3 order-1 md:order-2">
+                    <div class="bg-white p-6 rounded-lg shadow-lg sticky top-6 border border-gray-100">
+                        <h3 class="font-black uppercase text-lg mb-4 border-b pb-2">Order Summary</h3>
+                        <div id="cart-display" class="text-sm space-y-3 mb-6 text-gray-600">
+                            <!-- Cart items will appear here -->
+                        </div>
+    
+                        <div class="space-y-2 border-t pt-4 text-sm font-medium">
+                            <div class="flex justify-between">
+                                <span>Subtotal</span>
+                                <span id="display-subtotal">0 Tk</span>
+                            </div>
+                            <div class="flex justify-between text-blue-600">
+                                <span>Delivery Fee</span>
+                                <span id="display-delivery">0 Tk</span>
+                            </div>
+                            <div class="flex justify-between text-xl font-black pt-4 border-t mt-2">
+                                <span>TOTAL</span>
+                                <span id="display-total">0 Tk</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- Product 9 -->
-                <div class="product-card group cursor-pointer" onclick="openModal('CUBAN SHIRT - 004', 3555)">
-                    <div class="relative bg-gray-100 aspect-[3/4]">
-                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400" class="w-full h-full object-cover" alt="Shirt">
-                        <span class="badge badge-red">-15% OFF</span>
+    
+                <!-- Steps (Right on Desktop) -->
+                <div class="w-full md:w-2/3 order-2 md:order-1">
+                    <!-- Step 1: Shipping -->
+                    <div id="step-shipping" class="bg-white p-8 rounded-lg shadow-sm fade-in border border-gray-100">
+                        <h2 class="text-2xl font-black uppercase mb-8 flex items-center gap-3">
+                            <span class="bg-black text-white w-8 h-8 flex items-center justify-center rounded-full text-sm">1</span>
+                            Shipping Details
+                        </h2>
+    
+                        <div class="grid grid-cols-1 gap-6">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Name</label>
+                                    <input type="text" name="Customer Name" id="inp-name" required class="form-input font-semibold" placeholder="Your Name">
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Phone</label>
+                                    <input type="tel" name="Phone Number" id="inp-phone" required class="form-input font-semibold" placeholder="017XXXXXXXX">
+                                </div>
+                            </div>
+    
+                            <div>
+                                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Address</label>
+                                <textarea name="Address" id="inp-address" required rows="2" class="form-input font-semibold resize-none" placeholder="House, Road, Area..."></textarea>
+                            </div>
+    
+                            <div>
+                                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">City (Delivery Fee)</label>
+                                <select name="City" id="city-selector" class="w-full bg-gray-50 border-b-2 border-gray-200 py-3 px-2 focus:outline-none focus:border-black font-bold mt-1" onchange="updateCalculations()">
+                                    <option value="Dhaka">Dhaka City (80 Tk)</option>
+                                    <option value="Outside">Outside Dhaka (130 Tk)</option>
+                                </select>
+                            </div>
+                        </div>
+    
+                        <button type="button" onclick="goToPayment()" class="w-full bg-black text-white py-4 rounded-lg font-bold uppercase tracking-widest mt-10 hover:bg-gray-800 transition flex justify-center items-center gap-2">
+                            Proceed to Payment <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-xs mb-1">CUBAN SHIRT - 004</h3>
-                        <p class="text-gray-500 text-xs">BDT 3555</p>
+    
+                    <!-- Step 2: Payment -->
+                    <div id="step-payment" class="hidden-section bg-white p-8 rounded-lg shadow-sm fade-in border-2 border-black">
+                        <div class="flex justify-between items-center mb-8">
+                            <h2 class="text-2xl font-black uppercase flex items-center gap-3">
+                                <span class="bg-black text-white w-8 h-8 flex items-center justify-center rounded-full text-sm">2</span>
+                                Payment
+                            </h2>
+                            <button type="button" onclick="backToShipping()" class="text-xs underline text-gray-500 hover:text-black">Edit Shipping</button>
+                        </div>
+    
+                        <div class="bg-[#e2136e] text-white p-6 rounded-xl mb-8 text-center relative overflow-hidden shadow-md">
+                            <div class="absolute -top-10 -left-10 w-32 h-32 bg-white opacity-10 rounded-full"></div>
+                            <p class="text-sm font-medium opacity-90 mb-1">Bkash Personal Number</p>
+                            <h3 class="text-3xl font-bold tracking-widest mb-2 select-all">017XXXXXXXX</h3>
+                            <p class="text-xs opacity-80">Send Money (Personal) • Reference: Your Name</p>
+                        </div>
+    
+                        <div class="space-y-6">
+                            <div>
+                                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Bkash Transaction ID</label>
+                                <input type="text" name="Transaction ID" required class="w-full border-2 border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:border-[#e2136e] font-bold text-lg" placeholder="Example: 9H5SK...">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Last 3 Digits</label>
+                                <input type="number" name="Last 3 Digits" required class="w-full border-2 border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:border-[#e2136e] font-bold text-lg" placeholder="123">
+                            </div>
+                        </div>
+    
+                        <button type="submit" id="final-btn" class="w-full bg-[#e2136e] text-white py-4 rounded-lg font-bold uppercase tracking-widest mt-8 hover:bg-[#c20b5a] transition shadow-lg">
+                            Confirm Order
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Grab Now Button -->
-        <div class="flex justify-center mt-10">
-            <button onclick="scrollToProducts()" class="bg-white border border-gray-300 rounded-full px-8 py-4 shadow-lg hover:shadow-xl transition flex flex-col items-center">
-                <span class="font-bold text-sm">GRAB NOW!</span>
-                <i class="fas fa-chevron-up mt-1"></i>
+        </form>
+    
+        <!-- Success Message -->
+        <div id="step-success" class="hidden-section text-center py-20 fade-in">
+            <div class="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-xl">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 class="text-4xl font-black uppercase mb-4">Order Received!</h2>
+            <p class="text-gray-500 max-w-md mx-auto mb-8">
+                We have received your details and payment info. We will call you shortly to confirm.
+            </p>
+            <button onclick="location.reload()" class="bg-black text-white px-8 py-3 rounded-full font-bold uppercase tracking-wider hover:bg-gray-800 transition">
+                Shop More
             </button>
         </div>
+
     </main>
 
     <!-- Footer -->
-    <footer class="py-16 px-6 md:px-20">
-        <div class="max-w-4xl mx-auto">
-            <h3 class="text-xl font-bold mb-6 text-white">WHO WE ARE</h3>
-            <div class="space-y-2 text-sm text-gray-300 mb-8">
-                <p>Email: runoffdesigns@gmail.com</p>
-                <p>Address: Banani, Dhaka-1207</p>
-                <p>Phone: 01601-502253</p>
-            </div>
-            
-            <div class="mb-12">
-                <p class="text-sm text-gray-300 mb-4">Check Us Out On Our</p>
-                <div class="flex gap-4">
-                    <a href="#" class="text-2xl hover:text-white"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-2xl hover:text-white"><i class="fab fa-facebook"></i></a>
+    <footer class="bg-[#6d5e4b] text-white py-16 px-6 md:px-20 text-center md:text-left">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="font-bold mb-4 uppercase tracking-wider">Who We Are</h3>
+                <div class="space-y-2 text-xs text-gray-300">
+                    <p>Email: runoffdesigns@gmail.com</p>
+                    <p>Address: Banani, Dhaka-1207</p>
+                    <p>Phone: 01601-502253</p>
                 </div>
             </div>
-
-            <div class="border-t border-gray-600 pt-8 text-center text-xs text-gray-400">
-                <p class="mb-4">Copyright © 2026 Accolade.clo. All Rights Reserved.</p>
-                <p>Developed By Accolade.clo</p>
-                <div class="mt-4 flex flex-col items-center">
-                    <div class="w-8 h-8 border border-white rounded-full flex items-center justify-center mb-2">
-                        <i class="fas fa-star text-[8px] text-white"></i>
-                    </div>
-                    <span class="font-bold text-white">Accolade.clo</span>
+            <div class="text-center">
+                <div class="w-10 h-10 border border-white rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-asterisk text-sm"></i>
+                </div>
+                <p class="text-xs text-gray-400">© 2026 Accolade.clo</p>
+            </div>
+            <div class="md:text-right">
+                <h3 class="font-bold mb-4 uppercase tracking-wider">Follow Us</h3>
+                <div class="flex justify-center md:justify-end gap-4 text-xl">
+                    <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-gray-300"><i class="fab fa-facebook"></i></a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Transaction Modal -->
-    <div id="transaction-modal" class="flex">
-        <div class="bg-white p-8 rounded-lg max-w-md w-full mx-4 shadow-2xl relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-black">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <div id="order-form">
-                <h3 class="text-2xl font-bold mb-4">Complete Your Order</h3>
-                <div class="bg-gray-100 p-4 rounded mb-6">
-                    <p class="font-bold" id="modal-product-name">Product Name</p>
-                    <p class="text-gray-600" id="modal-product-price">BDT 0</p>
-                </div>
-                
-                <form onsubmit="handleTransaction(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                        <input type="text" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-black">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                        <input type="tel" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-black">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                        <textarea required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-black" rows="3"></textarea>
-                    </div>
-                    
-                    <button type="submit" class="w-full bg-black text-white py-3 font-bold rounded hover:bg-gray-800 transition">
-                        CONFIRM ORDER
-                    </button>
-                </form>
-            </div>
-
-            <div id="processing-view" class="hidden text-center py-10">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
-                <p class="text-lg font-medium">Processing Transaction...</p>
-            </div>
-
-            <div id="thank-you-msg" class="hidden text-center py-10">
-                <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-check text-2xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-2">Thank You!</h3>
-                <p class="text-gray-600">Your order has been placed successfully.</p>
-                <button onclick="closeModal()" class="mt-6 text-sm underline text-gray-500 hover:text-black">Close</button>
-            </div>
-        </div>
-    </div>
-
     <script>
+        // Data State
+        let cart = [];
+        let subtotal = 0;
+
         function scrollToProducts() {
             document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function openModal(productName, price) {
-            document.getElementById('modal-product-name').innerText = productName;
-            document.getElementById('modal-product-price').innerText = 'BDT ' + price;
-            
-            document.getElementById('order-form').classList.remove('hidden');
-            document.getElementById('processing-view').classList.add('hidden');
-            document.getElementById('thank-you-msg').classList.add('hidden');
-            
-            document.getElementById('transaction-modal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('transaction-modal').style.display = 'none';
-        }
-
-        function handleTransaction(event) {
-            event.preventDefault();
-            
-            // Show processing
-            document.getElementById('order-form').classList.add('hidden');
-            document.getElementById('processing-view').classList.remove('hidden');
-            
-            // Simulate transaction delay
-            setTimeout(() => {
-                document.getElementById('processing-view').classList.add('hidden');
-                document.getElementById('thank-you-msg').classList.remove('hidden');
-                document.getElementById('thank-you-msg').style.display = 'block';
-            }, 2000);
-        }
-
-        // Close modal if clicked outside
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('transaction-modal')) {
-                closeModal();
+        function scrollToCart() {
+            const form = document.getElementById("master-form");
+            if (!form.classList.contains("hidden-section")) {
+                form.scrollIntoView({ behavior: "smooth" });
+            } else if (cart.length > 0) {
+                 form.classList.remove("hidden-section");
+                 form.scrollIntoView({ behavior: "smooth" });
+            } else {
+                alert("Your cart is empty! Add some products first.");
+                scrollToProducts();
             }
         }
+
+        // 1. Add to Cart Logic
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            subtotal += price;
+
+            // Update UI
+            document.getElementById("cart-badge").innerText = cart.length;
+            renderCartSummary();
+            updateCalculations();
+
+            // Show Checkout Form if hidden
+            const formContainer = document.getElementById("master-form");
+            if (formContainer.classList.contains("hidden-section")) {
+                formContainer.classList.remove("hidden-section");
+            }
+            
+            // Optional: Scroll to form immediately or let user continue shopping?
+            // User flow: "select korbo... transaction er ta asheb"
+            // Let's scroll to it to make it obvious
+            formContainer.scrollIntoView({ behavior: "smooth" });
+        }
+
+        // 2. Render Cart & Calculate Totals
+        function renderCartSummary() {
+            const container = document.getElementById("cart-display");
+            container.innerHTML = cart.map((item, index) => 
+                `<div class="flex justify-between border-b border-dashed border-gray-200 pb-2 last:border-0">
+                    <span class="text-gray-800">${item.name}</span>
+                    <span class="font-bold">${item.price} Tk</span>
+                </div>`
+            ).join('');
+        }
+
+        function updateCalculations() {
+            const city = document.getElementById("city-selector").value;
+            const deliveryFee = city === "Dhaka" ? 80 : 130;
+            const total = subtotal + deliveryFee;
+
+            // Display
+            document.getElementById("display-subtotal").innerText = subtotal + " Tk";
+            document.getElementById("display-delivery").innerText = deliveryFee + " Tk";
+            document.getElementById("display-total").innerText = total + " Tk";
+
+            // Update Hidden Inputs for Form Submission
+            document.getElementById("final-total-amount").value = total + " Tk";
+            document.getElementById("final-cart-items").value = cart.map(i => i.name).join(", ");
+        }
+
+        // 3. Navigation: Shipping -> Payment
+        function goToPayment() {
+            // Validation
+            const name = document.getElementById("inp-name").value;
+            const phone = document.getElementById("inp-phone").value;
+            const address = document.getElementById("inp-address").value;
+
+            if (!name || !phone || !address) {
+                alert("Please fill all shipping details.");
+                return;
+            }
+            
+            if (cart.length === 0) {
+                alert("Your cart is empty.");
+                return;
+            }
+
+            // Switch Sections
+            document.getElementById("step-shipping").classList.add("hidden-section");
+            document.getElementById("step-payment").classList.remove("hidden-section");
+            
+            // Scroll to top of form
+            document.getElementById("master-form").scrollIntoView({ behavior: "smooth" });
+        }
+
+        function backToShipping() {
+            document.getElementById("step-payment").classList.add("hidden-section");
+            document.getElementById("step-shipping").classList.remove("hidden-section");
+        }
+
+        // 4. Final Submission (AJAX to FormSubmit)
+        const form = document.getElementById("master-form");
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const btn = document.getElementById("final-btn");
+            const originalText = btn.innerText;
+            btn.innerText = "Verifying...";
+            btn.disabled = true;
+            btn.classList.add("opacity-75");
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                // Show Success Screen
+                document.getElementById("master-form").classList.add("hidden-section");
+                document.getElementById("step-success").classList.remove("hidden-section");
+                document.getElementById("step-success").scrollIntoView({ behavior: "smooth" });
+                
+                // Reset cart
+                cart = [];
+                subtotal = 0;
+                document.getElementById("cart-badge").innerText = "0";
+            })
+            .catch(error => {
+                alert("Network error. Please try again.");
+                btn.innerText = originalText;
+                btn.disabled = false;
+                btn.classList.remove("opacity-75");
+            });
+        });
     </script>
 </body>
 </html>

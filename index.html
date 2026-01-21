@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accolade.clo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f0e6; /* Light beige background from image */
+        }
+
+        .hero-bg {
+            background-color: #f5f0e6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .collage-img {
+            position: absolute;
+            opacity: 0.8;
+            transform: rotate(-10deg);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary {
+            background-color: #f5f5f5;
+            color: #000;
+            border: 1px solid #000;
+            padding: 10px 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .section-title {
+            background-color: #cba156; /* Gold/Mustard color */
+            color: #000;
+            display: inline-block;
+            padding: 8px 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 20px 20px 20px 0;
+            margin-bottom: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            border-radius: 4px;
+        }
+
+        .badge-red { background-color: #ff0000; }
+        .badge-black { background-color: #000; }
+
+        footer {
+            background-color: #6d5e4b; /* Brownish footer */
+            color: #dcdcdc;
+        }
+
+        /* Transaction Modal */
+        #transaction-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #thank-you-msg {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="flex justify-between items-center p-6 bg-[#f5f0e6]">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center">
+                <i class="fas fa-star text-xs"></i>
+            </div>
+            <span class="font-bold text-lg tracking-wider">Accolade.clo</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="#" class="text-sm font-medium">Explore</a>
+            <i class="fas fa-search cursor-pointer"></i>
+            <div class="relative">
+                <i class="fas fa-shopping-bag cursor-pointer"></i>
+                <span class="absolute -top-2 -right-2 bg-black text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">1</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-[600px] flex flex-col justify-center items-start px-6 md:px-20 relative">
+        <div class="z-10 max-w-xl mt-20">
+            <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6">
+                Your New<br>Favorites<br>Have Arrived
+            </h1>
+            <p class="text-gray-600 mb-8 max-w-md">
+                Designed For Those Who Wear Art, Not Trends. Built For Cold. Made To Move. Made To Live In. Made For You.
+            </p>
+            <button onclick="scrollToProducts()" class="bg-white border border-black px-8 py-3 font-bold hover:bg-black hover:text-white transition">
+                EXPLORE NOW!
+            </button>
+        </div>
+
+        <!-- Collage Images (Simulated with placeholders/positioning) -->
+        <div class="hidden md:block absolute top-10 right-10 w-[500px] h-[600px] opacity-80 pointer-events-none">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400" class="absolute top-0 right-0 w-48 h-64 object-cover transform rotate-6 border-4 border-white shadow-lg" alt="Fashion 1">
+            <img src="https://images.unsplash.com/photo-1529139574466-a302c2d36212?w=400" class="absolute top-40 right-40 w-56 h-72 object-cover transform -rotate-12 border-4 border-white shadow-lg" alt="Fashion 2">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400" class="absolute bottom-10 right-10 w-48 h-64 object-cover transform rotate-3 border-4 border-white shadow-lg" alt="Fashion 3">
+        </div>
+        
+        <!-- Bottom Hero Banner -->
+        <div class="w-full mt-20 grid grid-cols-1 md:grid-cols-2 gap-4">
+             <div class="relative h-64 md:h-80 bg-gray-200 overflow-hidden group cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600" class="w-full h-full object-cover" alt="New Collection">
+                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-30 transition">
+                    <h2 class="text-4xl font-black text-white italic tracking-tighter">NEW COLLECTION</h2>
+                </div>
+             </div>
+             <div class="relative h-64 md:h-80 bg-gray-200 overflow-hidden group cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1551488852-7a30d80f7e90?w=600" class="w-full h-full object-cover" alt="Brush Fleece">
+                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-30 transition">
+                    <h2 class="text-4xl font-black text-white italic tracking-tighter">BRUSH FLEECE</h2>
+                </div>
+             </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <main id="products" class="px-6 md:px-20 py-16">
+        <h2 class="text-3xl font-bold text-center mb-12">Featured Products</h2>
+
+        <!-- Winter Collection -->
+        <div class="mb-16">
+            <div class="section-title">NEW WINTER COLLECTION!</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <!-- Product 1 -->
+                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION (RED)', 5555)">
+                    <div class="relative bg-gray-100 aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400" class="w-full h-full object-cover" alt="Hoodie">
+                        <span class="badge badge-red">LIMITED</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-sm mb-1">HOODIE SPECIAL EDITION (BRUSH FLEECE- RED)</h3>
+                        <p class="text-gray-500 text-xs mb-2">BDT 5555</p>
+                        <p class="text-xs font-medium">Available</p>
+                    </div>
+                </div>
+                <!-- Product 2 -->
+                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION (BLACK)', 5555)">
+                    <div class="relative bg-gray-100 aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?w=400" class="w-full h-full object-cover" alt="Hoodie">
+                        <span class="badge badge-red">LIMITED</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-sm mb-1">HOODIE SPECIAL EDITION (BRUSH FLEECE- BLACK)</h3>
+                        <p class="text-gray-500 text-xs mb-2">BDT 5555</p>
+                        <p class="text-xs font-medium">Available</p>
+                    </div>
+                </div>
+                <!-- Product 3 -->
+                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION (BLUE)', 5555)">
+                    <div class="relative bg-gray-100 aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=400" class="w-full h-full object-cover" alt="Hoodie">
+                        <span class="badge badge-red">LIMITED</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-sm mb-1">HOODIE SPECIAL EDITION (BRUSH FLEECE- BLUE)</h3>
+                        <p class="text-gray-500 text-xs mb-2">BDT 5555</p>
+                        <p class="text-xs font-medium">Available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Categories -->
+        <div class="mb-16">
+            <div class="section-title">ALL CATEGORIES</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Product 4 -->
+                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION', 5555)">
+                    <div class="relative bg-gray-100 aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400" class="w-full h-full object-cover" alt="Hoodie">
+                        <span class="badge badge-red">LIMITED</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-xs mb-1">HOODIE SPECIAL EDITION</h3>
+                        <p class="text-gray-500 text-xs">BDT 5555</p>
+                    </div>
+                </div>
+                <!-- Product 5 -->
+                <div class="product-card group cursor-pointer" onclick="openModal('CUBAN SHIRT - 004', 3555)">
+                    <div class="relative bg-gray-100 aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400" class="w-full h-full object-cover" alt="Shirt">
+                        <span class="badge badge-red">-15% OFF</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-xs mb-1">CUBAN SHIRT - 004</h3>
+                        <p class="text-gray-500 text-xs">BDT 3555</p>
+                    </div>
+                </div>
+                <!-- Product 6 -->
+                <div class="product-card group cursor-pointer" onclick="openModal('CUBAN SHIRT - 006', 3555)">
+                    <div class="relative bg-gray-100 aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1589465885857-44edb59ef526?w=400" class="w-full h-full object-cover" alt="Shirt">
+                        <span class="badge badge-red">-15% OFF</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-xs mb-1">CUBAN SHIRT - 006</h3>
+                        <p class="text-gray-500 text-xs">BDT 3555</p>
+                    </div>
+                </div>
+                <!-- Product 7 -->
+                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION', 5555)">
+                    <div class="relative bg-gray-100 aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400" class="w-full h-full object-cover" alt="Hoodie">
+                        <span class="badge badge-red">LIMITED</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-xs mb-1">HOODIE SPECIAL EDITION</h3>
+                        <p class="text-gray-500 text-xs">BDT 5555</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Rated -->
+        <div class="mb-16">
+            <div class="section-title">TOP RATED</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Product 8 -->
+                <div class="product-card group cursor-pointer" onclick="openModal('HOODIE SPECIAL EDITION', 5555)">
+                    <div class="relative bg-gray-100 aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400" class="w-full h-full object-cover" alt="Hoodie">
+                        <span class="badge badge-red">LIMITED</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-xs mb-1">HOODIE SPECIAL EDITION</h3>
+                        <p class="text-gray-500 text-xs">BDT 5555</p>
+                    </div>
+                </div>
+                <!-- Product 9 -->
+                <div class="product-card group cursor-pointer" onclick="openModal('CUBAN SHIRT - 004', 3555)">
+                    <div class="relative bg-gray-100 aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400" class="w-full h-full object-cover" alt="Shirt">
+                        <span class="badge badge-red">-15% OFF</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-xs mb-1">CUBAN SHIRT - 004</h3>
+                        <p class="text-gray-500 text-xs">BDT 3555</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grab Now Button -->
+        <div class="flex justify-center mt-10">
+            <button onclick="scrollToProducts()" class="bg-white border border-gray-300 rounded-full px-8 py-4 shadow-lg hover:shadow-xl transition flex flex-col items-center">
+                <span class="font-bold text-sm">GRAB NOW!</span>
+                <i class="fas fa-chevron-up mt-1"></i>
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 md:px-20">
+        <div class="max-w-4xl mx-auto">
+            <h3 class="text-xl font-bold mb-6 text-white">WHO WE ARE</h3>
+            <div class="space-y-2 text-sm text-gray-300 mb-8">
+                <p>Email: runoffdesigns@gmail.com</p>
+                <p>Address: Banani, Dhaka-1207</p>
+                <p>Phone: 01601-502253</p>
+            </div>
+            
+            <div class="mb-12">
+                <p class="text-sm text-gray-300 mb-4">Check Us Out On Our</p>
+                <div class="flex gap-4">
+                    <a href="#" class="text-2xl hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-2xl hover:text-white"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-600 pt-8 text-center text-xs text-gray-400">
+                <p class="mb-4">Copyright © 2026 Accolade.clo. All Rights Reserved.</p>
+                <p>Developed By Accolade.clo</p>
+                <div class="mt-4 flex flex-col items-center">
+                    <div class="w-8 h-8 border border-white rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-star text-[8px] text-white"></i>
+                    </div>
+                    <span class="font-bold text-white">Accolade.clo</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Transaction Modal -->
+    <div id="transaction-modal" class="flex">
+        <div class="bg-white p-8 rounded-lg max-w-md w-full mx-4 shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-black">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div id="order-form">
+                <h3 class="text-2xl font-bold mb-4">Complete Your Order</h3>
+                <div class="bg-gray-100 p-4 rounded mb-6">
+                    <p class="font-bold" id="modal-product-name">Product Name</p>
+                    <p class="text-gray-600" id="modal-product-price">BDT 0</p>
+                </div>
+                
+                <form onsubmit="handleTransaction(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                        <input type="text" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-black">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                        <input type="tel" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-black">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                        <textarea required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-black" rows="3"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-black text-white py-3 font-bold rounded hover:bg-gray-800 transition">
+                        CONFIRM ORDER
+                    </button>
+                </form>
+            </div>
+
+            <div id="processing-view" class="hidden text-center py-10">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
+                <p class="text-lg font-medium">Processing Transaction...</p>
+            </div>
+
+            <div id="thank-you-msg" class="hidden text-center py-10">
+                <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Thank You!</h3>
+                <p class="text-gray-600">Your order has been placed successfully.</p>
+                <button onclick="closeModal()" class="mt-6 text-sm underline text-gray-500 hover:text-black">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function scrollToProducts() {
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openModal(productName, price) {
+            document.getElementById('modal-product-name').innerText = productName;
+            document.getElementById('modal-product-price').innerText = 'BDT ' + price;
+            
+            document.getElementById('order-form').classList.remove('hidden');
+            document.getElementById('processing-view').classList.add('hidden');
+            document.getElementById('thank-you-msg').classList.add('hidden');
+            
+            document.getElementById('transaction-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('transaction-modal').style.display = 'none';
+        }
+
+        function handleTransaction(event) {
+            event.preventDefault();
+            
+            // Show processing
+            document.getElementById('order-form').classList.add('hidden');
+            document.getElementById('processing-view').classList.remove('hidden');
+            
+            // Simulate transaction delay
+            setTimeout(() => {
+                document.getElementById('processing-view').classList.add('hidden');
+                document.getElementById('thank-you-msg').classList.remove('hidden');
+                document.getElementById('thank-you-msg').style.display = 'block';
+            }, 2000);
+        }
+
+        // Close modal if clicked outside
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('transaction-modal')) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

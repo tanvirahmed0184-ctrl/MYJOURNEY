@@ -277,15 +277,33 @@
         text-transform: uppercase;
         color: var(--muted);
       }
+      .hero-poster-grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+      .hero-poster {
+        border-radius: 26px;
+        overflow: hidden;
+        min-height: 360px;
+        background: transparent;
+        box-shadow: none;
+      }
+      .hero-poster img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
       .info-card {
         position: relative;
         cursor: pointer;
       }
       .product-card {
-        background: #fffaf3;
+        background: linear-gradient(160deg, #fff9f2, #f2e8dd);
         border-radius: 20px;
         border: 1px solid var(--card-border);
-        padding: 14px;
+        padding: 10px;
         box-shadow: var(--shadow-soft);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         position: relative;
@@ -295,14 +313,20 @@
         box-shadow: var(--shadow);
       }
       .product-image {
-        height: 210px;
-        border-radius: 18px;
+        height: 230px;
+        border-radius: 20px;
         background: linear-gradient(150deg, #d9cbb3, #f5ecdf);
         display: flex;
         align-items: flex-end;
-        padding: 12px;
+        padding: 8px;
         position: relative;
         overflow: hidden;
+      }
+      .product-card > .mt-4 {
+        margin-top: 10px;
+      }
+      .product-card .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0.35rem;
       }
       .product-image span {
         background: rgba(255, 255, 255, 0.85);
@@ -604,10 +628,20 @@
       .form-input:focus {
         border-color: var(--brown);
       }
-      .footer-card {
+      .footer-full {
+        width: 100%;
         background: var(--header-footer);
         color: #fff;
-        border-radius: 26px;
+      }
+      .footer-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 56px;
+      }
+      @media (max-width: 768px) {
+        .footer-inner {
+          padding: 48px 28px;
+        }
       }
       .price-text {
         color: var(--price);
@@ -846,149 +880,13 @@
           </div>
         </section>
 
-        <section class="grid md:grid-cols-2 gap-6">
-          <article
-            class="collection-card info-card"
-            data-name="Brush fleece"
-            data-subtitle="New collection"
-            data-price="BDT 2800"
-            data-offer="Limited"
-            data-cotton="Add details"
-            data-quality="Add details"
-            data-fabric="Add details"
-            data-sizechart="size-chart.jpg"
-            data-images="image-1.jpg,image-2.jpg,image-3.jpg,image-4.jpg"
-          >
-            <div class="collection-image">
-              <span>New collection</span>
-            </div>
-            <div class="flex items-end justify-between gap-4">
-              <div>
-                <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
-                  New collection
-                </p>
-                <h3 class="text-xl font-black uppercase tracking-wide">
-                  Brush fleece
-                </h3>
-                <p class="text-sm price-text mt-1">BDT 2800</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <button
-                  onclick="addToCart('Brush Fleece', 2800)"
-                  class="add-btn"
-                >
-                  Add
-                </button>
-                <button type="button" class="info-trigger">Click to see</button>
-              </div>
-            </div>
-            <div class="product-overlay">
-              <div class="info-gallery">
-                <div class="info-track">
-                  <div class="info-thumb">Image 01</div>
-                  <div class="info-thumb">Image 02</div>
-                  <div class="info-thumb">Image 03</div>
-                  <div class="info-thumb">Image 04</div>
-                  <div class="info-thumb">Image 01</div>
-                  <div class="info-thumb">Image 02</div>
-                </div>
-              </div>
-              <div class="info-content">
-                <p class="info-title">Brush fleece</p>
-                <p class="info-subtitle">New collection</p>
-                <div class="info-price-row">
-                  <span class="price-text">BDT 2800</span>
-                  <span class="info-offer">Limited</span>
-                </div>
-                <details class="info-details">
-                  <summary>Product info</summary>
-                  <ul>
-                    <li>Cotton: add details</li>
-                    <li>Quality: add details</li>
-                    <li>Fabric: add details</li>
-                  </ul>
-                </details>
-                <a
-                  class="size-link"
-                  href="size-chart.jpg"
-                  target="_blank"
-                  rel="noreferrer"
-                  >Size chart</a
-                >
-              </div>
-            </div>
-          </article>
-          <article
-            class="collection-card info-card"
-            data-name="Shadow cactus"
-            data-subtitle="New collection"
-            data-price="BDT 2650"
-            data-offer="Limited"
-            data-cotton="Add details"
-            data-quality="Add details"
-            data-fabric="Add details"
-            data-sizechart="size-chart.jpg"
-            data-images="image-1.jpg,image-2.jpg,image-3.jpg,image-4.jpg"
-          >
-            <div class="collection-image">
-              <span>New collection</span>
-            </div>
-            <div class="flex items-end justify-between gap-4">
-              <div>
-                <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
-                  New collection
-                </p>
-                <h3 class="text-xl font-black uppercase tracking-wide">
-                  Shadow cactus
-                </h3>
-                <p class="text-sm price-text mt-1">BDT 2650</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <button
-                  onclick="addToCart('Shadow Cactus', 2650)"
-                  class="add-btn"
-                >
-                  Add
-                </button>
-                <button type="button" class="info-trigger">Click to see</button>
-              </div>
-            </div>
-            <div class="product-overlay">
-              <div class="info-gallery">
-                <div class="info-track">
-                  <div class="info-thumb">Image 01</div>
-                  <div class="info-thumb">Image 02</div>
-                  <div class="info-thumb">Image 03</div>
-                  <div class="info-thumb">Image 04</div>
-                  <div class="info-thumb">Image 01</div>
-                  <div class="info-thumb">Image 02</div>
-                </div>
-              </div>
-              <div class="info-content">
-                <p class="info-title">Shadow cactus</p>
-                <p class="info-subtitle">New collection</p>
-                <div class="info-price-row">
-                  <span class="price-text">BDT 2650</span>
-                  <span class="info-offer">Limited</span>
-                </div>
-                <details class="info-details">
-                  <summary>Product info</summary>
-                  <ul>
-                    <li>Cotton: add details</li>
-                    <li>Quality: add details</li>
-                    <li>Fabric: add details</li>
-                  </ul>
-                </details>
-                <a
-                  class="size-link"
-                  href="size-chart.jpg"
-                  target="_blank"
-                  rel="noreferrer"
-                  >Size chart</a
-                >
-              </div>
-            </div>
-          </article>
+        <section class="hero-poster-grid">
+          <div class="hero-poster">
+            <img src="collection-1.jpg" alt="Collection poster 1" />
+          </div>
+          <div class="hero-poster">
+            <img src="collection-2.jpg" alt="Collection poster 2" />
+          </div>
         </section>
 
         <section id="featured-products" class="space-y-6">
@@ -1946,8 +1844,8 @@
                         onchange="updateCalculations()"
                         required
                       >
-                        <option value="Dhaka">Dhaka City (80 Tk)</option>
-                        <option value="Outside">Outside Dhaka (130 Tk)</option>
+                        <option value="Dhaka">Dhaka City — 80 Tk</option>
+                        <option value="Outside">Outside Dhaka — 130 Tk</option>
                       </select>
                     </div>
                   </div>
@@ -2108,8 +2006,8 @@
       </div>
     </div>
 
-    <footer class="max-w-6xl mx-auto px-6 md:px-10 pb-14">
-      <div class="footer-card px-6 py-10 md:px-10 md:py-12">
+    <footer class="footer-full">
+      <div class="footer-inner">
         <div class="grid md:grid-cols-2 gap-8 text-sm">
           <div class="space-y-4">
             <h3 class="text-lg font-bold uppercase tracking-widest">

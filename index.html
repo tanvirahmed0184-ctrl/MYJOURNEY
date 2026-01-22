@@ -301,16 +301,22 @@
         text-transform: uppercase;
         color: var(--muted);
       }
-      .hero-poster-grid {
-        display: grid;
+      .hero-poster-carousel {
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-poster-track {
+        display: flex;
         gap: 20px;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        transition: transform 0.5s ease;
+        will-change: transform;
       }
       .hero-poster {
         border-radius: 26px;
         overflow: hidden;
+        flex: 0 0 calc(50% - 10px);
         min-height: 360px;
-        background: transparent;
+        background: var(--cream);
         box-shadow: none;
       }
       .hero-poster img {
@@ -318,6 +324,41 @@
         height: 100%;
         object-fit: cover;
         display: block;
+      }
+      .hero-poster img:not([src]),
+      .hero-poster img[src=""] {
+        display: none;
+      }
+      .hero-poster-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 36px;
+        height: 36px;
+        border-radius: 999px;
+        border: 1px solid rgba(31, 31, 31, 0.12);
+        background: rgba(255, 255, 255, 0.45);
+        color: var(--brown);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(6px);
+        transition: all 0.2s ease;
+        z-index: 3;
+      }
+      .hero-poster-nav:hover {
+        background: rgba(255, 255, 255, 0.75);
+        border-color: rgba(31, 31, 31, 0.2);
+      }
+      .hero-poster-nav.prev {
+        left: 10px;
+      }
+      .hero-poster-nav.next {
+        right: 10px;
+      }
+      .hero-poster-nav:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
       }
       .hero-poster,
       .product-image {
@@ -818,6 +859,12 @@
         .cart-panel {
           padding: 16px;
         }
+        .hero-poster {
+          flex-basis: 100%;
+        }
+        .hero-poster-nav {
+          display: none;
+        }
       }
       @media (max-width: 640px) {
         main {
@@ -1233,12 +1280,23 @@
           </div>
         </section>
 
-        <section class="hero-poster-grid">
-          <div class="hero-poster">
-            <img src="photos/red2.jpeg" alt="Collection poster 1" loading="lazy" />
-          </div>
-          <div class="hero-poster">
-            <img src="photos/yellow1.jpeg" alt="Collection poster 2" loading="lazy" />
+        <section class="hero-poster-carousel">
+          <button class="hero-poster-nav prev" type="button" data-poster-prev>
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="hero-poster-nav next" type="button" data-poster-next>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <div class="hero-poster-track">
+            <div class="hero-poster">
+              <img src="photos/red2.jpeg" alt="Collection poster 1" loading="lazy" />
+            </div>
+            <div class="hero-poster">
+              <img src="photos/yellow1.jpeg" alt="Collection poster 2" loading="lazy" />
+            </div>
+            <div class="hero-poster">
+              <img src="" alt="Collection poster 3" loading="lazy" />
+            </div>
           </div>
         </section>
 
@@ -2569,6 +2627,7 @@
 
       attachImageLoaders();
       setupBrandingScroll();
+      setupPosterCarousel();
 
       function updateCalculations() {
         const city = document.getElementById("city-selector").value;
@@ -2741,6 +2800,54 @@
           track.appendChild(item.cloneNode(true));
         });
         track.dataset.duplicated = "true";
+      }
+
+      function setupPosterCarousel() {
+        const track = document.querySelector(".hero-poster-track");
+        const prev = document.querySelector("[data-poster-prev]");
+        const next = document.querySelector("[data-poster-next]");
+        if (!track) {
+          return;
+        }
+        let index = 0;
+        const getPerView = () =>
+          window.matchMedia("(max-width: 768px)").matches ? 1 : 2;
+        const update = () => {
+          const items = Array.from(track.children);
+          if (items.length === 0) {
+            return;
+          }
+          const perView = getPerView();
+          const maxIndex = Math.max(0, items.length - perView);
+          index = Math.min(index, maxIndex);
+          const itemWidth = items[0].getBoundingClientRect().width;
+          const gap = parseFloat(getComputedStyle(track).gap || "0");
+          const offset = (itemWidth + gap) * index;
+          track.style.transform = `translateX(-${offset}px)`;
+          if (prev) {
+            prev.disabled = index === 0;
+          }
+          if (next) {
+            next.disabled = index === maxIndex;
+          }
+        };
+        if (prev) {
+          prev.addEventListener("click", () => {
+            index = Math.max(0, index - 1);
+            update();
+          });
+        }
+        if (next) {
+          next.addEventListener("click", () => {
+            const perView = getPerView();
+            const maxIndex = Math.max(0, track.children.length - perView);
+            index = Math.min(maxIndex, index + 1);
+            update();
+          });
+        }
+        window.addEventListener("resize", update);
+        window.addEventListener("load", update, { once: true });
+        update();
       }
 
       function updateModalTotals() {

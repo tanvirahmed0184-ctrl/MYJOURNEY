@@ -360,6 +360,9 @@
         opacity: 0.4;
         cursor: not-allowed;
       }
+      .product-grid {
+        display: grid;
+      }
       .hero-poster,
       .product-image {
         position: relative;
@@ -832,6 +835,12 @@
         }
         .nav-inner {
           padding: 10px 18px;
+          flex-wrap: wrap;
+          row-gap: 8px;
+        }
+        .brand-text {
+          font-size: 1rem;
+          letter-spacing: 0.12em;
         }
         .brand-mark {
           width: 38px;
@@ -872,6 +881,7 @@
         main {
           padding-left: 20px;
           padding-right: 20px;
+          max-width: 100%;
         }
         .branding-item {
           height: 180px;
@@ -893,6 +903,46 @@
         .modal-info {
           gap: 12px;
           padding: 12px;
+        }
+        .hero-shell {
+          padding: 28px 18px;
+        }
+        .hero-actions a {
+          width: 100%;
+          justify-content: center;
+        }
+        .product-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px;
+        }
+        .product-card {
+          padding: 6px;
+          border-radius: 16px;
+        }
+        .product-image {
+          height: 150px;
+          border-radius: 16px;
+        }
+        .product-image .label-chip {
+          font-size: 8px;
+          padding: 4px 8px;
+        }
+        .badge {
+          top: 8px;
+          right: 8px;
+          font-size: 8px;
+          padding: 3px 6px;
+        }
+        .product-card h3 {
+          font-size: 11px;
+        }
+        .product-card p,
+        .availability {
+          font-size: 9px;
+        }
+        .add-btn {
+          font-size: 9px;
+          padding: 6px 10px;
         }
       }
       .modal.hidden-section {
@@ -1056,6 +1106,7 @@
         align-items: center;
         justify-content: space-between;
         min-height: var(--header-height);
+        width: 100%;
       }
       .site-header .nav-link,
       .site-header .brand-mark,
@@ -1311,7 +1362,7 @@
             <h2 class="section-title">Featured products</h2>
             <span class="section-tag">New winter collection</span>
           </div>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="product-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div
               class="product-card info-card"
               data-name="Hoodie special edition"
@@ -1533,7 +1584,7 @@
             <h2 class="section-title">All categories</h2>
             <span class="section-tag section-tag-outline">All categories</span>
           </div>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="product-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div
               class="product-card info-card"
               data-name="Hoodie special edition"
@@ -1968,7 +2019,7 @@
             <h2 class="section-title">Top rated</h2>
             <span class="section-tag">Top rated</span>
           </div>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="product-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div
               class="product-card info-card"
               data-name="Hoodie special edition"

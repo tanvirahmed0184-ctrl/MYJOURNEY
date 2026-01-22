@@ -1057,8 +1057,8 @@
         gap: 18px;
         width: max-content;
         animation: branding-scroll 20s linear infinite;
-        --scroll-distance: 0px;
         will-change: transform;
+        transform: translate3d(0, 0, 0);
       }
       .branding-item {
         flex: 0 0 clamp(240px, 45vw, 480px);
@@ -1084,10 +1084,10 @@
       }
       @keyframes branding-scroll {
         0% {
-          transform: translateX(0);
+          transform: translate3d(0, 0, 0);
         }
         100% {
-          transform: translateX(calc(-1 * var(--scroll-distance)));
+          transform: translate3d(-50%, 0, 0);
         }
       }
       @media (min-width: 768px) {
@@ -2731,15 +2731,6 @@
           });
       }
 
-      function updateBrandingScroll() {
-        const track = document.querySelector(".branding-track");
-        if (!track) {
-          return;
-        }
-        const halfWidth = track.scrollWidth / 2;
-        track.style.setProperty("--scroll-distance", `${halfWidth}px`);
-      }
-
       function setupBrandingScroll() {
         const track = document.querySelector(".branding-track");
         if (!track || track.dataset.duplicated === "true") {
@@ -2750,9 +2741,6 @@
           track.appendChild(item.cloneNode(true));
         });
         track.dataset.duplicated = "true";
-        updateBrandingScroll();
-        window.addEventListener("resize", updateBrandingScroll);
-        window.addEventListener("load", updateBrandingScroll, { once: true });
       }
 
       function updateModalTotals() {

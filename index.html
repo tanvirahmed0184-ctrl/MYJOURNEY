@@ -1056,7 +1056,9 @@
         display: flex;
         gap: 18px;
         width: max-content;
-        animation: branding-scroll 16s linear infinite;
+        animation: branding-scroll 20s linear infinite;
+        --scroll-distance: 0px;
+        will-change: transform;
       }
       .branding-item {
         flex: 0 0 clamp(240px, 45vw, 480px);
@@ -1085,7 +1087,7 @@
           transform: translateX(0);
         }
         100% {
-          transform: translateX(-50%);
+          transform: translateX(calc(-1 * var(--scroll-distance)));
         }
       }
       @media (min-width: 768px) {
@@ -2566,6 +2568,7 @@
       }
 
       attachImageLoaders();
+      setupBrandingScroll();
 
       function updateCalculations() {
         const city = document.getElementById("city-selector").value;
@@ -2726,6 +2729,30 @@
               );
             }
           });
+      }
+
+      function updateBrandingScroll() {
+        const track = document.querySelector(".branding-track");
+        if (!track) {
+          return;
+        }
+        const halfWidth = track.scrollWidth / 2;
+        track.style.setProperty("--scroll-distance", `${halfWidth}px`);
+      }
+
+      function setupBrandingScroll() {
+        const track = document.querySelector(".branding-track");
+        if (!track || track.dataset.duplicated === "true") {
+          return;
+        }
+        const items = Array.from(track.children);
+        items.forEach((item) => {
+          track.appendChild(item.cloneNode(true));
+        });
+        track.dataset.duplicated = "true";
+        updateBrandingScroll();
+        window.addEventListener("resize", updateBrandingScroll);
+        window.addEventListener("load", updateBrandingScroll, { once: true });
       }
 
       function updateModalTotals() {

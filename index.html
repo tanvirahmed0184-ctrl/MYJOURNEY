@@ -756,6 +756,7 @@
         height: 100%;
         padding: 0;
         transition: transform 0.5s ease;
+        touch-action: pan-y;
       }
       .modal-slide {
         width: 100%;
@@ -901,7 +902,7 @@
           line-height: 1.5;
         }
         .hero-shell .space-y-6 > :not([hidden]) ~ :not([hidden]) {
-          margin-top: 1rem;
+          margin-top: 0.75rem;
         }
         .copy-break {
           display: block;
@@ -980,7 +981,7 @@
         }
         .product-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 3px;
+          gap: 6px;
         }
         .product-card {
           padding: 3px;
@@ -3251,6 +3252,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       let modalPointerStartX = 0;
       let modalPointerStartY = 0;
       const modalSwipeThreshold = 40;
+      let modalSwipeSource = null;
 
       function buildSlides(images) {
         modalTrack.innerHTML = "";
@@ -3549,6 +3551,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           if (!isMobileViewport()) {
             return;
           }
+          modalSwipeSource = "pointer";
           stopModalAutoScroll();
           if (modalResumeTimer) {
             clearTimeout(modalResumeTimer);
@@ -3560,6 +3563,9 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           if (!isMobileViewport()) {
             return;
           }
+          if (modalSwipeSource !== "pointer") {
+            return;
+          }
           const deltaX = event.clientX - modalPointerStartX;
           const deltaY = event.clientY - modalPointerStartY;
           if (
@@ -3568,14 +3574,60 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           ) {
             setModalIndex(modalIndex + (deltaX < 0 ? 1 : -1));
           }
+          modalSwipeSource = null;
           modalResumeTimer = setTimeout(() => {
             startModalAutoScroll();
           }, 500);
+        });
+        modalTrack.addEventListener("touchstart", (event) => {
+          if (!isMobileViewport() || modalSwipeSource === "pointer") {
+            return;
+          }
+          const touch = event.touches[0];
+          if (!touch) {
+            return;
+          }
+          modalSwipeSource = "touch";
+          stopModalAutoScroll();
+          if (modalResumeTimer) {
+            clearTimeout(modalResumeTimer);
+          }
+          modalPointerStartX = touch.clientX;
+          modalPointerStartY = touch.clientY;
+        }, { passive: true });
+        modalTrack.addEventListener("touchend", (event) => {
+          if (!isMobileViewport() || modalSwipeSource !== "touch") {
+            return;
+          }
+          const touch = event.changedTouches[0];
+          if (!touch) {
+            return;
+          }
+          const deltaX = touch.clientX - modalPointerStartX;
+          const deltaY = touch.clientY - modalPointerStartY;
+          if (
+            Math.abs(deltaX) > modalSwipeThreshold &&
+            Math.abs(deltaX) > Math.abs(deltaY)
+          ) {
+            setModalIndex(modalIndex + (deltaX < 0 ? 1 : -1));
+          }
+          modalSwipeSource = null;
+          modalResumeTimer = setTimeout(() => {
+            startModalAutoScroll();
+          }, 500);
+        }, { passive: true });
+        modalTrack.addEventListener("touchcancel", () => {
+          if (!isMobileViewport() || modalSwipeSource !== "touch") {
+            return;
+          }
+          modalSwipeSource = null;
+          startModalAutoScroll();
         });
         modalTrack.addEventListener("pointercancel", () => {
           if (!isMobileViewport()) {
             return;
           }
+          modalSwipeSource = null;
           startModalAutoScroll();
         });
       }

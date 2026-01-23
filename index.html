@@ -1185,6 +1185,38 @@
       .price-text {
         color: var(--price);
       }
+      .price-display {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .price-currency {
+        font-weight: 700;
+        color: var(--price);
+      }
+      .price-original {
+        font-weight: 700;
+        color: var(--price);
+        text-decoration: line-through;
+        text-decoration-thickness: 2px;
+        text-decoration-color: rgba(31, 31, 31, 0.7);
+      }
+      .price-current {
+        font-weight: 800;
+        font-size: 1.05em;
+        color: var(--brown);
+      }
+      .price-badge {
+        background: #c4342f;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        padding: 4px 10px;
+        border-radius: 999px;
+      }
       .site-header {
         position: fixed;
         top: 0;
@@ -1501,7 +1533,7 @@
               data-name="Hoodie special edition"
               data-subtitle="Brush fleece - red"
               data-price="BDT 1575"
-              data-offer="10% OFF"
+              data-offer="1750"
               data-cotton="100% FLeece Cotton Fabric"
               data-quality="high Quality 460 GSM"
               data-fabric="Symbol of Modern Heritage"
@@ -1524,7 +1556,12 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - red
                 </p>
-                <p class="text-sm font-semibold price-text">BDT 1575</p>
+                <div class="price-display">
+                  <span class="price-currency">BDT</span>
+                  <span class="price-original">1750</span>
+                  <span class="price-current">1575</span>
+                  <span class="price-badge">10% OFF</span>
+                </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button
@@ -1549,9 +1586,11 @@
                 <div class="info-content">
                   <p class="info-title">Hoodie special edition</p>
                   <p class="info-subtitle">Brush fleece - red</p>
-                  <div class="info-price-row">
-                    <span class="price-text">BDT 1575</span>
-                    <span class="info-offer">10% OFF</span>
+                  <div class="info-price-row price-display">
+                    <span class="price-currency">BDT</span>
+                    <span class="price-original">1750</span>
+                    <span class="price-current">1575</span>
+                    <span class="price-badge">10% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -1576,7 +1615,7 @@
               data-name="Hoodie special edition"
               data-subtitle="Brush fleece - yellow"
               data-price="BDT 1575"
-              data-offer="10% OFF"
+              data-offer="1750"
               data-cotton="100% FLeece Cotton Fabric"
               data-quality="High quality 460 GSM"
               data-fabric="Symbol of Modern Heritage"
@@ -1599,7 +1638,12 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - YELLOW
                 </p>
-                <p class="text-sm font-semibold price-text">BDT 1575</p>
+                <div class="price-display">
+                  <span class="price-currency">BDT</span>
+                  <span class="price-original">1750</span>
+                  <span class="price-current">1575</span>
+                  <span class="price-badge">10% OFF</span>
+                </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">10% OFF</span>
                   <button
@@ -1624,9 +1668,11 @@
                 <div class="info-content">
                   <p class="info-title">Hoodie special edition</p>
                   <p class="info-subtitle">Brush fleece - YELLOW</p>
-                  <div class="info-price-row">
-                    <span class="price-text">BDT 1575</span>
-                    <span class="info-offer">10% OFF</span>
+                  <div class="info-price-row price-display">
+                    <span class="price-currency">BDT</span>
+                    <span class="price-original">1750</span>
+                    <span class="price-current">1575</span>
+                    <span class="price-badge">10% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -1651,7 +1697,7 @@
               data-name="Back print edition"
               data-subtitle="Brush fleece - navy"
               data-price="BDT 1750"
-              data-offer="10% OFF"
+              data-offer="1950"
               data-cotton="100% French Terry Cotton Fabric"
               data-quality="High quality 455 GSM"
               data-fabric="Symbol of Modern Heritage"
@@ -1670,7 +1716,12 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - navy
                 </p>
-                <p class="text-sm font-semibold price-text">BDT 1750</p>
+                <div class="price-display">
+                  <span class="price-currency">BDT</span>
+                  <span class="price-original">1950</span>
+                  <span class="price-current">1750</span>
+                  <span class="price-badge">10% OFF</span>
+                </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button
@@ -1695,9 +1746,11 @@
                 <div class="info-content">
                   <p class="info-title">Back print edition</p>
                   <p class="info-subtitle">Brush fleece - navy</p>
-                  <div class="info-price-row">
-                    <span class="price-text">BDT 1750</span>
-                    <span class="info-offer">10% OFF</span>
+                  <div class="info-price-row price-display">
+                    <span class="price-currency">BDT</span>
+                    <span class="price-original">1950</span>
+                    <span class="price-current">1750</span>
+                    <span class="price-badge">10% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -1731,7 +1784,7 @@
               data-name="Hoodie special edition"
               data-subtitle="Brush fleece - red"
               data-price="BDT 1575"
-              data-offer="Limited"
+              data-offer="1750"
               data-cotton="100% Fleece Cotton Fabric"
               data-quality="High Quality 460 GSM"
               data-fabric="Symbol of Modern Heritage"
@@ -1750,7 +1803,12 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - red
                 </p>
-                <p class="text-sm font-semibold price-text">BDT 1575</p>
+                <div class="price-display">
+                  <span class="price-currency">BDT</span>
+                  <span class="price-original">1750</span>
+                  <span class="price-current">1575</span>
+                  <span class="price-badge">10% OFF</span>
+                </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button
@@ -1775,9 +1833,11 @@
                 <div class="info-content">
                   <p class="info-title">Hoodie special edition</p>
                   <p class="info-subtitle">Brush fleece - red</p>
-                  <div class="info-price-row">
-                    <span class="price-text">BDT 1575</span>
-                    <span class="info-offer">Limited</span>
+                  <div class="info-price-row price-display">
+                    <span class="price-currency">BDT</span>
+                    <span class="price-original">1750</span>
+                    <span class="price-current">1575</span>
+                    <span class="price-badge">10% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -1802,7 +1862,7 @@
               data-name="Cuban shirt - 004"
               data-subtitle="Lightweight cotton"
               data-price="BDT 1215"
-              data-offer="15% off"
+              data-offer="1350"
               data-cotton="Add details"
               data-quality="Add details"
               data-fabric="Premium"
@@ -1825,7 +1885,12 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Lightweight cotton
                 </p>
-                <p class="text-sm font-semibold price-text">BDT 1215</p>
+                <div class="price-display">
+                  <span class="price-currency">BDT</span>
+                  <span class="price-original">1350</span>
+                  <span class="price-current">1215</span>
+                  <span class="price-badge">10% OFF</span>
+                </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
                   <button
@@ -1850,9 +1915,11 @@
                 <div class="info-content">
                   <p class="info-title">Cuban shirt - 004</p>
                   <p class="info-subtitle">Lightweight cotton</p>
-                  <div class="info-price-row">
-                    <span class="price-text">BDT 1215</span>
-                    <span class="info-offer">15% off</span>
+                  <div class="info-price-row price-display">
+                    <span class="price-currency">BDT</span>
+                    <span class="price-original">1350</span>
+                    <span class="price-current">1215</span>
+                    <span class="price-badge">10% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -1877,7 +1944,7 @@
               data-name="Cuban shirt - 005"
               data-subtitle="Short sleeve"
               data-price="BDT 1215"
-              data-offer="15% off"
+              data-offer="1350"
               data-cotton="Add details"
               data-quality="Add details"
               data-fabric="Add details"
@@ -1900,7 +1967,12 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Short sleeve
                 </p>
-                <p class="text-sm font-semibold price-text">BDT 1215</p>
+                <div class="price-display">
+                  <span class="price-currency">BDT</span>
+                  <span class="price-original">1350</span>
+                  <span class="price-current">1215</span>
+                  <span class="price-badge">10% OFF</span>
+                </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
                   <button
@@ -1925,9 +1997,11 @@
                 <div class="info-content">
                   <p class="info-title">Cuban shirt - 005</p>
                   <p class="info-subtitle">Short sleeve</p>
-                  <div class="info-price-row">
-                    <span class="price-text">BDT 1215</span>
-                    <span class="info-offer">15% off</span>
+                  <div class="info-price-row price-display">
+                    <span class="price-currency">BDT</span>
+                    <span class="price-original">1350</span>
+                    <span class="price-current">1215</span>
+                    <span class="price-badge">10% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -1952,7 +2026,7 @@
               data-name="Hoodie special edition"
               data-subtitle="Brush fleece - yellow"
               data-price="BDT 1575"
-              data-offer="Limited"
+              data-offer="1750"
               data-cotton="100% Fleece Cotton Fabric"
               data-quality="High Quality 460 GSM"
               data-fabric="Symbol of Modern Heritage"
@@ -1975,7 +2049,12 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - yellow
                 </p>
-                <p class="text-sm font-semibold price-text">BDT 1575</p>
+                <div class="price-display">
+                  <span class="price-currency">BDT</span>
+                  <span class="price-original">1750</span>
+                  <span class="price-current">1575</span>
+                  <span class="price-badge">10% OFF</span>
+                </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button
@@ -2000,9 +2079,11 @@
                 <div class="info-content">
                   <p class="info-title">Hoodie special edition</p>
                   <p class="info-subtitle">Brush fleece - yellow</p>
-                  <div class="info-price-row">
-                    <span class="price-text">BDT 1575</span>
-                    <span class="info-offer">Limited</span>
+                  <div class="info-price-row price-display">
+                    <span class="price-currency">BDT</span>
+                    <span class="price-original">1750</span>
+                    <span class="price-current">1575</span>
+                    <span class="price-badge">10% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -2027,7 +2108,7 @@
               data-name="Cuban shirt - blu"
               data-subtitle="Limited available"
               data-price="BDT 1215"
-              data-offer="15% off"
+              data-offer="1350"
               data-cotton="Add details"
               data-quality="Add details"
               data-fabric="Add details"
@@ -2050,7 +2131,12 @@
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Limited available
                 </p>
-                <p class="text-sm font-semibold price-text">BDT 1215</p>
+                <div class="price-display">
+                  <span class="price-currency">BDT</span>
+                  <span class="price-original">1350</span>
+                  <span class="price-current">1215</span>
+                  <span class="price-badge">10% OFF</span>
+                </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
                   <button
@@ -2075,9 +2161,11 @@
                 <div class="info-content">
                   <p class="info-title">Cuban shirt - blu</p>
                   <p class="info-subtitle">Limited available</p>
-                  <div class="info-price-row">
-                    <span class="price-text">BDT 1215</span>
-                    <span class="info-offer">15% off</span>
+                  <div class="info-price-row price-display">
+                    <span class="price-currency">BDT</span>
+                    <span class="price-original">1350</span>
+                    <span class="price-current">1215</span>
+                    <span class="price-badge">10% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -2102,7 +2190,7 @@
               data-name="Hoodie special edition"
               data-subtitle="Brush fleece - Navy"
               data-price="BDT 1575"
-              data-offer="Limited"
+              data-offer="1950"
               data-cotton="100% French Terry Cotton Fabric"
               data-quality="High Quality 455 GSM"
               data-fabric="Vintage blue Sunfade"
@@ -2126,7 +2214,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - navy
                 </p>
-                <p class="text-sm font-semibold price-text">BDT 1750</p>
+                <div class="price-display">
+                  <span class="price-currency">BDT</span>
+                  <span class="price-original">1950</span>
+                  <span class="price-current">1750</span>
+                  <span class="price-badge">10% OFF</span>
+                </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button
@@ -2151,9 +2244,11 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <div class="info-content">
                   <p class="info-title">Hoodie special edition</p>
                   <p class="info-subtitle">Brush fleece - navy</p>
-                  <div class="info-price-row">
-                    <span class="price-text">BDT 1750</span>
-                    <span class="info-offer">Limited</span>
+                  <div class="info-price-row price-display">
+                    <span class="price-currency">BDT</span>
+                    <span class="price-original">1950</span>
+                    <span class="price-current">1750</span>
+                    <span class="price-badge">10% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -2187,7 +2282,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               data-name="Hoodie special edition"
               data-subtitle="Brush fleece - red"
               data-price="BDT 1575"
-              data-offer="Limited"
+              data-offer="1750"
               data-cotton="100% Fleece Cotton Fabric"
               data-quality="High Quality 460 GSM"
               data-fabric="Symbol of Modern Heritage"
@@ -2210,7 +2305,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Brush fleece - red
                 </p>
-                <p class="text-sm font-semibold price-text">BDT 1575</p>
+                <div class="price-display">
+                  <span class="price-currency">BDT</span>
+                  <span class="price-original">1750</span>
+                  <span class="price-current">1575</span>
+                  <span class="price-badge">10% OFF</span>
+                </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button
@@ -2235,9 +2335,11 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <div class="info-content">
                   <p class="info-title">Hoodie special edition</p>
                   <p class="info-subtitle">Brush fleece - red</p>
-                  <div class="info-price-row">
-                    <span class="price-text">BDT 1575</span>
-                    <span class="info-offer">Limited</span>
+                  <div class="info-price-row price-display">
+                    <span class="price-currency">BDT</span>
+                    <span class="price-original">1750</span>
+                    <span class="price-current">1575</span>
+                    <span class="price-badge">10% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -2262,7 +2364,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               data-name="HOODIE SPECIAL EDITION - NAVY"
               data-subtitle="Limited available"
               data-price="BDT 1750"
-              data-offer="10% off"
+              data-offer="1950"
               data-cotton="100% French Terry  Cotton Fabric"
               data-quality="High Quality 455 GSM"
               data-fabric="Vintage Blue Sunfade"
@@ -2285,7 +2387,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
                   Limited available
                 </p>
-                <p class="text-sm font-semibold price-text">BDT 1750</p>
+                <div class="price-display">
+                  <span class="price-currency">BDT</span>
+                  <span class="price-original">1950</span>
+                  <span class="price-current">1750</span>
+                  <span class="price-badge">10% OFF</span>
+                </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button
@@ -2310,9 +2417,11 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <div class="info-content">
                   <p class="info-title">Hoodie special edition - NAVY</p>
                   <p class="info-subtitle">Limited available</p>
-                  <div class="info-price-row">
-                    <span class="price-text">BDT 1750</span>
-                    <span class="info-offer">10% off</span>
+                  <div class="info-price-row price-display">
+                    <span class="price-currency">BDT</span>
+                    <span class="price-original">1950</span>
+                    <span class="price-current">1750</span>
+                    <span class="price-badge">10% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -2656,9 +2765,11 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           <div class="modal-info">
             <p id="modal-subtitle" class="info-subtitle"></p>
             <h3 id="modal-title" class="info-title"></h3>
-            <div class="info-price-row">
-              <span id="modal-price" class="price-text"></span>
-              <span id="modal-offer" class="info-offer"></span>
+            <div class="info-price-row price-display">
+              <span class="price-currency">BDT</span>
+              <span id="modal-offer" class="price-original"></span>
+              <span id="modal-price" class="price-current"></span>
+              <span class="price-badge">10% OFF</span>
             </div>
             <p id="modal-unit" class="modal-unit"></p>
             <div class="modal-quantity">

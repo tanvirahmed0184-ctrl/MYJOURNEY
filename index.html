@@ -2352,11 +2352,42 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               ></div>
 
               <div
+                class="space-y-3 border-t border-dashed border-[#d6c8b4] pt-4 text-sm"
+              >
+                <p class="text-[11px] font-bold uppercase tracking-[0.2em]">
+                  Promo code
+                </p>
+                <div class="flex items-center gap-2">
+                  <input
+                    id="promo-code"
+                    type="text"
+                    placeholder="Enter code"
+                    class="w-full border-2 border-[#eadfce] rounded-lg py-2 px-3 text-xs font-semibold bg-white focus:outline-none focus:border-[#1f1f1f]"
+                  />
+                  <button
+                    id="promo-apply"
+                    type="button"
+                    class="btn-outline"
+                  >
+                    Apply
+                  </button>
+                </div>
+                <p id="promo-message" class="text-xs font-semibold"></p>
+              </div>
+
+              <div
                 class="space-y-2 border-t border-dashed border-[#d6c8b4] pt-4 text-sm font-medium"
               >
                 <div class="flex justify-between">
                   <span>Subtotal</span>
                   <span id="display-subtotal" class="price-text">0 Tk</span>
+                </div>
+                <div
+                  id="discount-row"
+                  class="flex justify-between text-[#3A3A3A] hidden-section"
+                >
+                  <span>Promo discount</span>
+                  <span id="display-discount" class="price-text">-0 Tk</span>
                 </div>
                 <div class="flex justify-between text-[#3A3A3A]">
                   <span>Delivery fee</span>
@@ -2567,6 +2598,21 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             <span>Subtotal</span>
             <span id="cart-modal-subtotal" class="price-text">0 Tk</span>
           </div>
+          <div
+            id="cart-modal-discount-row"
+            class="cart-subtotal hidden-section"
+          >
+            <span>Promo discount</span>
+            <span id="cart-modal-discount" class="price-text">-0 Tk</span>
+          </div>
+          <div class="cart-subtotal">
+            <span>Delivery fee</span>
+            <span id="cart-modal-delivery" class="price-text">0 Tk</span>
+          </div>
+          <div class="cart-subtotal font-semibold">
+            <span>Total</span>
+            <span id="cart-modal-total" class="price-text">0 Tk</span>
+          </div>
           <button class="btn-primary" type="button" data-cart-close>
             Continue shopping
           </button>
@@ -2709,10 +2755,22 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
     <script>
       let cart = [];
       let subtotal = 0;
+      let promoApplied = false;
       const cartModal = document.getElementById("cart-modal");
       const cartButton = document.getElementById("cart-button");
       const cartModalItems = document.getElementById("cart-modal-items");
       const cartModalSubtotal = document.getElementById("cart-modal-subtotal");
+      const promoInput = document.getElementById("promo-code");
+      const promoButton = document.getElementById("promo-apply");
+      const promoMessage = document.getElementById("promo-message");
+      const discountRow = document.getElementById("discount-row");
+      const discountValue = document.getElementById("display-discount");
+      const cartModalDiscountRow = document.getElementById(
+        "cart-modal-discount-row",
+      );
+      const cartModalDiscount = document.getElementById("cart-modal-discount");
+      const cartModalDelivery = document.getElementById("cart-modal-delivery");
+      const cartModalTotal = document.getElementById("cart-modal-total");
 
       function getCartCount() {
         return cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
@@ -2841,10 +2899,21 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       function updateCalculations() {
         const city = document.getElementById("city-selector").value;
         const deliveryFee = city === "Dhaka" ? 80 : 130;
-        const total = subtotal + deliveryFee;
+        const promoDiscount = promoApplied ? Math.round(subtotal * 0.05) : 0;
+        const total = subtotal - promoDiscount + deliveryFee;
 
         document.getElementById("display-subtotal").innerText =
           subtotal + " Tk";
+        if (discountValue) {
+          discountValue.innerText = `-${promoDiscount} Tk`;
+        }
+        if (discountRow) {
+          if (promoApplied && promoDiscount > 0) {
+            discountRow.classList.remove("hidden-section");
+          } else {
+            discountRow.classList.add("hidden-section");
+          }
+        }
         document.getElementById("display-delivery").innerText =
           deliveryFee + " Tk";
         document.getElementById("display-total").innerText = total + " Tk";
@@ -2853,6 +2922,56 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         document.getElementById("final-cart-items").value = cart
           .map((i) => (i.quantity > 1 ? `${i.name} x${i.quantity}` : i.name))
           .join(", ");
+
+        if (cartModalSubtotal) {
+          cartModalSubtotal.textContent = `${subtotal} Tk`;
+        }
+        if (cartModalDiscount) {
+          cartModalDiscount.textContent = `-${promoDiscount} Tk`;
+        }
+        if (cartModalDiscountRow) {
+          if (promoApplied && promoDiscount > 0) {
+            cartModalDiscountRow.classList.remove("hidden-section");
+          } else {
+            cartModalDiscountRow.classList.add("hidden-section");
+          }
+        }
+        if (cartModalDelivery) {
+          cartModalDelivery.textContent = `${deliveryFee} Tk`;
+        }
+        if (cartModalTotal) {
+          cartModalTotal.textContent = `${total} Tk`;
+        }
+      }
+
+      function applyPromo() {
+        if (promoApplied || !promoInput) {
+          return;
+        }
+        const code = promoInput.value;
+        if (code === "Ishika") {
+          promoApplied = true;
+          if (promoButton) {
+            promoButton.disabled = true;
+          }
+          promoInput.disabled = true;
+          if (promoMessage) {
+            promoMessage.textContent = "Promo applied: 5% off";
+            promoMessage.classList.remove("text-red-600");
+            promoMessage.classList.add("text-green-600");
+          }
+          updateCalculations();
+          return;
+        }
+        if (promoMessage) {
+          promoMessage.textContent = "Invalid promo code";
+          promoMessage.classList.remove("text-green-600");
+          promoMessage.classList.add("text-red-600");
+        }
+      }
+
+      if (promoButton) {
+        promoButton.addEventListener("click", applyPromo);
       }
 
       function goToPayment() {

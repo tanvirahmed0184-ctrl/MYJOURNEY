@@ -940,8 +940,8 @@
       }
       @media (max-width: 640px) {
         main {
-          padding-left: 8px;
-          padding-right: 8px;
+          padding-left: 6px;
+          padding-right: 6px;
           max-width: 100%;
         }
         .branding-item {
@@ -977,14 +977,14 @@
         }
         .product-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 6px;
+          gap: 4px;
         }
         .product-card {
-          padding: 5px;
+          padding: 4px;
           border-radius: 16px;
         }
         .product-image {
-          height: 170px;
+          height: 185px;
           border-radius: 16px;
         }
         .product-image .label-chip {
@@ -1007,6 +1007,11 @@
         .add-btn {
           font-size: 9px;
           padding: 6px 10px;
+        }
+        .modal-actions #modal-add {
+          width: 100%;
+          height: 44px;
+          padding: 12px 16px;
         }
       }
       @media (max-width: 520px) {
@@ -1216,6 +1221,34 @@
         letter-spacing: 0.12em;
         padding: 4px 10px;
         border-radius: 999px;
+      }
+      .modal-actions #modal-add {
+        min-width: 180px;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%);
+        background: #1f1f1f;
+        color: #faf7f2;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        box-shadow: var(--shadow-soft);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 90;
+        transition:
+          opacity 0.25s ease,
+          transform 0.25s ease;
+      }
+      .toast.is-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-4px);
       }
       .site-header {
         position: fixed;
@@ -2464,7 +2497,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         <input type="hidden" id="final-cart-items" name="Cart Items" />
         <input type="hidden" id="final-total-amount" name="Total Amount" />
 
-        <div class="cod-notice mb-6">
+        <div id="cod-notice" class="cod-notice mb-6">
           Cash on delivery is available. To confirm your order, please pay the
           delivery fee in advance.
         </div>
@@ -2820,6 +2853,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       </div>
     </div>
 
+    <div id="toast" class="toast" aria-live="polite"></div>
+
     <footer class="footer-full">
       <div class="footer-inner">
         <div class="grid md:grid-cols-2 gap-8 text-sm">
@@ -2885,10 +2920,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       let cart = [];
       let subtotal = 0;
       let promoApplied = false;
+      let toastTimer = null;
       const cartModal = document.getElementById("cart-modal");
       const cartButton = document.getElementById("cart-button");
       const cartModalItems = document.getElementById("cart-modal-items");
       const cartModalSubtotal = document.getElementById("cart-modal-subtotal");
+      const toast = document.getElementById("toast");
       const promoInput = document.getElementById("promo-code");
       const promoButton = document.getElementById("promo-apply");
       const promoMessage = document.getElementById("promo-message");
@@ -2904,6 +2941,21 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         "cart-modal-final-total",
       );
       const promoSection = document.getElementById("promo-section");
+      const codNotice = document.getElementById("cod-notice");
+
+      function showToast(message) {
+        if (!toast) {
+          return;
+        }
+        toast.textContent = message;
+        toast.classList.add("is-visible");
+        if (toastTimer) {
+          clearTimeout(toastTimer);
+        }
+        toastTimer = setTimeout(() => {
+          toast.classList.remove("is-visible");
+        }, 3000);
+      }
 
       function getCartCount() {
         return cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
@@ -2924,11 +2976,16 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         renderCartSummary();
         renderCartModal();
         updateCalculations();
+        showToast("Added successfully");
 
         const formContainer = document.getElementById("master-form");
         if (formContainer.classList.contains("hidden-section")) {
           formContainer.classList.remove("hidden-section");
-          formContainer.scrollIntoView({ behavior: "smooth" });
+          if (codNotice) {
+            codNotice.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            formContainer.scrollIntoView({ behavior: "smooth" });
+          }
         }
       }
 
@@ -3387,7 +3444,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
       function updateModalTotals() {
         const total = modalUnitPrice * modalQuantity;
-        modalPrice.textContent = `BDT ${total}`;
+        modalPrice.textContent = `${total}`;
         modalUnit.textContent = `Unit: BDT ${modalUnitPrice}`;
         if (qtyValue) {
           qtyValue.textContent = modalQuantity;

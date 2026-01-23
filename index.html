@@ -12,6 +12,8 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap");
       @import url("https://fonts.cdnfonts.com/css/sansation");
+
+      /* Base theme colors */
       :root {
         --sand: #f4efe8;
         --sand-strong: #faf7f2;
@@ -80,6 +82,8 @@
         background: #888;
         border-radius: 4px;
       }
+
+      /* Header + nav */
       .nav-link {
         font-size: 12px;
         font-weight: 700;
@@ -146,6 +150,8 @@
         align-items: center;
         justify-content: center;
       }
+
+      /* Hero */
       .hero-shell {
         background: var(--sand-strong);
         border-radius: 32px;
@@ -647,6 +653,8 @@
         text-align: center;
         font-family: "Sansation", "Inter", sans-serif;
       }
+
+      /* Product modal */
       .modal {
         position: fixed;
         inset: 0;
@@ -857,6 +865,8 @@
           display: none;
         }
       }
+
+      /* Mobile adjustments */
       @media (max-width: 768px) {
         :root {
           --header-height: 68px;
@@ -1044,6 +1054,8 @@
       .modal.hidden-section {
         display: none;
       }
+
+      /* Cart modal */
       .cart-modal {
         position: fixed;
         inset: 0;
@@ -1141,6 +1153,8 @@
           transform: translateX(-50%);
         }
       }
+
+      /* Checkout panel + summary */
       .summary-card,
       .panel-card {
         background: var(--cream);
@@ -1185,6 +1199,8 @@
         font-size: 13px;
         font-weight: 700;
       }
+
+      /* Footer */
       .footer-full {
         width: 100%;
         background: var(--header-footer);
@@ -1203,6 +1219,8 @@
           padding: 48px 28px;
         }
       }
+
+      /* Price display hierarchy */
       .price-text {
         color: var(--price);
       }
@@ -1238,6 +1256,8 @@
         padding: 4px 10px;
         border-radius: 999px;
       }
+
+      /* Toast + CTA sizing */
       .modal-actions #modal-add {
         min-width: 180px;
       }
@@ -1266,6 +1286,8 @@
         opacity: 1;
         transform: translateX(-50%) translateY(-4px);
       }
+
+      /* Header + announcement bar */
       .site-header {
         position: fixed;
         top: 0;
@@ -1375,6 +1397,8 @@
         stroke-linecap: round;
         stroke-linejoin: round;
       }
+
+      /* Branding marquee under hero */
       .branding-strip {
         margin-top: 18px;
         overflow: hidden;
@@ -1385,9 +1409,13 @@
         display: flex;
         gap: 18px;
         width: max-content;
-        animation: branding-scroll 20s linear infinite;
+        animation: none;
         will-change: transform;
         transform: translate3d(0, 0, 0);
+      }
+      .branding-track.is-ready {
+        animation: branding-scroll 20s linear infinite;
+        animation-delay: -10s;
       }
       .branding-item {
         flex: 0 0 clamp(240px, 45vw, 480px);
@@ -1424,16 +1452,24 @@
           height: 230px;
         }
       }
+      @media (max-width: 768px) {
+        .branding-track.is-ready {
+          animation-duration: 16s;
+          animation-delay: -8s;
+        }
+      }
       @media (max-width: 640px) {
         .hero-arrow {
           display: none;
         }
       }
       @media (prefers-reduced-motion: reduce) {
-        .branding-track {
+        .branding-track.is-ready {
           animation: none;
         }
       }
+
+      /* Select inputs */
       .select-wrap {
         position: relative;
       }
@@ -1468,6 +1504,7 @@
     </style>
   </head>
   <body id="top" class="text-[#1F1F1F]">
+    <!-- Header -->
     <header class="site-header">
       <nav class="nav-inner max-w-6xl mx-auto px-6 md:px-10 py-4">
         <div class="flex items-center gap-3">
@@ -1497,23 +1534,28 @@
         </div>
       </nav>
     </header>
+
+    <!-- Announcement marquee (update text here) -->
     <div class="announcement-bar" aria-label="Announcements">
       <div class="announcement-track">
         <span class="announcement-text"
           >ALL WINTER COLLECTION AVAILABLE NOW!</span
         >
-        <span class="announcement-text">LIMITED STOCK — GRAB YOURS FIRST</span>
+        <span class="announcement-text">LIMITED STOCK - GRAB YOUR'S FIRST</span>
         <span class="announcement-text">NEW ARRIVALS DROPPED</span>
         <span class="announcement-text"
           >ALL WINTER COLLECTION AVAILABLE NOW!</span
         >
-        <span class="announcement-text">LIMITED STOCK — GRAB YOURS FIRST</span>
+        <span class="announcement-text"
+          >LIMITED STOCK - GRAB YOUR'S FIRST!</span
+        >
         <span class="announcement-text">NEW ARRIVALS DROPPED</span>
       </div>
     </div>
 
     <main class="max-w-6xl mx-auto px-6 md:px-10 pb-20 pt-8">
       <div id="step-products" class="space-y-16 pt-10 md:pt-14">
+        <!-- Hero section (update headline + copy here) -->
         <section class="hero-shell">
           <div class="grid md:grid-cols-[1.05fr,0.95fr] gap-12 items-center">
             <div class="space-y-6">
@@ -1539,6 +1581,7 @@
                   <path d="M102 16 L112 26 L100 32"></path>
                 </svg>
               </div>
+              <!-- Branding marquee -->
               <div class="branding-strip" aria-label="Branding carousel">
                 <div class="branding-track">
                   <div class="branding-item">
@@ -1571,7 +1614,7 @@
                   </div>
                   <div class="branding-item">
                     <img
-                      src="photos/yellow1.jpeg"
+                      src="photos/yellow2.jpeg"
                       alt="Branding image 02"
                       loading="lazy"
                     />
@@ -1579,6 +1622,7 @@
                 </div>
               </div>
             </div>
+            <!-- Optional collage (keep commented) -->
             <!-- <div class="collage">
               <div class="collage-card one">
                 <img src="photos/red2.jpeg" alt="Hero collage 1" loading="lazy" />
@@ -1630,6 +1674,7 @@
         </section>
         -->
 
+        <!-- Featured products -->
         <section id="featured-products" class="space-y-6">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <h2 class="section-title">Featured products</h2>
@@ -1638,8 +1683,8 @@
           <div class="product-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div
               class="product-card info-card"
-              data-name="Hoodie special edition"
-              data-subtitle="Brush fleece - red"
+              data-name="The SCHOLARS CALLING - BRUSH FLEECE"
+              data-subtitle="Hoodie special edition"
               data-price="BDT 1575"
               data-offer="1750"
               data-cotton="100% FLeece Cotton Fabric"
@@ -1654,15 +1699,15 @@
                   alt="Hoodie special"
                   loading="lazy"
                 />
-                <span class="label-chip">Hoodie special</span>
+                <span class="label-chip">LIMITED EDITION</span>
                 <span class="badge">10% OFF</span>
               </div>
               <div class="mt-4 space-y-2">
                 <h3 class="font-bold text-sm uppercase tracking-wider">
-                  Hoodie special edition
+                  The SCHOLARS CALLING - BRUSH FLEECE
                 </h3>
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
-                  Brush fleece - red
+                  Hoodie special edition
                 </p>
                 <div class="price-display">
                   <span class="price-currency">BDT</span>
@@ -1720,8 +1765,8 @@
             </div>
             <div
               class="product-card info-card"
-              data-name="Hoodie special edition"
-              data-subtitle="Brush fleece - yellow"
+              data-name="HANDS OF GRACE - BRUSH FLEECE"
+              data-subtitle="Hoodie special edition"
               data-price="BDT 1575"
               data-offer="1750"
               data-cotton="100% FLeece Cotton Fabric"
@@ -1741,10 +1786,10 @@
               </div>
               <div class="mt-4 space-y-2">
                 <h3 class="font-bold text-sm uppercase tracking-wider">
-                  Hoodie special edition
+                  HANDS OF GRACE - BRUSH FLEECE
                 </h3>
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
-                  Brush fleece - YELLOW
+                  Hoodie special edition
                 </p>
                 <div class="price-display">
                   <span class="price-currency">BDT</span>
@@ -1753,7 +1798,7 @@
                   <span class="price-badge">10% OFF</span>
                 </div>
                 <div class="flex items-center justify-end gap-3">
-                  <span class="availability">10% OFF</span>
+                  <span class="availability">AVAILABLE</span>
                   <button
                     onclick="addToCart('Hoodie Special Edition - YELLOW', 1575)"
                     class="add-btn"
@@ -1774,8 +1819,8 @@
                   </div>
                 </div>
                 <div class="info-content">
-                  <p class="info-title">Hoodie special edition</p>
-                  <p class="info-subtitle">Brush fleece - YELLOW</p>
+                  <p class="info-title">HANDS OF GRACE - BRUSH FLEECE</p>
+                  <p class="info-subtitle">Hoodie special edition</p>
                   <div class="info-price-row price-display">
                     <span class="price-currency">BDT</span>
                     <span class="price-original">1750</span>
@@ -1802,8 +1847,8 @@
             </div>
             <div
               class="product-card info-card"
-              data-name="Back print edition"
-              data-subtitle="Brush fleece - navy"
+              data-name="THE LADY OF SACRED BEADS - TERRY COTTON"
+              data-subtitle="HOODIE SPECIAL EDITION"
               data-price="BDT 1750"
               data-offer="1950"
               data-cotton="100% French Terry Cotton Fabric"
@@ -1814,15 +1859,15 @@
             >
               <div class="product-image">
                 <img src="photos/white.jpeg" alt="Back print" loading="lazy" />
-                <span class="label-chip">Back print</span>
-                <span class="badge secondary">New</span>
+                <span class="label-chip">TERRY COTTON</span>
+                <span class="badge secondary">LIMITED</span>
               </div>
               <div class="mt-4 space-y-2">
                 <h3 class="font-bold text-sm uppercase tracking-wider">
-                  Back print edition
+                  THE LADY OF SACRED BEADS - TERRY COTTON
                 </h3>
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
-                  Brush fleece - navy
+                  HOODIE SPECAIL EDITION
                 </p>
                 <div class="price-display">
                   <span class="price-currency">BDT</span>
@@ -1852,8 +1897,10 @@
                   </div>
                 </div>
                 <div class="info-content">
-                  <p class="info-title">Back print edition</p>
-                  <p class="info-subtitle">Brush fleece - navy</p>
+                  <p class="info-title">
+                    THE LADY OF SACRED BEADS - TERRY COTTON
+                  </p>
+                  <p class="info-subtitle">HOODIE SPECIAL SDITION</p>
                   <div class="info-price-row price-display">
                     <span class="price-currency">BDT</span>
                     <span class="price-original">1950</span>
@@ -1881,6 +1928,7 @@
           </div>
         </section>
 
+        <!-- All categories -->
         <section id="all-categories" class="space-y-6">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <h2 class="section-title">All categories</h2>
@@ -1889,8 +1937,8 @@
           <div class="product-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div
               class="product-card info-card"
-              data-name="Hoodie special edition"
-              data-subtitle="Brush fleece - red"
+              data-name="The SCHOLARS CALLING - BRUSH FLEECE"
+              data-subtitle="Hoodie special edition"
               data-price="BDT 1575"
               data-offer="1750"
               data-cotton="100% Fleece Cotton Fabric"
@@ -1901,15 +1949,15 @@
             >
               <div class="product-image">
                 <img src="photos/red.jpeg" alt="Street hoodie" loading="lazy" />
-                <span class="label-chip">Street hoodie</span>
+                <span class="label-chip">SPECIAL EDITION</span>
                 <span class="badge">Limited</span>
               </div>
               <div class="mt-4 space-y-2">
                 <h3 class="font-bold text-sm uppercase tracking-wider">
-                  Hoodie special edition
+                  The SCHOLARS CALLING - BRUSH FLEECE
                 </h3>
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
-                  Brush fleece - red
+                  Hoodie special edition
                 </p>
                 <div class="price-display">
                   <span class="price-currency">BDT</span>
@@ -1984,7 +2032,7 @@
                   loading="lazy"
                 />
                 <span class="label-chip">Cuban shirt</span>
-                <span class="badge secondary">15% off</span>
+                <span class="badge secondary">LIMITED</span>
               </div>
               <div class="mt-4 space-y-2">
                 <h3 class="font-bold text-sm uppercase tracking-wider">
@@ -1997,7 +2045,7 @@
                   <span class="price-currency">BDT</span>
                   <span class="price-original">1350</span>
                   <span class="price-current">1215</span>
-                  <span class="price-badge">10% OFF</span>
+                  <span class="price-badge">15% OFF</span>
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
@@ -2027,7 +2075,7 @@
                     <span class="price-currency">BDT</span>
                     <span class="price-original">1350</span>
                     <span class="price-current">1215</span>
-                    <span class="price-badge">10% OFF</span>
+                    <span class="price-badge">LIMITED</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -2066,7 +2114,7 @@
                   loading="lazy"
                 />
                 <span class="label-chip">Summer set</span>
-                <span class="badge secondary">15% off</span>
+                <span class="badge secondary">LIMITED</span>
               </div>
               <div class="mt-4 space-y-2">
                 <h3 class="font-bold text-sm uppercase tracking-wider">
@@ -2079,7 +2127,7 @@
                   <span class="price-currency">BDT</span>
                   <span class="price-original">1350</span>
                   <span class="price-current">1215</span>
-                  <span class="price-badge">10% OFF</span>
+                  <span class="price-badge">15% OFF</span>
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
@@ -2109,7 +2157,7 @@
                     <span class="price-currency">BDT</span>
                     <span class="price-original">1350</span>
                     <span class="price-current">1215</span>
-                    <span class="price-badge">10% OFF</span>
+                    <span class="price-badge">15% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -2131,8 +2179,8 @@
             </div>
             <div
               class="product-card info-card"
-              data-name="Hoodie special edition"
-              data-subtitle="Brush fleece - yellow"
+              data-name="Hoodie special editionHANDS OF GRACE - BRUSH FLEECE"
+              data-subtitle="Hoodie special edition"
               data-price="BDT 1575"
               data-offer="1750"
               data-cotton="100% Fleece Cotton Fabric"
@@ -2147,15 +2195,15 @@
                   alt="Hoodie classic"
                   loading="lazy"
                 />
-                <span class="label-chip">Hoodie classic</span>
+                <span class="label-chip">BRUSH FLEECE</span>
                 <span class="badge">Limited</span>
               </div>
               <div class="mt-4 space-y-2">
                 <h3 class="font-bold text-sm uppercase tracking-wider">
-                  Hoodie special edition
+                  HANDS OF GRACE - BRUSH FLEECE
                 </h3>
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
-                  Brush fleece - yellow
+                  Hoodie special edition
                 </p>
                 <div class="price-display">
                   <span class="price-currency">BDT</span>
@@ -2185,8 +2233,8 @@
                   </div>
                 </div>
                 <div class="info-content">
-                  <p class="info-title">Hoodie special edition</p>
-                  <p class="info-subtitle">Brush fleece - yellow</p>
+                  <p class="info-title">HANDS OF GRACE - BRUSH FLEECE</p>
+                  <p class="info-subtitle">Hoodie special edition</p>
                   <div class="info-price-row price-display">
                     <span class="price-currency">BDT</span>
                     <span class="price-original">1750</span>
@@ -2230,7 +2278,7 @@
                   loading="lazy"
                 />
                 <span class="label-chip">Cuban shirt</span>
-                <span class="badge secondary">15% off</span>
+                <span class="badge secondary">SPECIAL</span>
               </div>
               <div class="mt-4 space-y-2">
                 <h3 class="font-bold text-sm uppercase tracking-wider">
@@ -2243,7 +2291,7 @@
                   <span class="price-currency">BDT</span>
                   <span class="price-original">1350</span>
                   <span class="price-current">1215</span>
-                  <span class="price-badge">10% OFF</span>
+                  <span class="price-badge">15% OFF</span>
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
@@ -2273,7 +2321,7 @@
                     <span class="price-currency">BDT</span>
                     <span class="price-original">1350</span>
                     <span class="price-current">1215</span>
-                    <span class="price-badge">10% OFF</span>
+                    <span class="price-badge">15% OFF</span>
                   </div>
                   <details class="info-details">
                     <summary>Product info</summary>
@@ -2295,8 +2343,8 @@
             </div>
             <div
               class="product-card info-card"
-              data-name="Hoodie special edition"
-              data-subtitle="Brush fleece - Navy"
+              data-name="THE LADY OF SACRED BEADS - TERRY COTTON"
+              data-subtitle="Hoodie special edition"
               data-price="BDT 1575"
               data-offer="1950"
               data-cotton="100% French Terry Cotton Fabric"
@@ -2312,15 +2360,15 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                   alt="Hoodie special fleece"
                   loading="lazy"
                 />
-                <span class="label-chip">Brush fleece</span>
+                <span class="label-chip">TERRY COTTON</span>
                 <span class="badge">Limited</span>
               </div>
               <div class="mt-4 space-y-2">
                 <h3 class="font-bold text-sm uppercase tracking-wider">
-                  Hoodie special edition
+                  THE LADY OF SACRED BEADS - TERRY COTTON
                 </h3>
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
-                  Brush fleece - navy
+                  Hoodie special edition
                 </p>
                 <div class="price-display">
                   <span class="price-currency">BDT</span>
@@ -2350,8 +2398,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                   </div>
                 </div>
                 <div class="info-content">
-                  <p class="info-title">Hoodie special edition</p>
-                  <p class="info-subtitle">Brush fleece - navy</p>
+                  <p class="info-title">
+                    Hoodie special editionTHE LADY OF SACRED BEADS - TERRY COTTON
+                  </p>
+                  <p class="info-subtitle">Hoodie special edition</p>
                   <div class="info-price-row price-display">
                     <span class="price-currency">BDT</span>
                     <span class="price-original">1950</span>
@@ -2379,6 +2429,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           </div>
         </section>
 
+        <!-- Top rated -->
         <section id="top-rated" class="space-y-6">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <h2 class="section-title">Top rated</h2>
@@ -2387,8 +2438,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           <div class="product-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div
               class="product-card info-card"
-              data-name="Hoodie special edition"
-              data-subtitle="Brush fleece - red"
+              data-name="The SCHOLARS CALLING - BRUSH FLEECE"
+              data-subtitle="Hoodie special edition"
               data-price="BDT 1575"
               data-offer="1750"
               data-cotton="100% Fleece Cotton Fabric"
@@ -2408,10 +2459,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               </div>
               <div class="mt-4 space-y-2">
                 <h3 class="font-bold text-sm uppercase tracking-wider">
-                  Hoodie special edition
+                  The SCHOLARS CALLING - BRUSH FLEECE
                 </h3>
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
-                  Brush fleece - red
+                  Hoodie special edition
                 </p>
                 <div class="price-display">
                   <span class="price-currency">BDT</span>
@@ -2441,8 +2492,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                   </div>
                 </div>
                 <div class="info-content">
-                  <p class="info-title">Hoodie special edition</p>
-                  <p class="info-subtitle">Brush fleece - red</p>
+                  <p class="info-title">The SCHOLARS CALLING - BRUSH FLEECE</p>
+                  <p class="info-subtitle">
+                    The SCHOLARS CALLING - BRUSH FLEECE
+                  </p>
                   <div class="info-price-row price-display">
                     <span class="price-currency">BDT</span>
                     <span class="price-original">1750</span>
@@ -2469,8 +2522,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             </div>
             <div
               class="product-card info-card"
-              data-name="HOODIE SPECIAL EDITION - NAVY"
-              data-subtitle="Limited available"
+              data-name="THE LADY OF SACRED BEADS - TERRY COTTON"
+              data-subtitle="HOODIE SPECIAL EDITION"
               data-price="BDT 1750"
               data-offer="1950"
               data-cotton="100% French Terry  Cotton Fabric"
@@ -2490,10 +2543,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               </div>
               <div class="mt-4 space-y-2">
                 <h3 class="font-bold text-sm uppercase tracking-wider">
-                  Hoodie special edition - NAVY
+                  THE LADY OF SACRED BEADS - TERRY COTTON
                 </h3>
                 <p class="text-xs uppercase tracking-[0.3em] text-[#3A3A3A]">
-                  Limited available
+                  HOODIE SPECIAL EDITION
                 </p>
                 <div class="price-display">
                   <span class="price-currency">BDT</span>
@@ -2523,8 +2576,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                   </div>
                 </div>
                 <div class="info-content">
-                  <p class="info-title">Hoodie special edition - NAVY</p>
-                  <p class="info-subtitle">Limited available</p>
+                  <p class="info-title">THE LADY OF SACRED BEADS - TERRY COTTON</p>
+                  <p class="info-subtitle">HOODIE SPECIAL EDITION</p>
                   <div class="info-price-row price-display">
                     <span class="price-currency">BDT</span>
                     <span class="price-original">1950</span>
@@ -2559,6 +2612,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         </div>
       </div>
 
+      <!-- Checkout form -->
       <form
         id="master-form"
         action="https://formsubmit.co/tanvir.ahmed0184@gmail.com"
@@ -2572,6 +2626,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         <input type="hidden" id="final-cart-items" name="Cart Items" />
         <input type="hidden" id="final-total-amount" name="Total Amount" />
 
+        <!-- COD notice (update copy here) -->
         <div id="cod-notice" class="cod-notice mb-6">
           Cash on delivery is available. To confirm your order, please pay the
           delivery fee in advance.
@@ -2587,6 +2642,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 class="text-sm space-y-3 mb-4 text-[#3A3A3A]"
               ></div>
 
+              <!-- Promo code (update label here) -->
               <div
                 id="promo-section"
                 class="space-y-3 border-t border-dashed border-[#d6c8b4] pt-4 text-sm"
@@ -2815,6 +2871,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       </div>
     </main>
 
+    <!-- Cart modal -->
     <div id="cart-modal" class="cart-modal hidden-section" aria-hidden="true">
       <div class="cart-panel" role="dialog" aria-modal="true">
         <div class="cart-header">
@@ -2855,6 +2912,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       </div>
     </div>
 
+    <!-- Product modal -->
     <div id="product-modal" class="modal hidden-section" aria-hidden="true">
       <div class="modal-dialog" role="dialog" aria-modal="true">
         <button class="modal-close" type="button" data-modal-close>
@@ -2928,13 +2986,16 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       </div>
     </div>
 
+    <!-- Floating cart button -->
     <button id="cart-fab" class="icon-button cart-fab" aria-label="Cart">
       <i class="fas fa-shopping-bag"></i>
       <span id="cart-fab-badge" class="cart-badge">0</span>
     </button>
 
+    <!-- Toast -->
     <div id="toast" class="toast" aria-live="polite"></div>
 
+    <!-- Footer -->
     <footer class="footer-full">
       <div class="footer-inner">
         <div class="grid md:grid-cols-2 gap-8 text-sm">
@@ -2997,6 +3058,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
     </footer>
 
     <script>
+      // Cart + promo state
       let cart = [];
       let subtotal = 0;
       let promoApplied = false;
@@ -3320,6 +3382,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         }
       }
 
+      // Product modal controls
       const modal = document.getElementById("product-modal");
       const modalTrack = document.getElementById("modal-track");
       const modalTitle = document.getElementById("modal-title");
@@ -3441,6 +3504,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           track.appendChild(item.cloneNode(true));
         });
         track.dataset.duplicated = "true";
+        // Start marquee after duplication for a smooth loop.
+        requestAnimationFrame(() => {
+          track.classList.add("is-ready");
+        });
       }
 
       function setupPosterCarousel() {
@@ -3674,43 +3741,51 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             startModalAutoScroll();
           }, 500);
         });
-        modalTrack.addEventListener("touchstart", (event) => {
-          if (!isMobileViewport() || modalSwipeSource === "pointer") {
-            return;
-          }
-          const touch = event.touches[0];
-          if (!touch) {
-            return;
-          }
-          modalSwipeSource = "touch";
-          stopModalAutoScroll();
-          if (modalResumeTimer) {
-            clearTimeout(modalResumeTimer);
-          }
-          modalPointerStartX = touch.clientX;
-          modalPointerStartY = touch.clientY;
-        }, { passive: true });
-        modalTrack.addEventListener("touchend", (event) => {
-          if (!isMobileViewport() || modalSwipeSource !== "touch") {
-            return;
-          }
-          const touch = event.changedTouches[0];
-          if (!touch) {
-            return;
-          }
-          const deltaX = touch.clientX - modalPointerStartX;
-          const deltaY = touch.clientY - modalPointerStartY;
-          if (
-            Math.abs(deltaX) > modalSwipeThreshold &&
-            Math.abs(deltaX) > Math.abs(deltaY)
-          ) {
-            setModalIndex(modalIndex + (deltaX < 0 ? 1 : -1));
-          }
-          modalSwipeSource = null;
-          modalResumeTimer = setTimeout(() => {
-            startModalAutoScroll();
-          }, 500);
-        }, { passive: true });
+        modalTrack.addEventListener(
+          "touchstart",
+          (event) => {
+            if (!isMobileViewport() || modalSwipeSource === "pointer") {
+              return;
+            }
+            const touch = event.touches[0];
+            if (!touch) {
+              return;
+            }
+            modalSwipeSource = "touch";
+            stopModalAutoScroll();
+            if (modalResumeTimer) {
+              clearTimeout(modalResumeTimer);
+            }
+            modalPointerStartX = touch.clientX;
+            modalPointerStartY = touch.clientY;
+          },
+          { passive: true },
+        );
+        modalTrack.addEventListener(
+          "touchend",
+          (event) => {
+            if (!isMobileViewport() || modalSwipeSource !== "touch") {
+              return;
+            }
+            const touch = event.changedTouches[0];
+            if (!touch) {
+              return;
+            }
+            const deltaX = touch.clientX - modalPointerStartX;
+            const deltaY = touch.clientY - modalPointerStartY;
+            if (
+              Math.abs(deltaX) > modalSwipeThreshold &&
+              Math.abs(deltaX) > Math.abs(deltaY)
+            ) {
+              setModalIndex(modalIndex + (deltaX < 0 ? 1 : -1));
+            }
+            modalSwipeSource = null;
+            modalResumeTimer = setTimeout(() => {
+              startModalAutoScroll();
+            }, 500);
+          },
+          { passive: true },
+        );
         modalTrack.addEventListener("touchcancel", () => {
           if (!isMobileViewport() || modalSwipeSource !== "touch") {
             return;

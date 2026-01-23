@@ -900,6 +900,9 @@
           width: 100%;
           line-height: 1.5;
         }
+        .hero-shell .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+          margin-top: 1rem;
+        }
         .copy-break {
           display: block;
         }
@@ -977,10 +980,10 @@
         }
         .product-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 4px;
+          gap: 3px;
         }
         .product-card {
-          padding: 4px;
+          padding: 3px;
           border-radius: 16px;
         }
         .product-image {
@@ -3245,6 +3248,9 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       let modalSlidesCount = 0;
       let modalAutoTimer = null;
       let modalResumeTimer = null;
+      let modalPointerStartX = 0;
+      let modalPointerStartY = 0;
+      const modalSwipeThreshold = 40;
 
       function buildSlides(images) {
         modalTrack.innerHTML = "";
@@ -3539,7 +3545,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       }
 
       if (modalTrack) {
-        modalTrack.addEventListener("pointerdown", () => {
+        modalTrack.addEventListener("pointerdown", (event) => {
           if (!isMobileViewport()) {
             return;
           }
@@ -3547,10 +3553,20 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           if (modalResumeTimer) {
             clearTimeout(modalResumeTimer);
           }
+          modalPointerStartX = event.clientX;
+          modalPointerStartY = event.clientY;
         });
-        modalTrack.addEventListener("pointerup", () => {
+        modalTrack.addEventListener("pointerup", (event) => {
           if (!isMobileViewport()) {
             return;
+          }
+          const deltaX = event.clientX - modalPointerStartX;
+          const deltaY = event.clientY - modalPointerStartY;
+          if (
+            Math.abs(deltaX) > modalSwipeThreshold &&
+            Math.abs(deltaX) > Math.abs(deltaY)
+          ) {
+            setModalIndex(modalIndex + (deltaX < 0 ? 1 : -1));
           }
           modalResumeTimer = setTimeout(() => {
             startModalAutoScroll();

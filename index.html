@@ -866,18 +866,18 @@
           margin-left: auto;
         }
         .brand-text {
-          font-size: clamp(0.72rem, 3.2vw, 0.88rem);
-          letter-spacing: 0.1em;
+          font-size: clamp(0.6rem, 2.6vw, 0.78rem);
+          letter-spacing: 0.06em;
           white-space: nowrap;
           max-width: none;
         }
         .brand-mark {
-          width: 30px;
-          height: 30px;
+          width: 28px;
+          height: 28px;
         }
         .icon-button {
-          width: 30px;
-          height: 30px;
+          width: 28px;
+          height: 28px;
         }
         .hero-shell {
           padding: 28px 18px;
@@ -891,6 +891,8 @@
         .hero-copy {
           font-size: 14px;
           max-width: 100%;
+          width: 100%;
+          line-height: 1.5;
         }
         .hero-actions {
           flex-direction: column;
@@ -913,7 +915,13 @@
           flex: 0 0 100%;
         }
         .hero-poster-nav {
-          display: none;
+          display: inline-flex;
+          width: 30px;
+          height: 30px;
+          background: rgba(255, 255, 255, 0.18);
+          border-color: rgba(255, 255, 255, 0.35);
+          color: #fff;
+          opacity: 0.75;
         }
         .product-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -925,8 +933,8 @@
       }
       @media (max-width: 640px) {
         main {
-          padding-left: 16px;
-          padding-right: 16px;
+          padding-left: 12px;
+          padding-right: 12px;
           max-width: 100%;
         }
         .branding-item {
@@ -962,14 +970,14 @@
         }
         .product-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 10px;
+          gap: 8px;
         }
         .product-card {
           padding: 6px;
           border-radius: 16px;
         }
         .product-image {
-          height: 140px;
+          height: 155px;
           border-radius: 16px;
         }
         .product-image .label-chip {

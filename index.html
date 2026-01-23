@@ -820,9 +820,13 @@
         .modal-dialog {
           height: 92vh;
           max-height: none;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          grid-template-rows: auto auto;
         }
         .modal-grid {
           grid-template-columns: 1fr;
+          height: auto;
         }
         .modal-media {
           height: 32vh;
@@ -945,6 +949,20 @@
         .add-btn {
           font-size: 9px;
           padding: 6px 10px;
+        }
+      }
+      @media (max-width: 520px) {
+        .product-grid {
+          grid-template-columns: 1fr;
+        }
+        .section-title {
+          font-size: 18px;
+          letter-spacing: 0.12em;
+        }
+        .info-details ul li {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 4px;
         }
       }
       .modal.hidden-section {
@@ -2541,6 +2559,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               href="photos/chart.jpeg"
               target="_blank"
               rel="noreferrer"
+              aria-label="Size chart (opens in a new tab)"
+              title="Opens in a new tab"
               >Size chart</a
             >
             <div class="modal-actions">

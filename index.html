@@ -149,7 +149,6 @@
         padding: 52px 48px;
         box-shadow: var(--shadow-soft);
         min-height: 460px;
-        overflow: hidden;
       }
       .hero-title {
         font-size: clamp(3rem, 5.2vw, 5.6rem);
@@ -160,13 +159,15 @@
         color: var(--brown);
         font-family: "Sansation", "Inter", sans-serif;
         max-width: 100%;
-        word-break: break-word;
+        overflow-wrap: break-word;
+        word-break: normal;
       }
       .hero-copy {
         color: var(--muted);
         font-size: 16px;
         max-width: 520px;
-        word-break: break-word;
+        overflow-wrap: break-word;
+        word-break: normal;
       }
       .btn-primary {
         background: var(--button-bg);
@@ -323,6 +324,7 @@
         gap: 20px;
         transition: transform 0.5s ease;
         will-change: transform;
+        touch-action: pan-y;
       }
       .hero-poster {
         border-radius: 26px;
@@ -853,28 +855,29 @@
           --header-height: 68px;
         }
         .nav-inner {
-          padding: 10px 14px;
+          padding: 10px 12px;
           flex-wrap: nowrap;
-          column-gap: 12px;
+          column-gap: 10px;
+        }
+        .site-header .nav-inner > div {
+          gap: 8px;
         }
         .nav-inner > div:last-child {
           margin-left: auto;
         }
         .brand-text {
-          font-size: 0.85rem;
-          letter-spacing: 0.12em;
+          font-size: clamp(0.72rem, 3.2vw, 0.88rem);
+          letter-spacing: 0.1em;
           white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          max-width: 52vw;
+          max-width: none;
         }
         .brand-mark {
-          width: 32px;
-          height: 32px;
+          width: 30px;
+          height: 30px;
         }
         .icon-button {
-          width: 32px;
-          height: 32px;
+          width: 30px;
+          height: 30px;
         }
         .hero-shell {
           padding: 28px 18px;
@@ -2996,8 +2999,15 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           return;
         }
         let index = 0;
-        const getPerView = () =>
-          window.matchMedia("(max-width: 768px)").matches ? 1 : 2;
+        let autoTimer = null;
+        let resumeTimer = null;
+        let pointerStartX = 0;
+        const swipeThreshold = 40;
+        const isMobile = () =>
+          window.matchMedia("(max-width: 768px)").matches;
+        const prefersReducedMotion = () =>
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const getPerView = () => (isMobile() ? 1 : 2);
         const update = () => {
           const items = Array.from(track.children);
           if (items.length === 0) {
@@ -3011,6 +3021,23 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           const offset = (itemWidth + gap) * index;
           track.style.transform = `translateX(-${offset}px)`;
         };
+        const stopAutoScroll = () => {
+          if (autoTimer) {
+            clearInterval(autoTimer);
+            autoTimer = null;
+          }
+        };
+        const startAutoScroll = () => {
+          stopAutoScroll();
+          const items = Array.from(track.children);
+          if (!isMobile() || items.length <= 1 || prefersReducedMotion()) {
+            return;
+          }
+          autoTimer = setInterval(() => {
+            index += 1;
+            update();
+          }, 5200);
+        };
         if (prev) {
           prev.addEventListener("click", () => {
             index -= 1;
@@ -3023,9 +3050,47 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             update();
           });
         }
-        window.addEventListener("resize", update);
-        window.addEventListener("load", update, { once: true });
+        track.addEventListener("pointerdown", (event) => {
+          if (!isMobile()) {
+            return;
+          }
+          pointerStartX = event.clientX;
+          stopAutoScroll();
+          track.setPointerCapture?.(event.pointerId);
+        });
+        track.addEventListener("pointerup", (event) => {
+          if (!isMobile()) {
+            return;
+          }
+          const delta = event.clientX - pointerStartX;
+          if (Math.abs(delta) > swipeThreshold) {
+            index += delta < 0 ? 1 : -1;
+            update();
+          }
+          track.releasePointerCapture?.(event.pointerId);
+          if (resumeTimer) {
+            clearTimeout(resumeTimer);
+          }
+          resumeTimer = setTimeout(() => {
+            startAutoScroll();
+          }, 1200);
+        });
+        track.addEventListener("pointercancel", () => {
+          if (!isMobile()) {
+            return;
+          }
+          startAutoScroll();
+        });
+        window.addEventListener("resize", () => {
+          update();
+          startAutoScroll();
+        });
+        window.addEventListener("load", () => {
+          update();
+          startAutoScroll();
+        }, { once: true });
         update();
+        startAutoScroll();
       }
 
       function updateModalTotals() {

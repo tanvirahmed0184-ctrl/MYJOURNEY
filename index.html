@@ -2807,22 +2807,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <div>
                   <label class="form-label">Last 4 digits</label>
                   <input
-                    type="text"
+                    type="number"
                     name="Last 4 Digits"
-                    id="last-digits"
-                    inputmode="numeric"
-                    pattern="\\d{4}"
-                    maxlength="4"
                     required
                     class="w-full border-2 border-[#eadfce] rounded-lg py-3 px-4 focus:outline-none focus:border-[#e2136e] font-bold text-lg bg-white"
                     placeholder="1234"
                   />
-                  <p
-                    id="last-digits-error"
-                    class="text-xs text-red-600 mt-2 hidden-section"
-                  >
-                    Please enter exactly 4 digits.
-                  </p>
                 </div>
               </div>
 
@@ -2891,6 +2881,9 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           </div>
           <button class="btn-primary" type="button" data-cart-close>
             Continue shopping
+          </button>
+          <button class="btn-outline" type="button" data-checkout>
+            Proceed to checkout
           </button>
         </div>
       </div>
@@ -3070,9 +3063,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       );
       const promoSection = document.getElementById("promo-section");
       const codNotice = document.getElementById("cod-notice");
-      const lastDigitsInput = document.getElementById("last-digits");
-      const lastDigitsError = document.getElementById("last-digits-error");
-      let lastDigitsErrorTimer = null;
 
       function showToast(message) {
         if (!toast) {
@@ -3088,29 +3078,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         }, 3000);
       }
 
-      function showLastDigitsError() {
-        if (!lastDigitsError) {
-          return;
-        }
-        lastDigitsError.classList.remove("hidden-section");
-        if (lastDigitsErrorTimer) {
-          clearTimeout(lastDigitsErrorTimer);
-        }
-        lastDigitsErrorTimer = setTimeout(() => {
-          lastDigitsError.classList.add("hidden-section");
-        }, 2500);
-      }
-
-      if (lastDigitsInput) {
-        lastDigitsInput.addEventListener("input", () => {
-          const cleaned = lastDigitsInput.value.replace(/\D/g, "");
-          const wasTooLong = cleaned.length > 4;
-          lastDigitsInput.value = cleaned.slice(0, 4);
-          if (wasTooLong) {
-            showLastDigitsError();
-          }
-        });
-      }
 
       function getCartCount() {
         return cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
@@ -3229,6 +3196,19 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         cartModal.setAttribute("aria-hidden", "true");
       }
 
+      function openCheckoutFromCart() {
+        closeCartModal();
+        const formContainer = document.getElementById("master-form");
+        if (formContainer.classList.contains("hidden-section")) {
+          formContainer.classList.remove("hidden-section");
+        }
+        if (codNotice) {
+          codNotice.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          formContainer.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+
       if (cartButton) {
         cartButton.addEventListener("click", (event) => {
           event.stopPropagation();
@@ -3244,6 +3224,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
       document.querySelectorAll("[data-cart-close]").forEach((button) => {
         button.addEventListener("click", closeCartModal);
+      });
+      document.querySelectorAll("[data-checkout]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          openCheckoutFromCart();
+        });
       });
 
       if (cartModal) {

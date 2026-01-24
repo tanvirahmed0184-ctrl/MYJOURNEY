@@ -859,7 +859,7 @@
           height: auto;
         }
         .modal-media {
-          height: 32vh;
+          height: 36vh;
         }
         .modal-nav {
           display: none;
@@ -976,7 +976,7 @@
           padding: 12px;
         }
         .modal-media {
-          height: 30vh;
+          height: 40vh;
         }
         .modal-actions {
           flex-direction: column;
@@ -997,7 +997,7 @@
         }
         .product-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 6px;
+          gap: 10px;
         }
         .product-card {
           padding: 3px;
@@ -1190,6 +1190,7 @@
         letter-spacing: 0.12em;
         line-height: 1.4;
         text-transform: uppercase;
+        scroll-margin-top: calc(var(--header-height) + 48px);
       }
       .promo-message {
         font-size: 12px;
@@ -1454,8 +1455,8 @@
       }
       @media (max-width: 768px) {
         .branding-track.is-ready {
-          animation-duration: 16s;
-          animation-delay: -8s;
+          animation-duration: 14s;
+          animation-delay: -7s;
         }
       }
       @media (max-width: 640px) {
@@ -1717,11 +1718,8 @@
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
-                  <button
-                    onclick="addToCart('Hoodie Special Edition', 1575)"
-                    class="add-btn"
-                  >
-                    Add
+                  <button type="button" class="add-btn" data-detail="true">
+                    Details
                   </button>
                 </div>
               </div>
@@ -1799,11 +1797,8 @@
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">AVAILABLE</span>
-                  <button
-                    onclick="addToCart('Hoodie Special Edition - YELLOW', 1575)"
-                    class="add-btn"
-                  >
-                    Add
+                  <button type="button" class="add-btn" data-detail="true">
+                    Details
                   </button>
                 </div>
               </div>
@@ -1877,11 +1872,8 @@
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
-                  <button
-                    onclick="addToCart('Back Print Edition', 1750)"
-                    class="add-btn"
-                  >
-                    Add
+                  <button type="button" class="add-btn" data-detail="true">
+                    Details
                   </button>
                 </div>
               </div>
@@ -1967,11 +1959,8 @@
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
-                  <button
-                    onclick="addToCart('Hoodie Special Edition - Red', 1575)"
-                    class="add-btn"
-                  >
-                    Add
+                  <button type="button" class="add-btn" data-detail="true">
+                    Details
                   </button>
                 </div>
               </div>
@@ -2049,11 +2038,8 @@
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
-                  <button
-                    onclick="addToCart('Cuban Shirt - 004', 1215)"
-                    class="add-btn"
-                  >
-                    Add
+                  <button type="button" class="add-btn" data-detail="true">
+                    Details
                   </button>
                 </div>
               </div>
@@ -2131,11 +2117,8 @@
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
-                  <button
-                    onclick="addToCart('Cuban Shirt - 005', 1215)"
-                    class="add-btn"
-                  >
-                    Add
+                  <button type="button" class="add-btn" data-detail="true">
+                    Details
                   </button>
                 </div>
               </div>
@@ -2213,11 +2196,8 @@
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
-                  <button
-                    onclick="addToCart('Hoodie Classic', 1575)"
-                    class="add-btn"
-                  >
-                    Add
+                  <button type="button" class="add-btn" data-detail="true">
+                    Details
                   </button>
                 </div>
               </div>
@@ -2295,11 +2275,8 @@
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
-                  <button
-                    onclick="addToCart('Cuban Shirt - Blu', 1215)"
-                    class="add-btn"
-                  >
-                    Add
+                  <button type="button" class="add-btn" data-detail="true">
+                    Details
                   </button>
                 </div>
               </div>
@@ -2378,11 +2355,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
-                  <button
-                    onclick="addToCart('Hoodie Special Edition - Fleece', 1750)"
-                    class="add-btn"
-                  >
-                    Add
+                  <button type="button" class="add-btn" data-detail="true">
+                    Details
                   </button>
                 </div>
               </div>
@@ -2429,11 +2403,11 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           </div>
         </section>
 
-        <!-- Top rated -->
+        <!-- Hot selling -->
         <section id="top-rated" class="space-y-6">
           <div class="flex flex-wrap items-center justify-between gap-4">
-            <h2 class="section-title">Top rated</h2>
-            <span class="section-tag">Top rated</span>
+            <h2 class="section-title">Hot selling</h2>
+            <span class="section-tag">Hot selling</span>
           </div>
           <div class="product-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div
@@ -2451,7 +2425,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               <div class="product-image">
                 <img
                   src="photos/red2.jpeg"
-                  alt="Top rated hoodie"
+                  alt="Hot selling hoodie"
                   loading="lazy"
                 />
                 <span class="label-chip">Brush fleece</span>
@@ -2472,11 +2446,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
-                  <button
-                    onclick="addToCart('Hoodie Special Edition - Top', 1575)"
-                    class="add-btn"
-                  >
-                    Add
+                  <button type="button" class="add-btn" data-detail="true">
+                    Details
                   </button>
                 </div>
               </div>
@@ -2535,7 +2506,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               <div class="product-image">
                 <img
                   src="photos/white2.jpeg"
-                  alt="Top rated cuban shirt"
+                  alt="Hot selling cuban shirt"
                   loading="lazy"
                 />
                 <span class="label-chip">Terry Cotton</span>
@@ -2556,11 +2527,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 </div>
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
-                  <button
-                    onclick="addToCart('Cuban Shirt - 004 Top', 1750)"
-                    class="add-btn"
-                  >
-                    Add
+                  <button type="button" class="add-btn" data-detail="true">
+                    Details
                   </button>
                 </div>
               </div>
@@ -2625,6 +2593,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
         <input type="hidden" id="final-cart-items" name="Cart Items" />
         <input type="hidden" id="final-total-amount" name="Total Amount" />
+        <input
+          type="hidden"
+          id="final-total-without-delivery"
+          name="Total payable amount (without delivery fee)"
+        />
+        <input type="hidden" id="final-promo-code" name="Promo Code Used" />
 
         <!-- COD notice (update copy here) -->
         <div id="cod-notice" class="cod-notice mb-6">
@@ -2833,12 +2807,22 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <div>
                   <label class="form-label">Last 4 digits</label>
                   <input
-                    type="number"
+                    type="text"
                     name="Last 4 Digits"
+                    id="last-digits"
+                    inputmode="numeric"
+                    pattern="\\d{4}"
+                    maxlength="4"
                     required
                     class="w-full border-2 border-[#eadfce] rounded-lg py-3 px-4 focus:outline-none focus:border-[#e2136e] font-bold text-lg bg-white"
                     placeholder="1234"
                   />
+                  <p
+                    id="last-digits-error"
+                    class="text-xs text-red-600 mt-2 hidden-section"
+                  >
+                    Please enter exactly 4 digits.
+                  </p>
                 </div>
               </div>
 
@@ -3012,7 +2996,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               <p class="text-xs uppercase tracking-[0.2em]">Check us out on</p>
               <div class="flex items-center gap-4 text-lg">
                 <a
-                  href="https://www.instagram.com/"
+                  href="https://www.instagram.com/accoladeclo?igsh=M3J4MWdzd3FmcWw3"
                   aria-label="Instagram"
                   class="hover:opacity-80"
                   target="_blank"
@@ -3086,6 +3070,9 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       );
       const promoSection = document.getElementById("promo-section");
       const codNotice = document.getElementById("cod-notice");
+      const lastDigitsInput = document.getElementById("last-digits");
+      const lastDigitsError = document.getElementById("last-digits-error");
+      let lastDigitsErrorTimer = null;
 
       function showToast(message) {
         if (!toast) {
@@ -3099,6 +3086,30 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         toastTimer = setTimeout(() => {
           toast.classList.remove("is-visible");
         }, 3000);
+      }
+
+      function showLastDigitsError() {
+        if (!lastDigitsError) {
+          return;
+        }
+        lastDigitsError.classList.remove("hidden-section");
+        if (lastDigitsErrorTimer) {
+          clearTimeout(lastDigitsErrorTimer);
+        }
+        lastDigitsErrorTimer = setTimeout(() => {
+          lastDigitsError.classList.add("hidden-section");
+        }, 2500);
+      }
+
+      if (lastDigitsInput) {
+        lastDigitsInput.addEventListener("input", () => {
+          const cleaned = lastDigitsInput.value.replace(/\D/g, "");
+          const wasTooLong = cleaned.length > 4;
+          lastDigitsInput.value = cleaned.slice(0, 4);
+          if (wasTooLong) {
+            showLastDigitsError();
+          }
+        });
       }
 
       function getCartCount() {
@@ -3277,6 +3288,18 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
         document.getElementById("final-total-amount").value =
           finalTotal + " Tk";
+        const totalWithoutDelivery = document.getElementById(
+          "final-total-without-delivery",
+        );
+        if (totalWithoutDelivery) {
+          totalWithoutDelivery.value = totalAfterDiscount + " Tk";
+        }
+        const promoCodeField = document.getElementById("final-promo-code");
+        if (promoCodeField) {
+          promoCodeField.value = promoApplied && promoInput
+            ? promoInput.value
+            : "None";
+        }
         document.getElementById("final-cart-items").value = cart
           .map((i) => (i.quantity > 1 ? `${i.name} x${i.quantity}` : i.name))
           .join(", ");
@@ -3692,6 +3715,16 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
       document.querySelectorAll(".info-card").forEach((card) => {
         card.addEventListener("click", () => openProductModal(card));
+      });
+
+      document.querySelectorAll("[data-detail]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const card = button.closest(".info-card");
+          if (card) {
+            openProductModal(card);
+          }
+        });
       });
 
       if (modalPrev) {

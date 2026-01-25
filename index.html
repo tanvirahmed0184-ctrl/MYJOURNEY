@@ -990,20 +990,20 @@
       }
       @media (min-width: 901px) {
         .modal-dialog {
-          max-height: min(82vh, 720px);
-          padding: 16px;
+          max-height: min(78vh, 680px);
+          padding: 14px;
           gap: 10px;
         }
         .modal-grid {
           grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-          gap: 16px;
+          gap: 14px;
           align-items: stretch;
         }
         .modal-grid > * {
           min-width: 0;
         }
         .modal-media {
-          height: clamp(320px, 52vh, 520px);
+          height: clamp(300px, 46vh, 440px);
         }
         .modal-track,
         .modal-slide {
@@ -1013,22 +1013,88 @@
           display: none;
         }
         .modal-info {
-          gap: 10px;
-          padding: 12px;
+          gap: 8px;
+          padding: 10px;
         }
-        .modal-unit,
-        .modal-quick-info,
-        .size-note {
-          display: none;
+        .info-title {
+          font-size: 13px;
+          letter-spacing: 0.1em;
         }
-        .modal-tab-panel.is-active {
-          max-height: 160px;
+        .info-subtitle {
+          font-size: 10px;
+          letter-spacing: 0.14em;
         }
-        .modal-actions {
+        .price-display {
+          gap: 6px;
+        }
+        .price-badge {
+          font-size: 11px;
+          padding: 3px 8px;
+        }
+        .modal-unit {
+          font-size: 9px;
+          letter-spacing: 0.16em;
+        }
+        .modal-quantity {
+          padding: 6px 10px;
           gap: 8px;
         }
+        .qty-control {
+          padding: 4px 10px;
+          gap: 10px;
+        }
+        .qty-btn {
+          width: 22px;
+          height: 22px;
+        }
+        .modal-tabs {
+          gap: 8px;
+        }
+        .modal-tab {
+          padding: 4px 10px;
+          font-size: 9px;
+          letter-spacing: 0.14em;
+        }
+        .info-details {
+          padding: 8px 10px;
+        }
+        .info-details ul {
+          font-size: 9px;
+          gap: 6px;
+        }
+        .info-key {
+          font-size: 8px;
+          letter-spacing: 0.14em;
+        }
+        .info-value {
+          font-size: 10px;
+        }
+        .modal-tab-panel.is-active {
+          max-height: 150px;
+        }
+        .modal-quick-info {
+          gap: 6px 10px;
+        }
+        .modal-quick-item {
+          font-size: 9px;
+          letter-spacing: 0.1em;
+        }
+        .modal-quick-item i {
+          font-size: 11px;
+        }
+        .size-link {
+          font-size: 10px;
+          letter-spacing: 0.14em;
+        }
+        .size-note {
+          font-size: 7px;
+          letter-spacing: 0.12em;
+        }
+        .modal-actions {
+          gap: 6px;
+        }
         .modal-actions button {
-          padding: 10px 16px;
+          padding: 8px 12px;
           font-size: 10px;
         }
       }

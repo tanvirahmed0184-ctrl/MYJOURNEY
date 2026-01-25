@@ -1005,12 +1005,31 @@
         .modal-media {
           height: clamp(300px, 46vh, 440px);
         }
-        .modal-track,
+        .modal-track {
+          height: 100%;
+          transition: none;
+        }
         .modal-slide {
           height: 100%;
+          display: none;
+        }
+        .modal-slide.is-active {
+          display: flex;
         }
         .modal-thumbs {
-          display: none;
+          display: flex;
+          flex-wrap: nowrap;
+          justify-content: center;
+          gap: 6px;
+          padding: 4px 6px;
+          height: 56px;
+          flex: 0 0 56px;
+          overflow: hidden;
+        }
+        .modal-thumb {
+          width: 52px;
+          height: 44px;
+          border-radius: 8px;
         }
         .modal-info {
           gap: 8px;
@@ -3733,11 +3752,9 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         }
         const placeholders = ["Image 01", "Image 02", "Image 03", "Image 04"];
         const items = images.length ? images : placeholders;
-        const useSingleImage = isDesktopViewport();
-        const displayItems = useSingleImage ? items.slice(0, 1) : items;
-        modalSlidesCount = displayItems.length;
+        modalSlidesCount = items.length;
         modalIndex = 0;
-        displayItems.forEach((item, index) => {
+        items.forEach((item, index) => {
           const slide = document.createElement("div");
           slide.className = "modal-slide";
           if (images.length) {
@@ -3750,7 +3767,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           }
           modalTrack.appendChild(slide);
 
-          if (modalThumbs && !useSingleImage) {
+          if (modalThumbs) {
             const thumb = document.createElement("button");
             thumb.type = "button";
             thumb.className = "modal-thumb";
@@ -3771,10 +3788,9 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             modalThumbs.appendChild(thumb);
           }
         });
-        modalThumbButtons =
-          modalThumbs && !useSingleImage
-            ? Array.from(modalThumbs.querySelectorAll(".modal-thumb"))
-            : [];
+        modalThumbButtons = modalThumbs
+          ? Array.from(modalThumbs.querySelectorAll(".modal-thumb"))
+          : [];
         updateModalSlider();
         attachImageLoaders(modalTrack);
       }
@@ -3783,7 +3799,15 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         if (!modalTrack || modalSlidesCount === 0) {
           return;
         }
-        modalTrack.style.transform = `translateX(-${modalIndex * 100}%)`;
+        const slides = modalTrack.querySelectorAll(".modal-slide");
+        slides.forEach((slide, index) => {
+          slide.classList.toggle("is-active", index === modalIndex);
+        });
+        if (isDesktopViewport()) {
+          modalTrack.style.transform = "translateX(0)";
+        } else {
+          modalTrack.style.transform = `translateX(-${modalIndex * 100}%)`;
+        }
         if (!modalThumbButtons.length || !modalThumbs) {
           return;
         }
@@ -3791,7 +3815,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           thumb.classList.toggle("is-active", index === modalIndex);
         });
         const activeThumb = modalThumbButtons[modalIndex];
-        if (activeThumb) {
+        if (activeThumb && !isDesktopViewport()) {
           activeThumb.scrollIntoView({
             behavior: "smooth",
             inline: "center",

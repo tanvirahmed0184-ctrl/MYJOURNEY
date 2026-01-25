@@ -769,13 +769,15 @@
         width: 34px;
         height: 34px;
         border-radius: 999px;
-        border: 1px solid rgba(31, 31, 31, 0.12);
-        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        background: rgba(255, 255, 255, 0.45);
         color: var(--brown);
         display: inline-flex;
         align-items: center;
         justify-content: center;
         z-index: 5;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 8px 20px rgba(31, 31, 31, 0.08);
         transition: all 0.2s ease;
       }
       .modal-nav:hover {
@@ -3159,6 +3161,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       <div class="modal-dialog" role="dialog" aria-modal="true">
         <div class="modal-grid">
           <div class="modal-media">
+            <button class="modal-nav prev" type="button" data-modal-prev>
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="modal-nav next" type="button" data-modal-next>
+              <i class="fas fa-chevron-right"></i>
+            </button>
             <div class="modal-track" id="modal-track"></div>
             <!-- Thumbnails are driven by data-images -->
             <div class="modal-thumbs" id="modal-thumbs"></div>

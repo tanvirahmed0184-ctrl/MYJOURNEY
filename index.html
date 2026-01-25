@@ -800,23 +800,23 @@
       }
       .modal-thumbs {
         display: flex;
-        gap: 8px;
-        padding: 8px 10px;
-        overflow-x: auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 10px 10px;
+        overflow: visible;
         background: #fff;
         border-top: 1px solid rgba(31, 31, 31, 0.06);
-        scroll-snap-type: x mandatory;
       }
       .modal-thumb {
-        width: 64px;
-        height: 56px;
+        width: 62px;
+        height: 58px;
         border-radius: 10px;
         border: 1px solid transparent;
         overflow: hidden;
         flex: 0 0 auto;
         opacity: 0.55;
         cursor: pointer;
-        scroll-snap-align: center;
         transition: opacity 0.2s ease, border-color 0.2s ease;
       }
       .modal-thumb img {
@@ -874,26 +874,38 @@
         width: 100%;
         justify-content: center;
       }
+      .modal-actions .add-btn,
+      .modal-actions .btn-primary {
+        background: var(--header-footer);
+        color: #faf7f2;
+        border-color: transparent;
+      }
+      .modal-actions .add-btn:hover,
+      .modal-actions .btn-primary:hover {
+        background: var(--brown-dark);
+        color: #faf7f2;
+      }
       .modal-tabs {
         display: flex;
         gap: 10px;
       }
       .modal-tab {
-        border: 1px solid rgba(31, 31, 31, 0.2);
+        border: 1px solid rgba(31, 31, 31, 0.18);
         border-radius: 999px;
-        padding: 6px 12px;
+        padding: 6px 14px;
         font-size: 10px;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.18em;
         color: var(--muted);
-        background: #fff;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 6px 16px rgba(31, 31, 31, 0.08);
         transition: all 0.2s ease;
       }
       .modal-tab.is-active {
         color: var(--brown);
         border-color: var(--brown);
-        background: rgba(255, 255, 255, 0.9);
+        background: var(--accent);
       }
       .modal-tab-panel {
         max-height: 0;
@@ -912,17 +924,17 @@
         gap: 12px;
         padding: 8px 12px;
         border-radius: 16px;
-        background: rgba(255, 255, 255, 0.8);
-        border: 1px solid rgba(31, 31, 31, 0.08);
+        background: rgba(122, 106, 79, 0.12);
+        border: 1px solid rgba(122, 106, 79, 0.22);
       }
       .qty-control {
         display: inline-flex;
         align-items: center;
         gap: 12px;
-        border: 1px solid rgba(31, 31, 31, 0.1);
+        border: 1px solid rgba(122, 106, 79, 0.25);
         border-radius: 999px;
         padding: 6px 12px;
-        background: #fff;
+        background: rgba(250, 247, 242, 0.9);
       }
       .qty-btn {
         width: 26px;
@@ -959,7 +971,7 @@
           height: auto;
         }
         .modal-media {
-          height: 36vh;
+          height: 48vh;
         }
         .modal-nav {
           display: none;
@@ -1076,7 +1088,7 @@
           padding: 12px;
         }
         .modal-media {
-          height: 40vh;
+          height: 52vh;
         }
         .modal-actions {
           flex-direction: column;
@@ -1819,7 +1831,7 @@
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button type="button" class="add-btn" data-detail="true">
-                    Details
+                    BUY
                   </button>
                 </div>
               </div>
@@ -1898,7 +1910,7 @@
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">AVAILABLE</span>
                   <button type="button" class="add-btn" data-detail="true">
-                    Details
+                    BUY
                   </button>
                 </div>
               </div>
@@ -1973,7 +1985,7 @@
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button type="button" class="add-btn" data-detail="true">
-                    Details
+                    BUY
                   </button>
                 </div>
               </div>
@@ -2060,7 +2072,7 @@
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button type="button" class="add-btn" data-detail="true">
-                    Details
+                    BUY
                   </button>
                 </div>
               </div>
@@ -2140,7 +2152,7 @@
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
                   <button type="button" class="add-btn" data-detail="true">
-                    Details
+                    BUY
                   </button>
                 </div>
               </div>
@@ -2220,7 +2232,7 @@
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
                   <button type="button" class="add-btn" data-detail="true">
-                    Details
+                    BUY
                   </button>
                 </div>
               </div>
@@ -2299,7 +2311,7 @@
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button type="button" class="add-btn" data-detail="true">
-                    Details
+                    BUY
                   </button>
                 </div>
               </div>
@@ -2379,7 +2391,7 @@
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Not Available</span>
                   <button type="button" class="add-btn" data-detail="true">
-                    Details
+                    BUY
                   </button>
                 </div>
               </div>
@@ -2459,7 +2471,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button type="button" class="add-btn" data-detail="true">
-                    Details
+                    BUY
                   </button>
                 </div>
               </div>
@@ -2550,7 +2562,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button type="button" class="add-btn" data-detail="true">
-                    Details
+                    BUY
                   </button>
                 </div>
               </div>
@@ -2631,7 +2643,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <div class="flex items-center justify-end gap-3">
                   <span class="availability">Available</span>
                   <button type="button" class="add-btn" data-detail="true">
-                    Details
+                    BUY
                   </button>
                 </div>
               </div>
@@ -3860,6 +3872,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
         modalAdd.onclick = () => {
           addToCart(modalProductName, modalUnitPrice, modalQuantity);
+          closeProductModal();
+          openCheckout();
         };
         if (modalBuy) {
           modalBuy.onclick = () => {

@@ -876,14 +876,39 @@
       }
       .modal-actions .add-btn,
       .modal-actions .btn-primary {
-        background: var(--header-footer);
-        color: #faf7f2;
-        border-color: transparent;
+        background: var(--accent);
+        color: var(--brown);
+        border-color: rgba(31, 31, 31, 0.35);
       }
       .modal-actions .add-btn:hover,
       .modal-actions .btn-primary:hover {
-        background: var(--brown-dark);
-        color: #faf7f2;
+        background: var(--accent-dark);
+        color: var(--brown);
+      }
+      .modal-quick-info {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 16px;
+        margin-top: 4px;
+      }
+      .modal-quick-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+      }
+      .modal-quick-item i {
+        color: var(--brown);
+        font-size: 12px;
+      }
+      .size-note {
+        font-size: 9px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
       }
       .modal-tabs {
         display: flex;
@@ -3085,6 +3110,24 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 </ul>
               </div>
             </div>
+            <div class="modal-quick-info">
+              <div class="modal-quick-item">
+                <i class="fas fa-truck"></i>
+                <span>Fast and Safe Delivery</span>
+              </div>
+              <div class="modal-quick-item">
+                <i class="fas fa-shield-check"></i>
+                <span>Quality Assurance</span>
+              </div>
+              <div class="modal-quick-item">
+                <i class="fas fa-credit-card"></i>
+                <span>Payment Trust</span>
+              </div>
+              <div class="modal-quick-item">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Cash on Delivery</span>
+              </div>
+            </div>
             <a
               id="modal-sizechart"
               class="size-link"
@@ -3095,12 +3138,16 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               title="Opens in a new tab"
               >Size chart</a
             >
+            <p class="size-note">
+              *Product Colour May Slightly Vary Due To Screen Resolution and
+              Lighting
+            </p>
             <div class="modal-actions">
               <button id="modal-add" class="add-btn" type="button">
-                Add to cart
+                Add to cart <i class="fas fa-cart-shopping text-xs"></i>
               </button>
               <button id="modal-buy" class="btn-primary" type="button">
-                Buy now
+                Buy now <i class="fas fa-arrow-right text-xs"></i>
               </button>
               <button class="btn-outline" type="button" data-modal-close>
                 Continue Shopping

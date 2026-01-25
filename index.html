@@ -2513,7 +2513,7 @@
               data-quality="Laid Back Luxury meets Poetic minimalism"
               data-fabric="Cotton + Rayon"
               data-sizechart="photos/chart.jpeg"
-              data-images="photos/Black_cuban1.jpeg,photos/Black_cuban2.jpeg,photos/Black_cuban3.jpeg,photos/Black_cuban14.jpeg"
+              data-images="photos/Black_cuban1.jpeg,photos/Black_cuban2.jpeg,photos/Black_cuban3.jpeg,photos/Black_cuban4.jpeg"
             >
               <div class="product-image">
                 <img
@@ -3254,7 +3254,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <span>Fast and Safe Delivery</span>
               </div>
               <div class="modal-quick-item">
-                <i class="fas fa-shield-check"></i>
+                <i class="fas fa-circle-check"></i>
                 <span>Quality Assurance</span>
               </div>
               <div class="modal-quick-item">
@@ -3321,7 +3321,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             </div>
             <div class="space-y-2">
               <p class="text-xs uppercase tracking-[0.2em]">Check us out on</p>
-              <div class="flex items-center gap-4 text-lg">
+              <div class="flex items-center gap-4 text-xl">
                 <a
                   href="https://www.instagram.com/accoladeclo?igsh=M3J4MWdzd3FmcWw3"
                   aria-label="Instagram"
@@ -3339,15 +3339,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                   rel="noreferrer"
                 >
                   <i class="fab fa-facebook"></i>
-                </a>
-                <a
-                  href="https://www.youtube.com/"
-                  aria-label="YouTube"
-                  class="hover:opacity-80"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <i class="fab fa-youtube"></i>
                 </a>
               </div>
             </div>
@@ -3399,6 +3390,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       );
       const promoSection = document.getElementById("promo-section");
       const codNotice = document.getElementById("cod-notice");
+      let hasAutoCheckoutRedirected = false;
 
       function showToast(message) {
         if (!toast) {
@@ -4075,7 +4067,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         modalAdd.onclick = () => {
           addToCart(modalProductName, modalUnitPrice, modalQuantity);
           closeProductModal();
-          openCheckout();
+          if (!hasAutoCheckoutRedirected) {
+            hasAutoCheckoutRedirected = true;
+            openCheckout();
+          }
         };
         if (modalBuy) {
           modalBuy.onclick = () => {

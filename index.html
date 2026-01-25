@@ -761,6 +761,8 @@
         min-height: 0;
         display: flex;
         flex-direction: column;
+        height: auto;
+        max-height: 60vh;
       }
       .modal-nav {
         position: absolute;
@@ -798,41 +800,11 @@
         transition: transform 0.5s ease;
         touch-action: pan-y;
         flex: 1 1 auto;
-      }
-      .modal-thumbs {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 6px;
-        padding: 8px 10px 10px;
-        overflow: visible;
-        background: #fff;
-        border-top: 1px solid rgba(31, 31, 31, 0.06);
-      }
-      .modal-thumb {
-        width: 62px;
-        height: 58px;
-        border-radius: 10px;
-        border: 1px solid transparent;
-        overflow: hidden;
-        flex: 0 0 auto;
-        opacity: 0.55;
-        cursor: pointer;
-        transition: opacity 0.2s ease, border-color 0.2s ease;
-      }
-      .modal-thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-      .modal-thumb.is-active {
-        opacity: 1;
-        border-color: var(--brown);
+        align-items: stretch;
       }
       .modal-slide {
         width: 100%;
-        height: 100%;
+        height: auto;
         border-radius: 18px;
         background: linear-gradient(140deg, #d6c5b0, #f7efe3);
         border: 1px solid var(--card-border);
@@ -849,7 +821,7 @@
       }
       .modal-slide img {
         width: 100%;
-        height: 100%;
+        height: auto;
         object-fit: cover;
         display: block;
       }
@@ -906,10 +878,10 @@
         font-size: 12px;
       }
       .size-note {
-        font-size: 8px;
+        font-size: 7px;
         color: var(--muted);
         text-transform: uppercase;
-        letter-spacing: 0.14em;
+        letter-spacing: 0.12em;
       }
       .modal-tabs {
         display: flex;
@@ -997,7 +969,8 @@
           height: auto;
         }
         .modal-media {
-          height: 48vh;
+          min-height: 42vh;
+          max-height: 62vh;
         }
         .modal-nav {
           display: none;
@@ -1114,7 +1087,8 @@
           padding: 12px;
         }
         .modal-media {
-          height: 52vh;
+          min-height: 46vh;
+          max-height: 70vh;
         }
         .modal-actions {
           flex-direction: column;
@@ -3033,9 +3007,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
     <!-- Product modal -->
     <div id="product-modal" class="modal hidden-section" aria-hidden="true">
       <div class="modal-dialog" role="dialog" aria-modal="true">
-        <button class="modal-close" type="button" data-modal-close>
-          Close
-        </button>
         <div class="modal-grid">
           <div class="modal-media">
             <button class="modal-nav prev" type="button" data-modal-prev>
@@ -3045,8 +3016,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               <i class="fas fa-chevron-right"></i>
             </button>
             <div class="modal-track" id="modal-track"></div>
-            <!-- Thumbnails are driven by data-images -->
-            <div class="modal-thumbs" id="modal-thumbs"></div>
           </div>
           <div class="modal-info">
             <p id="modal-subtitle" class="info-subtitle"></p>
@@ -3117,7 +3086,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <span>Fast and Safe Delivery</span>
               </div>
               <div class="modal-quick-item">
-                <i class="fas fa-shield-halved"></i>
+                <i class="fas fa-circle-check"></i>
                 <span>Quality Assurance</span>
               </div>
               <div class="modal-quick-item">
@@ -3595,7 +3564,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       const modalAdd = document.getElementById("modal-add");
       const modalBuy = document.getElementById("modal-buy");
       const modalBadge = document.getElementById("modal-badge");
-      const modalThumbs = document.getElementById("modal-thumbs");
       const modalPrev = document.querySelector("[data-modal-prev]");
       const modalNext = document.querySelector("[data-modal-next]");
       const modalTabs = document.querySelectorAll("[data-modal-tab]");
@@ -3614,14 +3582,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       let modalPointerStartY = 0;
       const modalSwipeThreshold = 40;
       let modalSwipeSource = null;
-      let modalThumbButtons = [];
 
       function buildSlides(images) {
-        // Single source of truth: data-images for slider + thumbnails.
+        // Single source of truth: data-images for slider.
         modalTrack.innerHTML = "";
-        if (modalThumbs) {
-          modalThumbs.innerHTML = "";
-        }
         const placeholders = ["Image 01", "Image 02", "Image 03", "Image 04"];
         const items = images.length ? images : placeholders;
         modalSlidesCount = items.length;
@@ -3638,31 +3602,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             slide.textContent = item;
           }
           modalTrack.appendChild(slide);
-
-          if (modalThumbs) {
-            const thumb = document.createElement("button");
-            thumb.type = "button";
-            thumb.className = "modal-thumb";
-            thumb.dataset.index = index;
-            if (images.length) {
-              const thumbImg = document.createElement("img");
-              thumbImg.src = item;
-              thumbImg.alt = `Thumbnail ${index + 1}`;
-              thumb.appendChild(thumbImg);
-            } else {
-              thumb.textContent = item;
-            }
-            thumb.addEventListener("click", (event) => {
-              event.stopPropagation();
-              setModalIndex(index);
-              stopModalAutoScroll();
-            });
-            modalThumbs.appendChild(thumb);
-          }
         });
-        modalThumbButtons = modalThumbs
-          ? Array.from(modalThumbs.querySelectorAll(".modal-thumb"))
-          : [];
         updateModalSlider();
         attachImageLoaders(modalTrack);
       }
@@ -3672,20 +3612,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           return;
         }
         modalTrack.style.transform = `translateX(-${modalIndex * 100}%)`;
-        if (!modalThumbButtons.length || !modalThumbs) {
-          return;
-        }
-        modalThumbButtons.forEach((thumb, index) => {
-          thumb.classList.toggle("is-active", index === modalIndex);
-        });
-        const activeThumb = modalThumbButtons[modalIndex];
-        if (activeThumb) {
-          activeThumb.scrollIntoView({
-            behavior: "smooth",
-            inline: "center",
-            block: "nearest",
-          });
-        }
       }
 
       function setModalIndex(index) {

@@ -221,6 +221,16 @@
         color: var(--button-hover-text);
         border-color: var(--button-hover);
       }
+      .btn-primary,
+      .btn-outline,
+      .add-btn {
+        will-change: transform;
+      }
+      .btn-primary:active,
+      .btn-outline:active,
+      .add-btn:active {
+        transform: translateY(1px);
+      }
       .section-title {
         font-size: 22px;
         font-weight: 800;
@@ -665,6 +675,15 @@
         justify-content: center;
         padding: 24px;
         z-index: 80;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+      .modal.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
       }
       .modal-dialog {
         width: min(980px, 92vw);
@@ -679,6 +698,15 @@
         grid-template-rows: auto 1fr;
         gap: 12px;
         overflow: hidden;
+        transform: translateY(8px) scale(0.98);
+        opacity: 0;
+        transition:
+          transform 0.2s ease,
+          opacity 0.2s ease;
+      }
+      .modal.is-open .modal-dialog {
+        transform: translateY(0) scale(1);
+        opacity: 1;
       }
       .modal-dialog::before {
         content: "";
@@ -730,6 +758,8 @@
         position: relative;
         box-shadow: var(--shadow-soft);
         min-height: 0;
+        display: flex;
+        flex-direction: column;
       }
       .modal-nav {
         position: absolute;
@@ -761,10 +791,43 @@
       .modal-track {
         display: flex;
         width: 100%;
-        height: 100%;
+        height: auto;
+        min-height: 0;
         padding: 0;
         transition: transform 0.5s ease;
         touch-action: pan-y;
+        flex: 1 1 auto;
+      }
+      .modal-thumbs {
+        display: flex;
+        gap: 8px;
+        padding: 8px 10px;
+        overflow-x: auto;
+        background: #fff;
+        border-top: 1px solid rgba(31, 31, 31, 0.06);
+        scroll-snap-type: x mandatory;
+      }
+      .modal-thumb {
+        width: 64px;
+        height: 56px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        overflow: hidden;
+        flex: 0 0 auto;
+        opacity: 0.55;
+        cursor: pointer;
+        scroll-snap-align: center;
+        transition: opacity 0.2s ease, border-color 0.2s ease;
+      }
+      .modal-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .modal-thumb.is-active {
+        opacity: 1;
+        border-color: var(--brown);
       }
       .modal-slide {
         width: 100%;
@@ -804,6 +867,43 @@
         display: flex;
         gap: 12px;
         align-items: center;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .modal-actions > button {
+        width: 100%;
+        justify-content: center;
+      }
+      .modal-tabs {
+        display: flex;
+        gap: 10px;
+      }
+      .modal-tab {
+        border: 1px solid rgba(31, 31, 31, 0.2);
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        background: #fff;
+        transition: all 0.2s ease;
+      }
+      .modal-tab.is-active {
+        color: var(--brown);
+        border-color: var(--brown);
+        background: rgba(255, 255, 255, 0.9);
+      }
+      .modal-tab-panel {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.2s ease, max-height 0.2s ease;
+      }
+      .modal-tab-panel.is-active {
+        max-height: 220px;
+        opacity: 1;
       }
       .modal-quantity {
         display: flex;
@@ -2008,6 +2108,7 @@
               data-subtitle="Lightweight cotton"
               data-price="BDT 1215"
               data-offer="1350"
+              data-badge="15% OFF"
               data-cotton="Add details"
               data-quality="Add details"
               data-fabric="Premium"
@@ -2087,6 +2188,7 @@
               data-subtitle="Short sleeve"
               data-price="BDT 1215"
               data-offer="1350"
+              data-badge="15% OFF"
               data-cotton="Add details"
               data-quality="Add details"
               data-fabric="Add details"
@@ -2245,6 +2347,7 @@
               data-subtitle="Limited available"
               data-price="BDT 1215"
               data-offer="1350"
+              data-badge="15% OFF"
               data-cotton="Add details"
               data-quality="Add details"
               data-fabric="Add details"
@@ -2904,6 +3007,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               <i class="fas fa-chevron-right"></i>
             </button>
             <div class="modal-track" id="modal-track"></div>
+            <!-- Thumbnails are driven by data-images -->
+            <div class="modal-thumbs" id="modal-thumbs"></div>
           </div>
           <div class="modal-info">
             <p id="modal-subtitle" class="info-subtitle"></p>
@@ -2912,7 +3017,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               <span class="price-currency">BDT</span>
               <span id="modal-offer" class="price-original"></span>
               <span id="modal-price" class="price-current"></span>
-              <span class="price-badge">10% OFF</span>
+              <span id="modal-badge" class="price-badge">10% OFF</span>
             </div>
             <p id="modal-unit" class="modal-unit"></p>
             <div class="modal-quantity">
@@ -2923,23 +3028,51 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <button id="qty-plus" class="qty-btn" type="button">+</button>
               </div>
             </div>
-            <details class="info-details" open>
-              <summary>Product info</summary>
-              <ul>
-                <li>
-                  <span class="info-key">Cotton</span>
-                  <span id="modal-cotton" class="info-value">Add details</span>
-                </li>
-                <li>
-                  <span class="info-key">Quality</span>
-                  <span id="modal-quality" class="info-value">Add details</span>
-                </li>
-                <li>
-                  <span class="info-key">Fabric</span>
-                  <span id="modal-fabric" class="info-value">Add details</span>
-                </li>
-              </ul>
-            </details>
+            <!-- Modal tabs (swap content in same space) -->
+            <div class="modal-tabs">
+              <button
+                type="button"
+                class="modal-tab is-active"
+                data-modal-tab="info"
+              >
+                Product Info
+              </button>
+              <button type="button" class="modal-tab" data-modal-tab="about">
+                About
+              </button>
+            </div>
+            <div class="modal-tab-panels">
+              <div class="info-details modal-tab-panel is-active" data-modal-panel="info">
+                <ul>
+                  <li>
+                    <span class="info-key">Cotton</span>
+                    <span id="modal-cotton" class="info-value">Add details</span>
+                  </li>
+                  <li>
+                    <span class="info-key">Quality</span>
+                    <span id="modal-quality" class="info-value">Add details</span>
+                  </li>
+                  <li>
+                    <span class="info-key">Fabric</span>
+                    <span id="modal-fabric" class="info-value">Add details</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="info-details modal-tab-panel" data-modal-panel="about">
+                <ul>
+                  <!-- Replace the three about points below -->
+                  <li>
+                    <span class="info-value">Add about point 1</span>
+                  </li>
+                  <li>
+                    <span class="info-value">Add about point 2</span>
+                  </li>
+                  <li>
+                    <span class="info-value">Add about point 3</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
             <a
               id="modal-sizechart"
               class="size-link"
@@ -2954,8 +3087,11 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               <button id="modal-add" class="add-btn" type="button">
                 Add to cart
               </button>
+              <button id="modal-buy" class="btn-primary" type="button">
+                Buy now
+              </button>
               <button class="btn-outline" type="button" data-modal-close>
-                Close
+                Continue Shopping
               </button>
             </div>
           </div>
@@ -3110,16 +3246,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         renderCartModal();
         updateCalculations();
         showToast("Added successfully");
-
-        const formContainer = document.getElementById("master-form");
-        if (formContainer.classList.contains("hidden-section")) {
-          formContainer.classList.remove("hidden-section");
-          if (codNotice) {
-            codNotice.scrollIntoView({ behavior: "smooth", block: "start" });
-          } else {
-            formContainer.scrollIntoView({ behavior: "smooth" });
-          }
-        }
       }
 
       function renderCartSummary() {
@@ -3196,8 +3322,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         cartModal.setAttribute("aria-hidden", "true");
       }
 
-      function openCheckoutFromCart() {
-        closeCartModal();
+      function openCheckout() {
         const formContainer = document.getElementById("master-form");
         if (formContainer.classList.contains("hidden-section")) {
           formContainer.classList.remove("hidden-section");
@@ -3207,6 +3332,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         } else {
           formContainer.scrollIntoView({ behavior: "smooth" });
         }
+      }
+      function openCheckoutFromCart() {
+        closeCartModal();
+        openCheckout();
       }
 
       if (cartButton) {
@@ -3404,8 +3533,13 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       const modalFabric = document.getElementById("modal-fabric");
       const modalSizechart = document.getElementById("modal-sizechart");
       const modalAdd = document.getElementById("modal-add");
+      const modalBuy = document.getElementById("modal-buy");
+      const modalBadge = document.getElementById("modal-badge");
+      const modalThumbs = document.getElementById("modal-thumbs");
       const modalPrev = document.querySelector("[data-modal-prev]");
       const modalNext = document.querySelector("[data-modal-next]");
+      const modalTabs = document.querySelectorAll("[data-modal-tab]");
+      const modalPanels = document.querySelectorAll("[data-modal-panel]");
       const qtyMinus = document.getElementById("qty-minus");
       const qtyPlus = document.getElementById("qty-plus");
       const qtyValue = document.getElementById("qty-value");
@@ -3420,9 +3554,14 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       let modalPointerStartY = 0;
       const modalSwipeThreshold = 40;
       let modalSwipeSource = null;
+      let modalThumbButtons = [];
 
       function buildSlides(images) {
+        // Single source of truth: data-images for slider + thumbnails.
         modalTrack.innerHTML = "";
+        if (modalThumbs) {
+          modalThumbs.innerHTML = "";
+        }
         const placeholders = ["Image 01", "Image 02", "Image 03", "Image 04"];
         const items = images.length ? images : placeholders;
         modalSlidesCount = items.length;
@@ -3439,7 +3578,31 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             slide.textContent = item;
           }
           modalTrack.appendChild(slide);
+
+          if (modalThumbs) {
+            const thumb = document.createElement("button");
+            thumb.type = "button";
+            thumb.className = "modal-thumb";
+            thumb.dataset.index = index;
+            if (images.length) {
+              const thumbImg = document.createElement("img");
+              thumbImg.src = item;
+              thumbImg.alt = `Thumbnail ${index + 1}`;
+              thumb.appendChild(thumbImg);
+            } else {
+              thumb.textContent = item;
+            }
+            thumb.addEventListener("click", (event) => {
+              event.stopPropagation();
+              setModalIndex(index);
+              stopModalAutoScroll();
+            });
+            modalThumbs.appendChild(thumb);
+          }
         });
+        modalThumbButtons = modalThumbs
+          ? Array.from(modalThumbs.querySelectorAll(".modal-thumb"))
+          : [];
         updateModalSlider();
         attachImageLoaders(modalTrack);
       }
@@ -3449,6 +3612,20 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           return;
         }
         modalTrack.style.transform = `translateX(-${modalIndex * 100}%)`;
+        if (!modalThumbButtons.length || !modalThumbs) {
+          return;
+        }
+        modalThumbButtons.forEach((thumb, index) => {
+          thumb.classList.toggle("is-active", index === modalIndex);
+        });
+        const activeThumb = modalThumbButtons[modalIndex];
+        if (activeThumb) {
+          activeThumb.scrollIntoView({
+            behavior: "smooth",
+            inline: "center",
+            block: "nearest",
+          });
+        }
       }
 
       function setModalIndex(index) {
@@ -3457,6 +3634,17 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         }
         modalIndex = (index + modalSlidesCount) % modalSlidesCount;
         updateModalSlider();
+      }
+
+      function setModalTab(tabName) {
+        modalTabs.forEach((button) => {
+          const isActive = button.dataset.modalTab === tabName;
+          button.classList.toggle("is-active", isActive);
+        });
+        modalPanels.forEach((panel) => {
+          const isActive = panel.dataset.modalPanel === tabName;
+          panel.classList.toggle("is-active", isActive);
+        });
       }
 
       function isMobileViewport() {
@@ -3658,27 +3846,45 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         modalSubtitle.textContent = subtitle || "";
         modalOffer.textContent = offer;
         modalOffer.style.display = offer ? "inline-flex" : "none";
+        if (modalBadge) {
+          modalBadge.textContent = card.dataset.badge || "10% OFF";
+        }
         modalCotton.textContent = card.dataset.cotton || "add details";
         modalQuality.textContent = card.dataset.quality || "add details";
         modalFabric.textContent = card.dataset.fabric || "add details";
         modalSizechart.href = card.dataset.sizechart || "photos/chart.jpeg";
 
         buildSlides(images);
+        setModalTab("info");
         updateModalTotals();
 
-        modalAdd.onclick = () =>
+        modalAdd.onclick = () => {
           addToCart(modalProductName, modalUnitPrice, modalQuantity);
+        };
+        if (modalBuy) {
+          modalBuy.onclick = () => {
+            addToCart(modalProductName, modalUnitPrice, modalQuantity);
+            closeProductModal();
+            openCheckout();
+          };
+        }
         modal.classList.remove("hidden-section");
+        requestAnimationFrame(() => {
+          modal.classList.add("is-open");
+        });
         modal.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
         startModalAutoScroll();
       }
 
       function closeProductModal() {
-        modal.classList.add("hidden-section");
+        modal.classList.remove("is-open");
         modal.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
         stopModalAutoScroll();
+        setTimeout(() => {
+          modal.classList.add("hidden-section");
+        }, 200);
       }
 
       if (qtyPlus) {
@@ -3710,6 +3916,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           if (card) {
             openProductModal(card);
           }
+        });
+      });
+
+      modalTabs.forEach((button) => {
+        button.addEventListener("click", () => {
+          setModalTab(button.dataset.modalTab);
         });
       });
 

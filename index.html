@@ -696,9 +696,9 @@
         box-shadow: var(--shadow);
         padding: 18px;
         display: grid;
-        grid-template-rows: auto 1fr;
+        grid-template-rows: 1fr;
         gap: 12px;
-        overflow-y: auto;
+        overflow: hidden;
         transform: translateY(8px) scale(0.98);
         opacity: 0;
         transition:
@@ -987,6 +987,50 @@
         color: var(--muted);
         text-transform: uppercase;
         letter-spacing: 0.2em;
+      }
+      @media (min-width: 901px) {
+        .modal-dialog {
+          max-height: min(82vh, 720px);
+          padding: 16px;
+          gap: 10px;
+        }
+        .modal-grid {
+          grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+          gap: 16px;
+          align-items: stretch;
+        }
+        .modal-grid > * {
+          min-width: 0;
+        }
+        .modal-media {
+          height: clamp(320px, 52vh, 520px);
+        }
+        .modal-track,
+        .modal-slide {
+          height: 100%;
+        }
+        .modal-thumbs {
+          display: none;
+        }
+        .modal-info {
+          gap: 10px;
+          padding: 12px;
+        }
+        .modal-unit,
+        .modal-quick-info,
+        .size-note {
+          display: none;
+        }
+        .modal-tab-panel.is-active {
+          max-height: 160px;
+        }
+        .modal-actions {
+          gap: 8px;
+        }
+        .modal-actions button {
+          padding: 10px 16px;
+          font-size: 10px;
+        }
       }
       @media (max-width: 900px) {
         .modal-dialog {
@@ -3025,17 +3069,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
     <!-- Product modal -->
     <div id="product-modal" class="modal hidden-section" aria-hidden="true">
       <div class="modal-dialog" role="dialog" aria-modal="true">
-        <button class="modal-close" type="button" data-modal-close>
-          Close
-        </button>
         <div class="modal-grid">
           <div class="modal-media">
-            <button class="modal-nav prev" type="button" data-modal-prev>
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="modal-nav next" type="button" data-modal-next>
-              <i class="fas fa-chevron-right"></i>
-            </button>
             <div class="modal-track" id="modal-track"></div>
             <!-- Thumbnails are driven by data-images -->
             <div class="modal-thumbs" id="modal-thumbs"></div>
@@ -3632,9 +3667,11 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         }
         const placeholders = ["Image 01", "Image 02", "Image 03", "Image 04"];
         const items = images.length ? images : placeholders;
-        modalSlidesCount = items.length;
+        const useSingleImage = isDesktopViewport();
+        const displayItems = useSingleImage ? items.slice(0, 1) : items;
+        modalSlidesCount = displayItems.length;
         modalIndex = 0;
-        items.forEach((item, index) => {
+        displayItems.forEach((item, index) => {
           const slide = document.createElement("div");
           slide.className = "modal-slide";
           if (images.length) {
@@ -3647,7 +3684,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           }
           modalTrack.appendChild(slide);
 
-          if (modalThumbs) {
+          if (modalThumbs && !useSingleImage) {
             const thumb = document.createElement("button");
             thumb.type = "button";
             thumb.className = "modal-thumb";
@@ -3668,9 +3705,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             modalThumbs.appendChild(thumb);
           }
         });
-        modalThumbButtons = modalThumbs
-          ? Array.from(modalThumbs.querySelectorAll(".modal-thumb"))
-          : [];
+        modalThumbButtons =
+          modalThumbs && !useSingleImage
+            ? Array.from(modalThumbs.querySelectorAll(".modal-thumb"))
+            : [];
         updateModalSlider();
         attachImageLoaders(modalTrack);
       }
@@ -3717,6 +3755,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
       function isMobileViewport() {
         return window.matchMedia("(max-width: 768px)").matches;
+      }
+
+      function isDesktopViewport() {
+        return window.matchMedia("(min-width: 901px)").matches;
       }
 
       function startModalAutoScroll() {

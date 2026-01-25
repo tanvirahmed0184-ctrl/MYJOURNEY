@@ -687,7 +687,8 @@
       }
       .modal-dialog {
         width: min(980px, 92vw);
-        height: min(84vh, 780px);
+        height: auto;
+        max-height: 84vh;
         position: relative;
         background: rgba(250, 247, 242, 0.78);
         border-radius: 30px;
@@ -697,7 +698,7 @@
         display: grid;
         grid-template-rows: auto 1fr;
         gap: 12px;
-        overflow: hidden;
+        overflow-y: auto;
         transform: translateY(8px) scale(0.98);
         opacity: 0;
         transition:
@@ -747,7 +748,7 @@
         display: grid;
         grid-template-columns: 1.1fr 1fr;
         gap: 18px;
-        height: 100%;
+        height: auto;
         min-height: 0;
       }
       .modal-media {
@@ -905,10 +906,10 @@
         font-size: 12px;
       }
       .size-note {
-        font-size: 9px;
+        font-size: 8px;
         color: var(--muted);
         text-transform: uppercase;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.14em;
       }
       .modal-tabs {
         display: flex;
@@ -3116,7 +3117,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <span>Fast and Safe Delivery</span>
               </div>
               <div class="modal-quick-item">
-                <i class="fas fa-shield-check"></i>
+                <i class="fas fa-shield-halved"></i>
                 <span>Quality Assurance</span>
               </div>
               <div class="modal-quick-item">

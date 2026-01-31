@@ -11,6 +11,7 @@
     />
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap");
       @import url("https://fonts.cdnfonts.com/css/sansation");
 
       /* Base theme colors */
@@ -134,6 +135,7 @@
       }
       .brand-text {
         min-width: 0;
+        font-family: "Cinzel", "Sansation", "Inter", sans-serif;
       }
       .cart-badge {
         position: absolute;
@@ -953,6 +955,18 @@
         max-height: 220px;
         opacity: 1;
       }
+      .modal-info .modal-tab-panel {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+      .modal-info .modal-tab-panel.is-active {
+        padding: 10px 12px;
+        border: 1px solid var(--card-border);
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 8px 18px rgba(31, 31, 31, 0.06);
+      }
       .modal-quantity {
         display: flex;
         align-items: center;
@@ -1130,6 +1144,12 @@
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
           grid-template-rows: auto auto;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .modal-dialog::-webkit-scrollbar {
+          width: 0;
+          height: 0;
         }
         .modal-grid {
           grid-template-columns: 1fr;
@@ -1207,6 +1227,9 @@
         }
         .product-image {
           height: 190px;
+        }
+        .product-card {
+          background: #faf7f2;
         }
         .cart-panel {
           padding: 16px;
@@ -1457,6 +1480,27 @@
       .form-input:focus {
         border-color: var(--brown);
       }
+      .size-label {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+      }
+      .size-select {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid #eadfce;
+        background: #fff;
+        color: var(--brown);
+        outline: none;
+      }
+      .size-select:focus {
+        border-color: var(--brown);
+      }
       .cod-notice {
         background-color: #ba766d;
         color: #1f1f1f;
@@ -1563,6 +1607,18 @@
       .toast.is-visible {
         opacity: 1;
         transform: translateX(-50%) translateY(-4px);
+      }
+      #modal-scroll-indicator {
+        position: fixed;
+        width: 2px;
+        height: 40px;
+        background: #c6b7a6;
+        border-radius: 999px;
+        opacity: 0;
+        z-index: 9999;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        will-change: opacity, transform;
       }
 
       /* Header + announcement bar */
@@ -1974,6 +2030,7 @@
               data-cotton="100% FLeece Cotton Fabric"
               data-quality="high Quality 460 GSM"
               data-fabric="Symbol of Modern Heritage"
+              data-design="Signature scholars emblem|Oversized winter silhouette|Limited drop artwork"
               data-sizechart="photos/chart.jpeg"
               data-images="photos/red.jpeg,photos/red1.jpeg,photos/any.jpeg,photos/red2.jpeg"
             >
@@ -2055,6 +2112,7 @@
               data-cotton="100% FLeece Cotton Fabric"
               data-quality="High quality 460 GSM"
               data-fabric="Symbol of Modern Heritage"
+              data-design="Hands of grace graphic|Oversized winter silhouette|Limited drop artwork"
               data-sizechart="photos/chart.jpeg"
               data-images="photos/yellow2.jpeg,photos/yellow3.jpeg,photos/any.jpeg,photos/yellow1.jpeg"
             >
@@ -2134,6 +2192,7 @@
               data-cotton="100% French Terry Cotton Fabric"
               data-quality="High quality 455 GSM"
               data-fabric="Symbol of Modern Heritage"
+              data-design="Sacred beads illustration|French terry softness|Vintage wash finish"
               data-sizechart="photos/chart.jpeg"
               data-images="photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             >
@@ -2221,6 +2280,7 @@
               data-cotton="100% Fleece Cotton Fabric"
               data-quality="High Quality 460 GSM"
               data-fabric="Symbol of Modern Heritage"
+              data-design="Signature scholars emblem|Oversized winter silhouette|Limited drop artwork"
               data-sizechart="photos/chart.jpeg"
               data-images="photos/red.jpeg,photos/red1.jpeg,photos/any.jpeg,photos/red2.jpeg"
             >
@@ -2297,6 +2357,7 @@
               data-cotton="Premium"
               data-quality="Minimal Tropical"
               data-fabric="Rayon + Cotton"
+              data-design="Palm dust motif print|Relaxed Cuban collar|Lightweight drape"
               data-sizechart="photos/chart.jpeg"
               data-images="photos/Offwhite_cuban1.jpeg,photos/Offwhite_cuban2.jpeg,photos/Offwhite_cuban3.jpeg,photos/Offwhite_cuban4.jpeg"
             >
@@ -2377,6 +2438,7 @@
               data-cotton="Premium"
               data-quality="Coastal Luxury meets Street-Casual ease"
               data-fabric="Rayon + Cotton"
+              data-design="Minimal heron artwork|Relaxed Cuban collar|Coastal luxe finish"
               data-sizechart="photos/chart.jpeg"
               data-images="photos/White_cuban1.jpeg,photos/White_cuban2.jpeg,photos/White_cuban3.jpeg,photos/White_cuban4.jpeg"
             >
@@ -2456,6 +2518,7 @@
               data-cotton="100% Fleece Cotton Fabric"
               data-quality="High Quality 460 GSM"
               data-fabric="Symbol of Modern Heritage"
+              data-design="Hands of grace graphic|Oversized winter silhouette|Limited drop artwork"
               data-sizechart="photos/chart.jpeg"
               data-images="photos/yellow2.jpeg,photos/yellow3.jpeg,photos/any.jpeg,photos/yellow1.jpeg"
             >
@@ -2536,6 +2599,7 @@
               data-cotton="Premium"
               data-quality="Laid Back Luxury meets Poetic minimalism"
               data-fabric="Cotton + Rayon"
+              data-design="Monochrome voyage print|Relaxed Cuban collar|Soft rayon blend"
               data-sizechart="photos/chart.jpeg"
               data-images="photos/Black_cuban1.jpeg,photos/Black_cuban2.jpeg,photos/Black_cuban3.jpeg,photos/Black_cuban4.jpeg"
             >
@@ -2615,6 +2679,7 @@
               data-cotton="100% French Terry Cotton Fabric"
               data-quality="High Quality 455 GSM"
               data-fabric="Vintage blue Sunfade"
+              data-design="Sacred beads illustration|French terry softness|Vintage wash finish"
               data-sizechart="photos/chart.jpeg"
               data-images="
 photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
@@ -2707,6 +2772,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               data-cotton="100% Fleece Cotton Fabric"
               data-quality="High Quality 460 GSM"
               data-fabric="Symbol of Modern Heritage"
+              data-design="Signature scholars emblem|Oversized winter silhouette|Limited drop artwork"
               data-sizechart="photos/chart.jpeg"
               data-images="photos/red.jpeg,photos/red1.jpeg,photos/any.jpeg,photos/red2.jpeg"
             >
@@ -2786,6 +2852,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               data-cotton="100% French Terry  Cotton Fabric"
               data-quality="High Quality 455 GSM"
               data-fabric="Vintage Blue Sunfade"
+              data-design="Sacred beads illustration|French terry softness|Vintage wash finish"
               data-sizechart="photos/chart.jpeg"
               data-images="photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             >
@@ -3217,7 +3284,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             <div class="modal-tabs">
               <button
                 type="button"
-                class="modal-tab is-active"
+                class="modal-tab"
                 data-modal-tab="info"
               >
                 Product Info
@@ -3228,7 +3295,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             </div>
             <div class="modal-tab-panels">
               <div
-                class="info-details modal-tab-panel is-active"
+                class="info-details modal-tab-panel"
                 data-modal-panel="info"
               >
                 <ul>
@@ -3256,16 +3323,16 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 class="info-details modal-tab-panel"
                 data-modal-panel="about"
               >
-                <ul>
+                <ul id="modal-design-list">
                   <!-- Replace the three about points below "FOR DESIGN" -->
                   <li>
-                    <span class="info-value"></span>
+                    <span class="info-value" data-design-item></span>
                   </li>
                   <li>
-                    <span class="info-value"></span>
+                    <span class="info-value" data-design-item></span>
                   </li>
                   <li>
-                    <span class="info-value"></span>
+                    <span class="info-value" data-design-item></span>
                   </li>
                 </ul>
               </div>
@@ -3317,6 +3384,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         </div>
       </div>
     </div>
+
+    <div id="modal-scroll-indicator" aria-hidden="true"></div>
 
     <!-- Floating cart button -->
     <button id="cart-fab" class="icon-button cart-fab" aria-label="Cart">
@@ -3450,6 +3519,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           price: linePrice,
           unitPrice,
           quantity: safeQuantity,
+          size: "M",
         });
         subtotal += linePrice;
 
@@ -3462,15 +3532,41 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
       function renderCartSummary() {
         const container = document.getElementById("cart-display");
+        if (!container) {
+          return;
+        }
         container.innerHTML = cart
-          .map((item) => {
+          .map((item, index) => {
             const qtyLabel = item.quantity > 1 ? ` x${item.quantity}` : "";
+            const sizeOptions = ["S", "M", "L", "XL"]
+              .map(
+                (size) =>
+                  `<option value="${size}" ${
+                    item.size === size ? "selected" : ""
+                  }>${size}</option>`,
+              )
+              .join("");
             return `<div class="flex justify-between border-b border-dashed border-[#d6c8b4] pb-2 text-sm">
-                    <span>${item.name}${qtyLabel}</span>
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span>${item.name}${qtyLabel}</span>
+                      <span class="size-label">Size</span>
+                      <select class="size-select" data-size-index="${index}" aria-label="Size for ${item.name}">
+                        ${sizeOptions}
+                      </select>
+                    </div>
                     <span class="font-semibold price-text">${item.price} Tk</span>
                 </div>`;
           })
           .join("");
+        container.querySelectorAll(".size-select").forEach((select) => {
+          select.addEventListener("change", () => {
+            const index = parseInt(select.dataset.sizeIndex, 10);
+            if (!Number.isNaN(index) && cart[index]) {
+              cart[index].size = select.value;
+              updateCalculations();
+            }
+          });
+        });
       }
 
       function renderCartModal() {
@@ -3627,7 +3723,11 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             promoApplied && promoInput ? promoInput.value : "None";
         }
         document.getElementById("final-cart-items").value = cart
-          .map((i) => (i.quantity > 1 ? `${i.name} x${i.quantity}` : i.name))
+          .map((i) => {
+            const sizeLabel = i.size ? ` (Size: ${i.size})` : "";
+            const qtyLabel = i.quantity > 1 ? ` x${i.quantity}` : "";
+            return `${i.name}${sizeLabel}${qtyLabel}`;
+          })
           .join(", ");
 
         if (cartModalSubtotal) {
@@ -3734,6 +3834,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
       // Product modal controls
       const modal = document.getElementById("product-modal");
+      const modalDialog = modal ? modal.querySelector(".modal-dialog") : null;
       const modalTrack = document.getElementById("modal-track");
       const modalTitle = document.getElementById("modal-title");
       const modalSubtitle = document.getElementById("modal-subtitle");
@@ -3748,6 +3849,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       const modalBuy = document.getElementById("modal-buy");
       const modalBadge = document.getElementById("modal-badge");
       const modalThumbs = document.getElementById("modal-thumbs");
+      const modalDesignItems = Array.from(
+        document.querySelectorAll("#modal-design-list [data-design-item]"),
+      );
+      const modalScrollIndicator = document.getElementById(
+        "modal-scroll-indicator",
+      );
       const modalPrev = document.querySelector("[data-modal-prev]");
       const modalNext = document.querySelector("[data-modal-next]");
       const modalTabs = document.querySelectorAll("[data-modal-tab]");
@@ -3767,6 +3874,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       const modalSwipeThreshold = 40;
       let modalSwipeSource = null;
       let modalThumbButtons = [];
+      let bodyScrollTop = 0;
+      let isBodyLocked = false;
+      let modalScrollHideTimer = null;
+      let modalScrollRaf = null;
 
       function buildSlides(images) {
         // Single source of truth: data-images for slider + thumbnails.
@@ -3858,12 +3969,140 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
       function setModalTab(tabName) {
         modalTabs.forEach((button) => {
-          const isActive = button.dataset.modalTab === tabName;
+          const isActive = tabName && button.dataset.modalTab === tabName;
           button.classList.toggle("is-active", isActive);
         });
         modalPanels.forEach((panel) => {
-          const isActive = panel.dataset.modalPanel === tabName;
+          const isActive = tabName && panel.dataset.modalPanel === tabName;
           panel.classList.toggle("is-active", isActive);
+        });
+      }
+
+      function getDesignItems(card) {
+        const rawDesign = card.dataset.design || "";
+        const items = rawDesign
+          .split("|")
+          .map((item) => item.trim())
+          .filter(Boolean);
+        if (!items.length) {
+          return ["Add details", "Add details", "Add details"];
+        }
+        while (items.length < 3) {
+          items.push("Add details");
+        }
+        return items.slice(0, 3);
+      }
+
+      function applyDesignItems(items) {
+        if (!modalDesignItems.length) {
+          return;
+        }
+        modalDesignItems.forEach((item, index) => {
+          item.textContent = items[index] || "Add details";
+        });
+      }
+
+      function lockBodyScroll() {
+        if (isBodyLocked) {
+          return;
+        }
+        bodyScrollTop =
+          window.pageYOffset || document.documentElement.scrollTop || 0;
+        document.body.style.position = "fixed";
+        document.body.style.top = `-${bodyScrollTop}px`;
+        document.body.style.left = "0";
+        document.body.style.right = "0";
+        document.body.style.width = "100%";
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
+        isBodyLocked = true;
+      }
+
+      function unlockBodyScroll() {
+        if (!isBodyLocked) {
+          return;
+        }
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        document.body.style.width = "";
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
+        window.scrollTo(0, bodyScrollTop);
+        isBodyLocked = false;
+      }
+
+      function updateModalScrollIndicator() {
+        if (!modalDialog || !modalScrollIndicator) {
+          return;
+        }
+        if (modal.classList.contains("hidden-section")) {
+          modalScrollIndicator.style.opacity = "0";
+          return;
+        }
+        const scrollHeight = modalDialog.scrollHeight;
+        const clientHeight = modalDialog.clientHeight;
+        if (scrollHeight <= clientHeight + 1) {
+          modalScrollIndicator.style.opacity = "0";
+          return;
+        }
+        const rect = modalDialog.getBoundingClientRect();
+        const trackTop = rect.top + 8;
+        const trackHeight = rect.height - 16;
+        const maxScroll = scrollHeight - clientHeight;
+        const thumbHeight = Math.max(
+          24,
+          (clientHeight / scrollHeight) * trackHeight,
+        );
+        const scrollRatio = maxScroll > 0 ? modalDialog.scrollTop / maxScroll : 0;
+        const thumbTop = trackTop + (trackHeight - thumbHeight) * scrollRatio;
+        const rightOffset = Math.max(6, window.innerWidth - rect.right + 8);
+        modalScrollIndicator.style.height = `${thumbHeight}px`;
+        modalScrollIndicator.style.top = `${thumbTop}px`;
+        modalScrollIndicator.style.right = `${rightOffset}px`;
+      }
+
+      function showModalScrollIndicator() {
+        if (!modalScrollIndicator) {
+          return;
+        }
+        modalScrollIndicator.style.opacity = "1";
+        if (modalScrollHideTimer) {
+          clearTimeout(modalScrollHideTimer);
+        }
+        modalScrollHideTimer = setTimeout(() => {
+          modalScrollIndicator.style.opacity = "0";
+        }, 500);
+      }
+
+      function hideModalScrollIndicator() {
+        if (!modalScrollIndicator) {
+          return;
+        }
+        modalScrollIndicator.style.opacity = "0";
+      }
+
+      function resetModalScroll() {
+        if (!modalDialog) {
+          return;
+        }
+        modalDialog.scrollTop = 0;
+        modalDialog.scrollTo({ top: 0, behavior: "auto" });
+        updateModalScrollIndicator();
+        hideModalScrollIndicator();
+      }
+
+      function handleModalScroll() {
+        if (!modalDialog || !modalScrollIndicator) {
+          return;
+        }
+        if (modalScrollRaf) {
+          cancelAnimationFrame(modalScrollRaf);
+        }
+        modalScrollRaf = requestAnimationFrame(() => {
+          updateModalScrollIndicator();
+          showModalScrollIndicator();
         });
       }
 
@@ -4064,6 +4303,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           .split(",")
           .map((item) => item.trim())
           .filter(Boolean);
+        const designItems = getDesignItems(card);
 
         modalProductName = name || "Product";
         modalUnitPrice = numericPrice;
@@ -4082,8 +4322,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         modalSizechart.href = card.dataset.sizechart || "photos/chart.jpeg";
 
         buildSlides(images);
-        setModalTab("info");
+        applyDesignItems(designItems);
+        setModalTab(null);
         updateModalTotals();
+        resetModalScroll();
 
         modalAdd.onclick = () => {
           addToCart(modalProductName, modalUnitPrice, modalQuantity);
@@ -4100,19 +4342,26 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             openCheckout();
           };
         }
+        lockBodyScroll();
         modal.classList.remove("hidden-section");
         requestAnimationFrame(() => {
           modal.classList.add("is-open");
+          resetModalScroll();
+          updateModalScrollIndicator();
         });
         modal.setAttribute("aria-hidden", "false");
-        document.body.style.overflow = "hidden";
         startModalAutoScroll();
       }
 
       function closeProductModal() {
         modal.classList.remove("is-open");
         modal.setAttribute("aria-hidden", "true");
-        document.body.style.overflow = "";
+        unlockBodyScroll();
+        hideModalScrollIndicator();
+        if (modalScrollHideTimer) {
+          clearTimeout(modalScrollHideTimer);
+          modalScrollHideTimer = null;
+        }
         stopModalAutoScroll();
         setTimeout(() => {
           modal.classList.add("hidden-section");
@@ -4153,7 +4402,9 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
       modalTabs.forEach((button) => {
         button.addEventListener("click", () => {
-          setModalTab(button.dataset.modalTab);
+          const tabName = button.dataset.modalTab;
+          const isActive = button.classList.contains("is-active");
+          setModalTab(isActive ? null : tabName);
         });
       });
 
@@ -4264,6 +4515,19 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           startModalAutoScroll();
         });
       }
+
+      if (modalDialog) {
+        modalDialog.addEventListener("scroll", handleModalScroll, {
+          passive: true,
+        });
+      }
+
+      window.addEventListener("resize", () => {
+        if (!modal || modal.classList.contains("hidden-section")) {
+          return;
+        }
+        updateModalScrollIndicator();
+      });
 
       document.querySelectorAll(".add-btn").forEach((button) => {
         button.addEventListener("click", (event) => {

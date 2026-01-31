@@ -921,51 +921,47 @@
         text-transform: uppercase;
         letter-spacing: 0.14em;
       }
-      .modal-tabs {
-        display: flex;
-        gap: 10px;
+      .modal-accordion {
+        display: grid;
+        gap: 8px;
       }
-      .modal-tab {
-        border: 1px solid rgba(31, 31, 31, 0.18);
-        border-radius: 999px;
-        padding: 6px 14px;
-        font-size: 10px;
-        font-weight: 700;
+      .modal-accordion-header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 2px;
+        font-size: 11px;
+        font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.18em;
-        color: var(--muted);
-        background: rgba(255, 255, 255, 0.9);
-        box-shadow: 0 6px 16px rgba(31, 31, 31, 0.08);
-        transition: all 0.2s ease;
-      }
-      .modal-tab.is-active {
         color: var(--brown);
-        border-color: var(--brown);
-        background: var(--accent);
+        background: transparent;
+        border-bottom: 1px solid rgba(31, 31, 31, 0.08);
       }
-      .modal-tab-panel {
+      .modal-accordion-icon {
+        transition: transform 0.2s ease;
+        color: var(--muted);
+      }
+      .modal-accordion-header.is-active .modal-accordion-icon {
+        transform: rotate(180deg);
+      }
+      .modal-accordion-panel {
         max-height: 0;
         opacity: 0;
         overflow: hidden;
         transition:
           opacity 0.2s ease,
-          max-height 0.2s ease;
+          max-height 0.25s ease;
       }
-      .modal-tab-panel.is-active {
-        max-height: 220px;
+      .modal-accordion-panel.is-active {
         opacity: 1;
       }
-      .modal-info .modal-tab-panel {
+      .modal-info .modal-accordion-panel {
         padding: 0;
-        border: 0;
-        background: transparent;
-        box-shadow: none;
       }
-      .modal-info .modal-tab-panel.is-active {
-        padding: 10px 12px;
-        border: 1px solid var(--card-border);
-        background: rgba(255, 255, 255, 0.9);
-        box-shadow: 0 8px 18px rgba(31, 31, 31, 0.06);
+      .modal-info .modal-accordion-panel.is-active {
+        padding: 8px 0 2px;
       }
       .modal-quantity {
         display: flex;
@@ -1086,11 +1082,11 @@
           width: 22px;
           height: 22px;
         }
-        .modal-tabs {
-          gap: 8px;
+        .modal-accordion {
+          gap: 6px;
         }
-        .modal-tab {
-          padding: 4px 10px;
+        .modal-accordion-header {
+          padding: 6px 2px;
           font-size: 9px;
           letter-spacing: 0.14em;
         }
@@ -1108,7 +1104,7 @@
         .info-value {
           font-size: 10px;
         }
-        .modal-tab-panel.is-active {
+        .modal-accordion-panel.is-active {
           max-height: 150px;
         }
         .modal-quick-info {
@@ -1486,20 +1482,61 @@
         letter-spacing: 0.2em;
         color: var(--muted);
       }
-      .size-select {
+      .size-select-wrapper {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .size-select-native {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+        width: 0;
+        height: 0;
+      }
+      .size-select-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .size-select-chevron {
+        transition: transform 0.2s ease;
+      }
+      .size-select-toggle.is-open .size-select-chevron {
+        transform: rotate(180deg);
+      }
+      .size-select-menu {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        margin-top: 6px;
+        min-width: 78px;
+        padding: 6px;
+        border-radius: 12px;
+        background: #fff;
+        border: 1px solid #eadfce;
+        box-shadow: 0 10px 20px rgba(31, 31, 31, 0.08);
+        display: none;
+        z-index: 120;
+      }
+      .size-select-menu.is-open {
+        display: grid;
+        gap: 4px;
+      }
+      .size-select-option {
+        text-align: left;
         font-size: 10px;
         font-weight: 700;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
-        letter-spacing: 0.14em;
-        padding: 2px 8px;
-        border-radius: 999px;
-        border: 1px solid #eadfce;
-        background: #fff;
+        padding: 6px 8px;
+        border-radius: 8px;
         color: var(--brown);
-        outline: none;
+        background: transparent;
       }
-      .size-select:focus {
-        border-color: var(--brown);
+      .size-select-option:hover {
+        background: var(--accent);
       }
       .cod-notice {
         background-color: #ba766d;
@@ -3280,61 +3317,63 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <button id="qty-plus" class="qty-btn" type="button">+</button>
               </div>
             </div>
-            <!-- Modal tabs (swap content in same space) -->
-            <div class="modal-tabs">
+            <!-- Modal accordion -->
+            <div class="modal-accordion">
               <button
                 type="button"
-                class="modal-tab"
-                data-modal-tab="info"
+                class="modal-accordion-header"
+                data-accordion="info"
               >
-                Product Info
+                <span>Product Info</span>
+                <i class="fas fa-chevron-down modal-accordion-icon"></i>
               </button>
-              <button type="button" class="modal-tab" data-modal-tab="about">
-                DESIGN
-              </button>
-            </div>
-            <div class="modal-tab-panels">
-              <div
-                class="info-details modal-tab-panel"
-                data-modal-panel="info"
-              >
-                <ul>
-                  <li>
-                    <span class="info-key">Cotton</span>
-                    <span id="modal-cotton" class="info-value"
-                      >Add details</span
-                    >
-                  </li>
-                  <li>
-                    <span class="info-key">Quality</span>
-                    <span id="modal-quality" class="info-value"
-                      >Add details</span
-                    >
-                  </li>
-                  <li>
-                    <span class="info-key">Fabric</span>
-                    <span id="modal-fabric" class="info-value"
-                      >Add details</span
-                    >
-                  </li>
-                </ul>
+              <div class="modal-accordion-panel" data-accordion-panel="info">
+                <div class="info-details">
+                  <ul>
+                    <li>
+                      <span class="info-key">Cotton</span>
+                      <span id="modal-cotton" class="info-value"
+                        >Add details</span
+                      >
+                    </li>
+                    <li>
+                      <span class="info-key">Quality</span>
+                      <span id="modal-quality" class="info-value"
+                        >Add details</span
+                      >
+                    </li>
+                    <li>
+                      <span class="info-key">Fabric</span>
+                      <span id="modal-fabric" class="info-value"
+                        >Add details</span
+                      >
+                    </li>
+                  </ul>
+                </div>
               </div>
-              <div
-                class="info-details modal-tab-panel"
-                data-modal-panel="about"
+              <button
+                type="button"
+                class="modal-accordion-header"
+                data-accordion="about"
               >
-                <ul id="modal-design-list">
-                  <!-- Replace the three about points below "FOR DESIGN" -->
-                  <li>
-                    <span class="info-value" data-design-item></span>
-                  </li>
-                  <li>
-                    <span class="info-value" data-design-item></span>
-                  </li>
-                  <li>
-                    <span class="info-value" data-design-item></span>
-                  </li>
-                </ul>
+                <span>Design</span>
+                <i class="fas fa-chevron-down modal-accordion-icon"></i>
+              </button>
+              <div class="modal-accordion-panel" data-accordion-panel="about">
+                <div class="info-details">
+                  <ul id="modal-design-list">
+                    <!-- Replace the three about points below "FOR DESIGN" -->
+                    <li>
+                      <span class="info-value" data-design-item></span>
+                    </li>
+                    <li>
+                      <span class="info-value" data-design-item></span>
+                    </li>
+                    <li>
+                      <span class="info-value" data-design-item></span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
             <!---------------------- 2 PAIRS LINE OVER "SIZE CHART" ---------------->
@@ -3481,6 +3520,29 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       const promoSection = document.getElementById("promo-section");
       const codNotice = document.getElementById("cod-notice");
       let hasAutoCheckoutRedirected = false;
+      let sizeDropdownOutsideHandlerAttached = false;
+
+      function closeAllSizeMenus() {
+        document.querySelectorAll(".size-select-menu").forEach((menu) => {
+          menu.classList.remove("is-open");
+        });
+        document.querySelectorAll(".size-select-toggle").forEach((toggle) => {
+          toggle.classList.remove("is-open");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+      }
+
+      function bindSizeDropdownOutsideHandler() {
+        if (sizeDropdownOutsideHandlerAttached) {
+          return;
+        }
+        document.addEventListener("click", (event) => {
+          if (!event.target.closest(".size-select-wrapper")) {
+            closeAllSizeMenus();
+          }
+        });
+        sizeDropdownOutsideHandlerAttached = true;
+      }
 
       function showToast(message) {
         if (!toast) {
@@ -3549,24 +3611,82 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             return `<div class="flex justify-between border-b border-dashed border-[#d6c8b4] pb-2 text-sm">
                     <div class="flex flex-wrap items-center gap-2">
                       <span>${item.name}${qtyLabel}</span>
-                      <span class="size-label">Size</span>
-                      <select class="size-select" data-size-index="${index}" aria-label="Size for ${item.name}">
-                        ${sizeOptions}
-                      </select>
+                      <div class="size-select-wrapper">
+                        <span class="size-label">Size</span>
+                        <select class="size-select-native" data-size-index="${index}" aria-label="Size for ${item.name}">
+                          ${sizeOptions}
+                        </select>
+                        <button
+                          type="button"
+                          class="size-select-toggle border border-[#1f1f1f] rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] bg-white"
+                          data-size-toggle="${index}"
+                          aria-expanded="false"
+                        >
+                          <span class="size-select-value" data-size-display="${index}">${item.size || "M"}</span>
+                          <i class="fas fa-chevron-down size-select-chevron text-[10px]"></i>
+                        </button>
+                        <div class="size-select-menu" data-size-menu="${index}">
+                          <button type="button" class="size-select-option" data-size-index="${index}" data-size-value="S">S</button>
+                          <button type="button" class="size-select-option" data-size-index="${index}" data-size-value="M">M</button>
+                          <button type="button" class="size-select-option" data-size-index="${index}" data-size-value="L">L</button>
+                          <button type="button" class="size-select-option" data-size-index="${index}" data-size-value="XL">XL</button>
+                        </div>
+                      </div>
                     </div>
                     <span class="font-semibold price-text">${item.price} Tk</span>
                 </div>`;
           })
           .join("");
-        container.querySelectorAll(".size-select").forEach((select) => {
+        container.querySelectorAll(".size-select-native").forEach((select) => {
           select.addEventListener("change", () => {
             const index = parseInt(select.dataset.sizeIndex, 10);
             if (!Number.isNaN(index) && cart[index]) {
               cart[index].size = select.value;
+              const display = container.querySelector(
+                `[data-size-display="${index}"]`,
+              );
+              if (display) {
+                display.textContent = select.value;
+              }
               updateCalculations();
             }
           });
         });
+        container.querySelectorAll(".size-select-toggle").forEach((toggle) => {
+          toggle.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const index = toggle.dataset.sizeToggle;
+            const menu = container.querySelector(
+              `.size-select-menu[data-size-menu="${index}"]`,
+            );
+            if (!menu) {
+              return;
+            }
+            const isOpen = menu.classList.contains("is-open");
+            closeAllSizeMenus();
+            if (!isOpen) {
+              menu.classList.add("is-open");
+              toggle.classList.add("is-open");
+              toggle.setAttribute("aria-expanded", "true");
+            }
+          });
+        });
+        container.querySelectorAll(".size-select-option").forEach((option) => {
+          option.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const index = option.dataset.sizeIndex;
+            const value = option.dataset.sizeValue;
+            const select = container.querySelector(
+              `.size-select-native[data-size-index="${index}"]`,
+            );
+            if (select) {
+              select.value = value;
+              select.dispatchEvent(new Event("change", { bubbles: true }));
+            }
+            closeAllSizeMenus();
+          });
+        });
+        bindSizeDropdownOutsideHandler();
       }
 
       function renderCartModal() {
@@ -3857,8 +3977,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       );
       const modalPrev = document.querySelector("[data-modal-prev]");
       const modalNext = document.querySelector("[data-modal-next]");
-      const modalTabs = document.querySelectorAll("[data-modal-tab]");
-      const modalPanels = document.querySelectorAll("[data-modal-panel]");
+      const modalAccordionHeaders = document.querySelectorAll("[data-accordion]");
+      const modalAccordionPanels = document.querySelectorAll(
+        "[data-accordion-panel]",
+      );
       const qtyMinus = document.getElementById("qty-minus");
       const qtyPlus = document.getElementById("qty-plus");
       const qtyValue = document.getElementById("qty-value");
@@ -3967,15 +4089,44 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         updateModalSlider();
       }
 
-      function setModalTab(tabName) {
-        modalTabs.forEach((button) => {
-          const isActive = tabName && button.dataset.modalTab === tabName;
-          button.classList.toggle("is-active", isActive);
+      function setAccordionState(panelName, isOpen) {
+        const header = Array.from(modalAccordionHeaders).find(
+          (item) => item.dataset.accordion === panelName,
+        );
+        const panel = Array.from(modalAccordionPanels).find(
+          (item) => item.dataset.accordionPanel === panelName,
+        );
+        if (!header || !panel) {
+          return;
+        }
+        header.classList.toggle("is-active", isOpen);
+        panel.classList.toggle("is-active", isOpen);
+        panel.style.maxHeight = isOpen ? `${panel.scrollHeight}px` : "0px";
+        updateModalScrollIndicator();
+      }
+
+      function resetAccordion() {
+        modalAccordionHeaders.forEach((header) => {
+          header.classList.remove("is-active");
         });
-        modalPanels.forEach((panel) => {
-          const isActive = tabName && panel.dataset.modalPanel === tabName;
-          panel.classList.toggle("is-active", isActive);
+        modalAccordionPanels.forEach((panel) => {
+          panel.classList.remove("is-active");
+          panel.style.maxHeight = "0px";
         });
+      }
+
+      function toggleAccordion(panelName) {
+        const header = Array.from(modalAccordionHeaders).find(
+          (item) => item.dataset.accordion === panelName,
+        );
+        const panel = Array.from(modalAccordionPanels).find(
+          (item) => item.dataset.accordionPanel === panelName,
+        );
+        if (!header || !panel) {
+          return;
+        }
+        const isOpen = header.classList.contains("is-active");
+        setAccordionState(panelName, !isOpen);
       }
 
       function getDesignItems(card) {
@@ -4323,7 +4474,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
 
         buildSlides(images);
         applyDesignItems(designItems);
-        setModalTab(null);
+        resetAccordion();
         updateModalTotals();
         resetModalScroll();
 
@@ -4400,11 +4551,9 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         });
       });
 
-      modalTabs.forEach((button) => {
+      modalAccordionHeaders.forEach((button) => {
         button.addEventListener("click", () => {
-          const tabName = button.dataset.modalTab;
-          const isActive = button.classList.contains("is-active");
-          setModalTab(isActive ? null : tabName);
+          toggleAccordion(button.dataset.accordion);
         });
       });
 

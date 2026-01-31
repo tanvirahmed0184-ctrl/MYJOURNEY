@@ -168,7 +168,7 @@
         letter-spacing: -0.04em;
         line-height: 1.05;
         color: var(--brown);
-        font-family: "Sansation", "Inter", sans-serif;
+        font-family: "Cinzel", "Sansation", "Inter", sans-serif;
         max-width: 100%;
         overflow-wrap: break-word;
         word-break: normal;
@@ -1222,6 +1222,12 @@
           right: 16px;
           bottom: 16px;
         }
+        .scroll-featured {
+          right: 16px;
+          bottom: 68px;
+          width: 38px;
+          height: 38px;
+        }
       }
       @media (max-width: 520px) {
         .section-title {
@@ -1603,6 +1609,42 @@
         height: 52px;
         z-index: 70;
         box-shadow: var(--shadow-soft);
+      }
+      .scroll-featured {
+        position: fixed;
+        right: 24px;
+        bottom: 88px;
+        width: 44px;
+        height: 44px;
+        z-index: 69;
+        box-shadow: var(--shadow-soft);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(6px);
+        transition: all 0.3s ease;
+      }
+      .scroll-featured.is-visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      .soft-bounce {
+        animation: soft-bounce 0.9s ease;
+      }
+      @keyframes soft-bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        35% {
+          transform: translateY(-6px);
+        }
+        60% {
+          transform: translateY(0);
+        }
+        80% {
+          transform: translateY(-3px);
+        }
       }
       .nav-inner {
         display: flex;
@@ -3316,6 +3358,15 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       <span id="cart-fab-badge" class="cart-badge">0</span>
     </button>
 
+    <button
+      id="scroll-featured"
+      class="icon-button scroll-featured transition-all md:hidden"
+      aria-label="Scroll to featured products"
+      type="button"
+    >
+      <i class="fas fa-arrow-up text-xs"></i>
+    </button>
+
     <!-- Toast -->
     <div id="toast" class="toast" aria-live="polite"></div>
 
@@ -3401,10 +3452,15 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       const cartModalFinalTotal = document.getElementById(
         "cart-modal-final-total",
       );
+      const scrollFeaturedButton = document.getElementById("scroll-featured");
+      const featuredSection = document.getElementById("featured-products");
       const promoSection = document.getElementById("promo-section");
       const codNotice = document.getElementById("cod-notice");
       let hasAutoCheckoutRedirected = false;
       let sizeDropdownOutsideHandlerAttached = false;
+      let scrollButtonUsed = false;
+      let scrollButtonVisible = false;
+      let scrollVisibilityHandler = null;
 
       function closeAllSizeMenus() {
         document.querySelectorAll(".size-select-menu").forEach((menu) => {
@@ -3426,6 +3482,49 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           }
         });
         sizeDropdownOutsideHandlerAttached = true;
+      }
+
+      function triggerSoftBounce(target) {
+        if (!target) {
+          return;
+        }
+        target.classList.remove("soft-bounce");
+        void target.offsetWidth;
+        target.classList.add("soft-bounce");
+      }
+
+      function showScrollFeaturedButton() {
+        if (!scrollFeaturedButton || scrollButtonVisible) {
+          return;
+        }
+        scrollFeaturedButton.classList.add("is-visible");
+        triggerSoftBounce(scrollFeaturedButton);
+        triggerSoftBounce(cartFab);
+        scrollButtonVisible = true;
+      }
+
+      function hideScrollFeaturedButton() {
+        if (!scrollFeaturedButton) {
+          return;
+        }
+        scrollFeaturedButton.classList.remove("is-visible");
+        scrollButtonVisible = false;
+      }
+
+      function updateScrollButtonVisibility() {
+        if (!featuredSection || !scrollButtonUsed) {
+          return;
+        }
+        const rect = featuredSection.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        if (!isVisible) {
+          hideScrollFeaturedButton();
+          scrollButtonUsed = false;
+          if (scrollVisibilityHandler) {
+            window.removeEventListener("scroll", scrollVisibilityHandler);
+            scrollVisibilityHandler = null;
+          }
+        }
       }
 
       function showToast(message) {
@@ -4141,6 +4240,23 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         });
       }
 
+      if (scrollFeaturedButton && featuredSection) {
+        scrollFeaturedButton.addEventListener("click", () => {
+          featuredSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          scrollButtonUsed = true;
+          if (!scrollVisibilityHandler) {
+            scrollVisibilityHandler = () => {
+              updateScrollButtonVisibility();
+            };
+            setTimeout(() => {
+              window.addEventListener("scroll", scrollVisibilityHandler, {
+                passive: true,
+              });
+            }, 600);
+          }
+        });
+      }
+
       function isMobileViewport() {
         return window.matchMedia("(max-width: 768px)").matches;
       }
@@ -4571,6 +4687,17 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       document.querySelectorAll("[data-modal-close]").forEach((button) => {
         button.addEventListener("click", closeProductModal);
       });
+
+      if (modalAdd) {
+        modalAdd.addEventListener("click", () => {
+          showScrollFeaturedButton();
+        });
+      }
+      if (modalBuy) {
+        modalBuy.addEventListener("click", () => {
+          showScrollFeaturedButton();
+        });
+      }
 
       modal.addEventListener("click", (event) => {
         if (event.target === modal) {

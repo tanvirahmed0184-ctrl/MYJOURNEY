@@ -111,8 +111,8 @@
         color: var(--button-hover-text);
       }
       .brand-mark {
-        width: 44px;
-        height: 44px;
+        width: 28px;
+        height: 28px;
         border-radius: 999px;
         border: 2px solid var(--brown);
         display: inline-flex;
@@ -388,7 +388,7 @@
         background: var(--card-bg);
         border-radius: 20px;
         border: 1px solid #eee6db;
-        padding: var(--card-pad);
+        padding: 0;
         box-shadow: 0 14px 35px rgba(30, 24, 14, 0.12);
         transition:
           transform 0.3s ease,
@@ -405,7 +405,6 @@
       }
       .product-image {
         width: 100%;
-        height: 230px;
         aspect-ratio: 4 / 5;
         border-radius: 0;
         background: linear-gradient(150deg, #d9cbb3, #f5ecdf);
@@ -414,10 +413,11 @@
         padding: 0;
         position: relative;
         overflow: hidden;
-        margin: calc(-1 * var(--card-pad)) calc(-1 * var(--card-pad)) 0;
+        margin: 0;
       }
       .product-card > .mt-4 {
         margin-top: 8px;
+        padding: 0 var(--card-pad) var(--card-pad);
       }
       .product-card .space-y-2 > :not([hidden]) ~ :not([hidden]) {
         margin-top: 0.35rem;
@@ -437,12 +437,11 @@
         z-index: 2;
       }
       .product-image img {
-        position: absolute;
-        inset: 0;
         width: 100%;
         height: 100%;
+        display: block;
         object-fit: cover;
-        aspect-ratio: 4 / 5;
+        object-position: center;
         z-index: 0;
       }
       .product-image::after {
@@ -914,22 +913,6 @@
         background: rgba(122, 106, 79, 0.12);
         border: 1px solid rgba(122, 106, 79, 0.22);
       }
-      .modal-size {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-      }
-      .modal-size .select-wrap {
-        flex: 1;
-      }
-      .modal-size-field {
-        padding: 8px 36px 8px 12px;
-        font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.2em;
-      }
       .qty-control {
         display: inline-flex;
         align-items: center;
@@ -1123,14 +1106,11 @@
         }
         .nav-inner {
           padding: 8px 8px;
-          flex-wrap: nowrap;
           column-gap: 6px;
         }
-        .site-header .nav-inner > div {
-          gap: 5px;
-        }
-        .nav-inner > div:last-child {
-          margin-left: auto;
+        .brand-center {
+          flex-direction: column;
+          gap: 2px;
         }
         .brand-text {
           font-size: clamp(0.54rem, 2.1vw, 0.7rem);
@@ -1139,8 +1119,8 @@
           max-width: none;
         }
         .brand-mark {
-          width: 26px;
-          height: 26px;
+          width: 22px;
+          height: 22px;
         }
         .icon-button {
           width: 24px;
@@ -1168,26 +1148,13 @@
           display: block;
         }
         .hero-actions {
-          flex-direction: row;
-          align-items: center;
-          flex-wrap: wrap;
-          max-width: 100%;
-          gap: 10px;
-        }
-        .hero-actions .btn-primary,
-        .hero-actions .btn-outline {
-          flex: 1 1 160px;
-          max-width: none;
-          justify-content: center;
-          padding: 10px 12px;
-          font-size: 10px;
-          letter-spacing: 0.14em;
+          display: none;
         }
         .hero-arrow {
           display: none;
         }
         .product-image {
-          height: 190px;
+          aspect-ratio: 4 / 5;
         }
         .cart-panel {
           padding: 16px;
@@ -1259,11 +1226,10 @@
         }
         .product-card {
           --card-pad: 6px;
-          padding: var(--card-pad);
+          padding: 0;
           border-radius: 16px;
         }
         .product-image {
-          height: 185px;
           border-radius: 0;
         }
         .product-image .label-chip {
@@ -1773,14 +1739,26 @@
         }
       }
       .nav-inner {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
         align-items: center;
-        justify-content: space-between;
         min-height: var(--header-height);
         width: 100%;
       }
-      .nav-inner > div {
-        min-width: 0;
+      .nav-left {
+        justify-self: start;
+      }
+      .brand-center {
+        justify-self: center;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .nav-right {
+        justify-self: end;
+        display: inline-flex;
+        align-items: center;
+        gap: 20px;
       }
       .site-header .nav-link,
       .site-header .brand-mark,
@@ -1954,7 +1932,12 @@
     <!-- Header -->
     <header class="site-header">
       <nav class="nav-inner max-w-6xl mx-auto px-6 md:px-10 py-4">
-        <div class="flex items-center gap-3">
+        <div class="nav-left">
+          <a class="nav-link hidden md:inline-flex" href="#featured-products"
+            >Shop</a
+          >
+        </div>
+        <div class="brand-center">
           <div class="brand-mark">
             <img src="favicon.ico" alt="Accolade logo" />
           </div>
@@ -1962,15 +1945,9 @@
             ACCOLADE.CLO
           </p>
         </div>
-        <div class="flex items-center gap-3">
-          <a class="nav-link hidden md:inline-flex" href="#featured-products"
-            >Explore</a
-          >
+        <div class="nav-right">
           <button class="icon-button" aria-label="Search">
             <i class="fas fa-search"></i>
-          </button>
-          <button class="icon-button" aria-label="Account">
-            <i class="fas fa-user"></i>
           </button>
           <div class="relative">
             <button id="cart-button" class="icon-button" aria-label="Cart">
@@ -3375,18 +3352,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <button id="qty-plus" class="qty-btn" type="button">+</button>
               </div>
             </div>
-            <div class="modal-size">
-              <span class="info-subtitle">Size</span>
-              <div class="select-wrap">
-                <select id="modal-size" class="select-field modal-size-field">
-                  <option value="SELECT SIZE" selected>SELECT SIZE</option>
-                  <option value="S">S</option>
-                  <option value="M">M</option>
-                  <option value="L">L</option>
-                  <option value="XL">XL</option>
-                </select>
-              </div>
-            </div>
             <!-- Modal accordion -->
             <div class="modal-accordion">
               <button
@@ -3741,7 +3706,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         }
       }
 
-      function addToCart(name, unitPrice, quantity = 1, size = "SELECT SIZE") {
+      function addToCart(name, unitPrice, quantity = 1) {
         const safeQuantity = Math.max(1, parseInt(quantity, 10) || 1);
         const linePrice = unitPrice * safeQuantity;
         cart.push({
@@ -3749,7 +3714,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           price: linePrice,
           unitPrice,
           quantity: safeQuantity,
-          size: size || "SELECT SIZE",
+          size: "SELECT SIZE",
         });
         subtotal += linePrice;
 
@@ -4139,7 +4104,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       const modalQuality = document.getElementById("modal-quality");
       const modalFabric = document.getElementById("modal-fabric");
       const modalSizechart = document.getElementById("modal-sizechart");
-      const modalSizeSelect = document.getElementById("modal-size");
       const modalAdd = document.getElementById("modal-add");
       const modalBuy = document.getElementById("modal-buy");
       const modalBadge = document.getElementById("modal-badge");
@@ -4162,7 +4126,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       let modalQuantity = 1;
       let modalUnitPrice = 0;
       let modalProductName = "";
-      let modalSelectedSize = "SELECT SIZE";
       let modalIndex = 0;
       let modalSlidesCount = 0;
       let modalAutoTimer = null;
@@ -4652,7 +4615,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         modalProductName = name || "Product";
         modalUnitPrice = numericPrice;
         modalQuantity = 1;
-        modalSelectedSize = "SELECT SIZE";
 
         modalTitle.textContent = modalProductName;
         modalSubtitle.textContent = subtitle || "";
@@ -4665,9 +4627,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         modalQuality.textContent = card.dataset.quality || "add details";
         modalFabric.textContent = card.dataset.fabric || "add details";
         modalSizechart.href = card.dataset.sizechart || "photos/chart.jpeg";
-        if (modalSizeSelect) {
-          modalSizeSelect.value = "SELECT SIZE";
-        }
 
         buildSlides(images);
         applyDesignItems(designItems);
@@ -4676,12 +4635,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         resetModalScroll();
 
         modalAdd.onclick = () => {
-          addToCart(
-            modalProductName,
-            modalUnitPrice,
-            modalQuantity,
-            modalSelectedSize,
-          );
+          addToCart(modalProductName, modalUnitPrice, modalQuantity);
           closeProductModal();
           if (!hasAutoCheckoutRedirected) {
             hasAutoCheckoutRedirected = true;
@@ -4690,12 +4644,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         };
         if (modalBuy) {
           modalBuy.onclick = () => {
-            addToCart(
-              modalProductName,
-              modalUnitPrice,
-              modalQuantity,
-              modalSelectedSize,
-            );
+            addToCart(modalProductName, modalUnitPrice, modalQuantity);
             closeProductModal();
             openCheckout();
           };
@@ -4741,12 +4690,6 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             modalQuantity -= 1;
             updateModalTotals();
           }
-        });
-      }
-
-      if (modalSizeSelect) {
-        modalSizeSelect.addEventListener("change", (event) => {
-          modalSelectedSize = event.target.value;
         });
       }
 

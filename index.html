@@ -30,6 +30,7 @@
         --button-hover: #9c3b2e;
         --button-hover-text: #faf7f2;
         --badge: #c4342f;
+        --card-bg: #fffdfa;
         --card-border: #e6ddd1;
         --header-footer: #7a6a4f;
         --header-height: 86px;
@@ -383,15 +384,17 @@
         cursor: pointer;
       }
       .product-card {
-        background: var(--cream);
+        --card-pad: 8px;
+        background: var(--card-bg);
         border-radius: 20px;
-        border: 1px solid var(--card-border);
-        padding: 8px;
-        box-shadow: var(--shadow-soft);
+        border: 1px solid #eee6db;
+        padding: var(--card-pad);
+        box-shadow: 0 14px 35px rgba(30, 24, 14, 0.12);
         transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease;
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
         position: relative;
+        overflow: hidden;
       }
       .product-card h3 {
         font-family: "Sansation", "Inter", sans-serif;
@@ -401,14 +404,17 @@
         box-shadow: var(--shadow);
       }
       .product-image {
+        width: 100%;
         height: 230px;
-        border-radius: 20px;
+        aspect-ratio: 4 / 5;
+        border-radius: 0;
         background: linear-gradient(150deg, #d9cbb3, #f5ecdf);
         display: flex;
         align-items: flex-end;
         padding: 0;
         position: relative;
         overflow: hidden;
+        margin: calc(-1 * var(--card-pad)) calc(-1 * var(--card-pad)) 0;
       }
       .product-card > .mt-4 {
         margin-top: 8px;
@@ -436,6 +442,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        aspect-ratio: 4 / 5;
         z-index: 0;
       }
       .product-image::after {
@@ -795,16 +802,40 @@
         width: 100%;
         justify-content: center;
       }
-      .modal-actions .add-btn,
       .modal-actions .btn-primary {
+        background: var(--brown);
+        color: var(--sand-strong);
+        border-color: var(--brown);
+      }
+      .modal-actions .btn-primary:hover {
+        background: var(--button-hover);
+        color: var(--sand-strong);
+        border-color: var(--button-hover);
+      }
+      .modal-actions .add-btn {
         background: var(--accent);
         color: var(--brown);
-        border-color: rgba(31, 31, 31, 0.35);
+        border-color: var(--accent-dark);
       }
-      .modal-actions .add-btn:hover,
-      .modal-actions .btn-primary:hover {
+      .modal-actions .add-btn:hover {
         background: var(--accent-dark);
         color: var(--brown);
+        border-color: var(--accent-dark);
+      }
+      .modal-actions .btn-outline {
+        background: transparent;
+        color: var(--brown);
+        border-color: var(--brown);
+      }
+      .modal-actions .btn-outline:hover {
+        background: transparent;
+        color: var(--brown);
+        border-color: var(--brown);
+      }
+      .modal-actions .add-btn,
+      .modal-actions .btn-primary,
+      .modal-actions .btn-outline {
+        border-radius: 999px;
       }
       .modal-quick-info {
         display: grid;
@@ -882,6 +913,22 @@
         border-radius: 16px;
         background: rgba(122, 106, 79, 0.12);
         border: 1px solid rgba(122, 106, 79, 0.22);
+      }
+      .modal-size {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .modal-size .select-wrap {
+        flex: 1;
+      }
+      .modal-size-field {
+        padding: 8px 36px 8px 12px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
       }
       .qty-control {
         display: inline-flex;
@@ -1121,16 +1168,26 @@
           display: block;
         }
         .hero-actions {
-          display: none;
+          flex-direction: row;
+          align-items: center;
+          flex-wrap: wrap;
+          max-width: 100%;
+          gap: 10px;
+        }
+        .hero-actions .btn-primary,
+        .hero-actions .btn-outline {
+          flex: 1 1 160px;
+          max-width: none;
+          justify-content: center;
+          padding: 10px 12px;
+          font-size: 10px;
+          letter-spacing: 0.14em;
         }
         .hero-arrow {
           display: none;
         }
         .product-image {
           height: 190px;
-        }
-        .product-card {
-          background: #faf7f2;
         }
         .cart-panel {
           padding: 16px;
@@ -1201,12 +1258,13 @@
           gap: 10px;
         }
         .product-card {
-          padding: 6px;
+          --card-pad: 6px;
+          padding: var(--card-pad);
           border-radius: 16px;
         }
         .product-image {
           height: 185px;
-          border-radius: 16px;
+          border-radius: 0;
         }
         .product-image .label-chip {
           font-size: 8px;
@@ -1260,6 +1318,54 @@
       }
       .modal.hidden-section {
         display: none;
+      }
+      .warning-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(20, 20, 20, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        z-index: 85;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+      .warning-modal.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+      .warning-dialog {
+        width: min(420px, 90vw);
+        background: var(--sand-strong);
+        color: var(--brown);
+        border-radius: 24px;
+        border: 1px solid var(--card-border);
+        padding: 24px 20px;
+        box-shadow: var(--shadow-soft);
+        text-align: center;
+      }
+      .warning-dialog p {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        line-height: 1.5;
+      }
+      .warning-btn {
+        margin-top: 16px;
+        background: var(--brown);
+        color: var(--sand-strong);
+        border: 1px solid var(--brown);
+        padding: 10px 20px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
       }
 
       /* Cart modal */
@@ -1410,6 +1516,8 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        min-width: 110px;
+        justify-content: space-between;
       }
       .size-select-chevron {
         transition: transform 0.2s ease;
@@ -3267,6 +3375,18 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                 <button id="qty-plus" class="qty-btn" type="button">+</button>
               </div>
             </div>
+            <div class="modal-size">
+              <span class="info-subtitle">Size</span>
+              <div class="select-wrap">
+                <select id="modal-size" class="select-field modal-size-field">
+                  <option value="SELECT SIZE" selected>SELECT SIZE</option>
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                  <option value="XL">XL</option>
+                </select>
+              </div>
+            </div>
             <!-- Modal accordion -->
             <div class="modal-accordion">
               <button
@@ -3374,6 +3494,19 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       </div>
     </div>
 
+    <div
+      id="size-warning-modal"
+      class="warning-modal hidden-section"
+      aria-hidden="true"
+    >
+      <div class="warning-dialog" role="dialog" aria-modal="true">
+        <p>PLEASE SELECT YOUR PREFERABLE SIZE TO PROCEED</p>
+        <button id="size-warning-close" class="warning-btn" type="button">
+          Go back
+        </button>
+      </div>
+    </div>
+
     <div id="modal-scroll-indicator" aria-hidden="true"></div>
 
     <!-- Floating cart button -->
@@ -3478,6 +3611,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       );
       const scrollFeaturedButton = document.getElementById("scroll-featured");
       const featuredSection = document.getElementById("featured-products");
+      const sizeWarningModal = document.getElementById("size-warning-modal");
+      const sizeWarningClose = document.getElementById("size-warning-close");
       const promoSection = document.getElementById("promo-section");
       const codNotice = document.getElementById("cod-notice");
       let hasAutoCheckoutRedirected = false;
@@ -3551,6 +3686,32 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         }
       }
 
+      function hasUnselectedSize() {
+        return cart.some(
+          (item) => !item.size || item.size === "SELECT SIZE",
+        );
+      }
+
+      function openSizeWarning() {
+        if (!sizeWarningModal) {
+          return;
+        }
+        sizeWarningModal.classList.remove("hidden-section");
+        sizeWarningModal.classList.add("is-open");
+        sizeWarningModal.setAttribute("aria-hidden", "false");
+      }
+
+      function closeSizeWarning() {
+        if (!sizeWarningModal) {
+          return;
+        }
+        sizeWarningModal.classList.remove("is-open");
+        sizeWarningModal.setAttribute("aria-hidden", "true");
+        setTimeout(() => {
+          sizeWarningModal.classList.add("hidden-section");
+        }, 200);
+      }
+
       function showToast(message) {
         if (!toast) {
           return;
@@ -3580,7 +3741,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         }
       }
 
-      function addToCart(name, unitPrice, quantity = 1) {
+      function addToCart(name, unitPrice, quantity = 1, size = "SELECT SIZE") {
         const safeQuantity = Math.max(1, parseInt(quantity, 10) || 1);
         const linePrice = unitPrice * safeQuantity;
         cart.push({
@@ -3588,7 +3749,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
           price: linePrice,
           unitPrice,
           quantity: safeQuantity,
-          size: "M",
+          size: size || "SELECT SIZE",
         });
         subtotal += linePrice;
 
@@ -3607,11 +3768,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         container.innerHTML = cart
           .map((item, index) => {
             const qtyLabel = item.quantity > 1 ? ` x${item.quantity}` : "";
-            const sizeOptions = ["S", "M", "L", "XL"]
+            const currentSize = item.size || "SELECT SIZE";
+            const sizeOptions = ["SELECT SIZE", "S", "M", "L", "XL"]
               .map(
                 (size) =>
                   `<option value="${size}" ${
-                    item.size === size ? "selected" : ""
+                    currentSize === size ? "selected" : ""
                   }>${size}</option>`,
               )
               .join("");
@@ -3629,7 +3791,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                           data-size-toggle="${index}"
                           aria-expanded="false"
                         >
-                          <span class="size-select-value" data-size-display="${index}">${item.size || "M"}</span>
+                          <span class="size-select-value" data-size-display="${index}">${currentSize}</span>
                           <i class="fas fa-chevron-down size-select-chevron text-[10px]"></i>
                         </button>
                         <div class="size-select-menu" data-size-menu="${index}">
@@ -3920,6 +4082,11 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         const city = document.getElementById("city-selector").value;
         const address = document.getElementById("inp-address").value;
 
+        if (cart.length > 0 && hasUnselectedSize()) {
+          openSizeWarning();
+          return;
+        }
+
         if (
           !email ||
           !firstName ||
@@ -3972,6 +4139,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       const modalQuality = document.getElementById("modal-quality");
       const modalFabric = document.getElementById("modal-fabric");
       const modalSizechart = document.getElementById("modal-sizechart");
+      const modalSizeSelect = document.getElementById("modal-size");
       const modalAdd = document.getElementById("modal-add");
       const modalBuy = document.getElementById("modal-buy");
       const modalBadge = document.getElementById("modal-badge");
@@ -3994,6 +4162,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       let modalQuantity = 1;
       let modalUnitPrice = 0;
       let modalProductName = "";
+      let modalSelectedSize = "SELECT SIZE";
       let modalIndex = 0;
       let modalSlidesCount = 0;
       let modalAutoTimer = null;
@@ -4483,6 +4652,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         modalProductName = name || "Product";
         modalUnitPrice = numericPrice;
         modalQuantity = 1;
+        modalSelectedSize = "SELECT SIZE";
 
         modalTitle.textContent = modalProductName;
         modalSubtitle.textContent = subtitle || "";
@@ -4495,6 +4665,9 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         modalQuality.textContent = card.dataset.quality || "add details";
         modalFabric.textContent = card.dataset.fabric || "add details";
         modalSizechart.href = card.dataset.sizechart || "photos/chart.jpeg";
+        if (modalSizeSelect) {
+          modalSizeSelect.value = "SELECT SIZE";
+        }
 
         buildSlides(images);
         applyDesignItems(designItems);
@@ -4503,7 +4676,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         resetModalScroll();
 
         modalAdd.onclick = () => {
-          addToCart(modalProductName, modalUnitPrice, modalQuantity);
+          addToCart(
+            modalProductName,
+            modalUnitPrice,
+            modalQuantity,
+            modalSelectedSize,
+          );
           closeProductModal();
           if (!hasAutoCheckoutRedirected) {
             hasAutoCheckoutRedirected = true;
@@ -4512,7 +4690,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         };
         if (modalBuy) {
           modalBuy.onclick = () => {
-            addToCart(modalProductName, modalUnitPrice, modalQuantity);
+            addToCart(
+              modalProductName,
+              modalUnitPrice,
+              modalQuantity,
+              modalSelectedSize,
+            );
             closeProductModal();
             openCheckout();
           };
@@ -4558,6 +4741,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             modalQuantity -= 1;
             updateModalTotals();
           }
+        });
+      }
+
+      if (modalSizeSelect) {
+        modalSizeSelect.addEventListener("change", (event) => {
+          modalSelectedSize = event.target.value;
         });
       }
 
@@ -4711,6 +4900,17 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       document.querySelectorAll("[data-modal-close]").forEach((button) => {
         button.addEventListener("click", closeProductModal);
       });
+
+      if (sizeWarningClose) {
+        sizeWarningClose.addEventListener("click", closeSizeWarning);
+      }
+      if (sizeWarningModal) {
+        sizeWarningModal.addEventListener("click", (event) => {
+          if (event.target === sizeWarningModal) {
+            closeSizeWarning();
+          }
+        });
+      }
 
       if (modalAdd) {
         modalAdd.addEventListener("click", () => {

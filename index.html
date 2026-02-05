@@ -1102,25 +1102,25 @@
       /* Mobile adjustments */
       @media (max-width: 768px) {
         :root {
-          --header-height: 68px;
+          --header-height: 70px;
         }
         .nav-inner {
           padding: 8px 8px;
           column-gap: 6px;
         }
         .brand-center {
-          flex-direction: column;
-          gap: 2px;
+          flex-direction: row;
+          gap: 12px;
         }
         .brand-text {
-          font-size: clamp(0.54rem, 2.1vw, 0.7rem);
-          letter-spacing: 0.02em;
+          font-size: 0.75rem;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
           white-space: nowrap;
-          max-width: none;
         }
         .brand-mark {
-          width: 22px;
-          height: 22px;
+          width: 24px;
+          height: 24px;
         }
         .icon-button {
           width: 24px;
@@ -1269,6 +1269,12 @@
           bottom: 68px;
           width: 38px;
           height: 38px;
+        }
+        .scroll-payment {
+          right: 16px;
+          bottom: 68px;
+          width: 34px;
+          height: 34px;
         }
       }
       @media (max-width: 520px) {
@@ -1720,6 +1726,24 @@
         pointer-events: auto;
         transform: translateY(0);
       }
+      .scroll-payment {
+        position: fixed;
+        right: 24px;
+        bottom: 88px;
+        width: 40px;
+        height: 40px;
+        z-index: 69;
+        box-shadow: var(--shadow-soft);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(6px);
+        transition: all 0.3s ease;
+      }
+      .scroll-payment.is-visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
       .soft-bounce {
         animation: soft-bounce 0.9s ease;
       }
@@ -1933,9 +1957,7 @@
     <header class="site-header">
       <nav class="nav-inner max-w-6xl mx-auto px-6 md:px-10 py-4">
         <div class="nav-left">
-          <a class="nav-link hidden md:inline-flex" href="#featured-products"
-            >Shop</a
-          >
+          <a class="nav-link inline-flex" href="#featured-products">Shop</a>
         </div>
         <div class="brand-center">
           <div class="brand-mark">
@@ -1946,7 +1968,7 @@
           </p>
         </div>
         <div class="nav-right">
-          <button class="icon-button" aria-label="Search">
+          <button class="icon-button hidden md:inline-flex" aria-label="Search">
             <i class="fas fa-search"></i>
           </button>
           <div class="relative">
@@ -1960,6 +1982,7 @@
     </header>
 
     <!-- Announcement marquee (update text here) -->
+    <!--
     <div class="announcement-bar" aria-label="Announcements">
       <div class="announcement-track">
         <span class="announcement-text"
@@ -1976,6 +1999,7 @@
         <span class="announcement-text">NEW ARRIVALS DROPPED</span>
       </div>
     </div>
+    -->
 
     <main class="max-w-6xl mx-auto px-6 md:px-10 pb-20 pt-8">
       <div id="step-products" class="space-y-16 pt-10 md:pt-14">
@@ -3238,6 +3262,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
                   <input
                     type="number"
                     name="Last 4 Digits"
+                    id="inp-last4"
                     required
                     class="w-full border-2 border-[#eadfce] rounded-lg py-3 px-4 focus:outline-none focus:border-[#e2136e] font-bold text-lg bg-white"
                     placeholder="1234"
@@ -3489,6 +3514,15 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
       <i class="fas fa-arrow-up text-xs"></i>
     </button>
 
+    <button
+      id="scroll-payment"
+      class="icon-button scroll-payment transition-all md:hidden"
+      aria-label="Scroll to payment details"
+      type="button"
+    >
+      <i class="fas fa-arrow-down text-xs"></i>
+    </button>
+
     <!-- Toast -->
     <div id="toast" class="toast" aria-live="polite"></div>
 
@@ -3575,7 +3609,10 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         "cart-modal-final-total",
       );
       const scrollFeaturedButton = document.getElementById("scroll-featured");
+      const scrollPaymentButton = document.getElementById("scroll-payment");
       const featuredSection = document.getElementById("featured-products");
+      const paymentSection = document.getElementById("step-payment");
+      const paymentLast4 = document.getElementById("inp-last4");
       const sizeWarningModal = document.getElementById("size-warning-modal");
       const sizeWarningClose = document.getElementById("size-warning-close");
       const promoSection = document.getElementById("promo-section");
@@ -3633,6 +3670,21 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         }
         scrollFeaturedButton.classList.remove("is-visible");
         scrollButtonVisible = false;
+      }
+
+      function showPaymentScrollButton() {
+        if (!scrollPaymentButton) {
+          return;
+        }
+        scrollPaymentButton.classList.add("is-visible");
+        triggerSoftBounce(scrollPaymentButton);
+      }
+
+      function hidePaymentScrollButton() {
+        if (!scrollPaymentButton) {
+          return;
+        }
+        scrollPaymentButton.classList.remove("is-visible");
       }
 
       function updateScrollButtonVisibility() {
@@ -4077,6 +4129,8 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         if (promoSection) {
           promoSection.classList.add("hidden-section");
         }
+        hideScrollFeaturedButton();
+        showPaymentScrollButton();
 
         window.scrollTo(0, 0);
       }
@@ -4089,6 +4143,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
         if (promoSection) {
           promoSection.classList.remove("hidden-section");
         }
+        hidePaymentScrollButton();
       }
 
       // Product modal controls
@@ -4410,6 +4465,12 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
               });
             }, 600);
           }
+        });
+      }
+
+      if (scrollPaymentButton && paymentLast4) {
+        scrollPaymentButton.addEventListener("click", () => {
+          paymentLast4.scrollIntoView({ behavior: "smooth", block: "center" });
         });
       }
 
@@ -4902,6 +4963,7 @@ photos/white.jpeg,photos/white4.jpeg,photos/white3.jpeg,photos/white5.jpeg"
             document
               .getElementById("step-success")
               .classList.remove("hidden-section");
+            hidePaymentScrollButton();
             window.scrollTo(0, 0);
           })
           .catch(() => {
